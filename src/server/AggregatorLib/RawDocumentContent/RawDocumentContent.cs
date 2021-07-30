@@ -8,6 +8,6 @@ namespace AggregatorLib
 {
     public abstract class RawDocumentContent
     {
-
+        protected RawDocumentContent() { }
     }
 }
