@@ -41,12 +41,13 @@ namespace AggregatorLibTest
         [Test]
         public void RawDocumentAuthor()
         {
-            var instance = new RawDocumentAuthor("Test Author", "Test Context");
+            var instance = new RawDocumentAuthor("Test Author", "Test Context", "http://example.com/test");
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
             Assert.AreEqual("Test Author", instanceInDatabase.Name);
             Assert.AreEqual("Test Context", instanceInDatabase.Context);
+            Assert.AreEqual("http://example.com/test", instanceInDatabase.Uri);
         }
 
         [Test]
@@ -92,20 +93,7 @@ namespace AggregatorLibTest
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
-            Assert.AreEqual(instance.Id, instanceInDatabase.Id);
-            Assert.AreEqual(instance.DocumentUri, instanceInDatabase.DocumentUri);
-            Assert.AreEqual(instance.SourceId, instanceInDatabase.SourceId);
-            Assert.AreEqual(instance.ParentDocumentUri, instanceInDatabase.ParentDocumentUri);
-            Assert.AreEqual(instance.RetrieveTime, instanceInDatabase.RetrieveTime);
-            Assert.AreEqual(instance.UpdateTime, instanceInDatabase.UpdateTime);
-            Assert.AreEqual(instance.PublishTime, instanceInDatabase.PublishTime);
-
-            Assert.AreEqual((instance.Content as WordpressContent)!.Title, (instanceInDatabase.Content as WordpressContent)!.Title);
-            Assert.AreEqual((instance.Content as WordpressContent)!.Content, (instanceInDatabase.Content as WordpressContent)!.Content);
-            Assert.IsTrue(Enumerable.SequenceEqual((instance.Content as WordpressContent)!.Categories, (instanceInDatabase.Content as WordpressContent)!.Categories));
-
-            Assert.AreEqual(instance.Author.Name, instanceInDatabase.Author.Name);
-            Assert.AreEqual(instance.Author.Context, instanceInDatabase.Author.Context);
+            AssertRawDocumentsAreIdentical(instance, instanceInDatabase);
         }
     }
 }
