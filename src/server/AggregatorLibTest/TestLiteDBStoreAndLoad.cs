@@ -28,6 +28,19 @@ namespace AggregatorLibTest
             return AssertNotNull(collection.FindAll().First().Value);
         }
 
+        private WordpressContent TestWordpressContent()
+        {
+            return new WordpressContent
+            (
+                Title: "Test Title",
+                Content: "Test Content",
+                Categories: new List<string>() { "cat1", "cat2", "cat3" },
+                AllowsComments: true,
+                CommentUri: "http://example.com/1234/comments",
+                CommentFeedUri: "http://example.com/1234/comments/feed"
+            );
+        }
+
         [Test]
         public void Instant()
         {
@@ -61,12 +74,7 @@ namespace AggregatorLibTest
         [Test]
         public void RawWordpressContent()
         {
-            var instance = new WordpressContent
-            (
-                Title: "Test Title",
-                Content: "Test Content",
-                Categories: new List<string>() { "cat1", "cat2", "cat3" }
-            );
+            var instance = TestWordpressContent();
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
@@ -81,14 +89,14 @@ namespace AggregatorLibTest
             var instance = new RawDocument
             (
                 Id: Guid.NewGuid(),
-                DocumentUri: "http://example.com/1234",
+                Uri: "http://example.com/1234",
                 SourceId: "1234",
                 ParentDocumentUri: "http://example.com/1233",
                 RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000),
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000),
-                Content: new WordpressContent(Title: "Test Title", Content: "Test Content", Categories: new List<string>() { "cat1", "cat2", "cat3" }),
-                Author: new RawDocumentAuthor("Test Author", "Test Context")
+                Content: TestWordpressContent(),
+                Authors: new List<RawDocumentAuthor>() { new RawDocumentAuthor("Test Author", "Test Context") }
             );
 
             var instanceInDatabase = StoreAndRetrieve(instance);

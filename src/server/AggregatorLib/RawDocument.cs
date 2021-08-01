@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using NodaTime;
 using System;
+using System.Collections.Generic;
 
 namespace AggregatorLib
 {
@@ -12,7 +13,7 @@ namespace AggregatorLib
     {
         [BsonId]
         public Guid Id { get; protected set; }
-        public string DocumentUri { get; protected set; }
+        public string Uri { get; protected set; }
         public string? SourceId { get; protected set; }
         public string? ParentDocumentUri { get; protected set; }
         public Instant RetrieveTime { get; protected set; }
@@ -21,7 +22,7 @@ namespace AggregatorLib
 
         public RawDocumentContent Content { get; protected set; }
 
-        public RawDocumentAuthor Author { get; protected set; }
+        public IReadOnlyList<RawDocumentAuthor> Authors { get; protected set; }
 
 #pragma warning disable CS8618  // disable null checking, as this constructor is only used by LiteDB, which sets the properties of this object immediately after constructing
         protected RawDocument() { }
@@ -30,25 +31,25 @@ namespace AggregatorLib
         public RawDocument
         (
             Guid Id,
-            string DocumentUri,
+            string Uri,
             string? SourceId,
             string? ParentDocumentUri,
             Instant RetrieveTime,
             Instant? UpdateTime,
             Instant? PublishTime,
             RawDocumentContent Content,
-            RawDocumentAuthor Author
+            IReadOnlyList<RawDocumentAuthor> Authors
         )
         {
             this.Id = Id;
-            this.DocumentUri = DocumentUri;
+            this.Uri = Uri;
             this.SourceId = SourceId;
             this.ParentDocumentUri = ParentDocumentUri;
             this.RetrieveTime = RetrieveTime;
             this.UpdateTime = UpdateTime;
             this.PublishTime = PublishTime;
             this.Content = Content;
-            this.Author = Author;
+            this.Authors = Authors;
         }
     }
 }

@@ -27,14 +27,14 @@ namespace AggregatorLibTest
             return new RawDocument
             (
                 Id: TestDocumentId(index),
-                DocumentUri: $"http://example.com/{index}",
+                Uri: $"http://example.com/{index}",
                 SourceId: $"{index}",
-                ParentDocumentUri: $"http://example.com/{index-1}",
-                RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000+index),
-                UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000+index),
-                PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000+index),
-                Content: new WordpressContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }),
-                Author: new RawDocumentAuthor($"Author {index}", $"Context {index}")
+                ParentDocumentUri: $"http://example.com/{index - 1}",
+                RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000 + index),
+                UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000 + index),
+                PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000 + index),
+                Content: new WordpressContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
+                Authors: new List<RawDocumentAuthor> { new RawDocumentAuthor($"Author {index}", $"Context {index}") }
             );
         }
 

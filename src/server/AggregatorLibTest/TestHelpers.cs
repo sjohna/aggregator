@@ -43,7 +43,7 @@ namespace AggregatorLibTest
         public static void AssertRawDocumentsAreIdentical(RawDocument expected, RawDocument actual)
         {
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.DocumentUri, actual.DocumentUri);
+            Assert.AreEqual(expected.Uri, actual.Uri);
             Assert.AreEqual(expected.SourceId, actual.SourceId);
             Assert.AreEqual(expected.ParentDocumentUri, actual.ParentDocumentUri);
             Assert.AreEqual(expected.RetrieveTime, actual.RetrieveTime);
@@ -53,9 +53,18 @@ namespace AggregatorLibTest
             Assert.AreEqual((expected.Content as WordpressContent)!.Title, (actual.Content as WordpressContent)!.Title);
             Assert.AreEqual((expected.Content as WordpressContent)!.Content, (actual.Content as WordpressContent)!.Content);
             Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as WordpressContent)!.Categories, (actual.Content as WordpressContent)!.Categories));
+            Assert.AreEqual((expected.Content as WordpressContent)!.AllowsComments, (actual.Content as WordpressContent)!.AllowsComments);
+            Assert.AreEqual((expected.Content as WordpressContent)!.CommentUri, (actual.Content as WordpressContent)!.CommentUri);
+            Assert.AreEqual((expected.Content as WordpressContent)!.CommentFeedUri, (actual.Content as WordpressContent)!.CommentFeedUri);
 
-            Assert.AreEqual(expected.Author.Name, actual.Author.Name);
-            Assert.AreEqual(expected.Author.Context, actual.Author.Context);
+            Assert.AreEqual(expected.Authors.Count, actual.Authors.Count);
+
+            for (int i = 0; i < expected.Authors.Count; ++i)
+            {
+                Assert.AreEqual(expected.Authors[i].Name, actual.Authors[i].Name);
+                Assert.AreEqual(expected.Authors[i].Context, actual.Authors[i].Context);
+                Assert.AreEqual(expected.Authors[i].Uri, actual.Authors[i].Uri);
+            }
         }
     }
 }
