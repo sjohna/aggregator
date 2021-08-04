@@ -24,6 +24,12 @@ namespace AggregatorLibTest
             return new FeedExtractor(resourceStream, Instant.FromUnixTimeSeconds(12345678));
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+
+        }
+
         // assert properties for single post tests
         private void AssertSinglePostTestDocumentProperties(
             RawDocument doc,
@@ -35,8 +41,6 @@ namespace AggregatorLibTest
             List<RawDocumentAuthor>? Authors = null
         )
         {
-            if (UpdateTime == null) UpdateTime = Instant.FromUtc(2021, 2, 27, 0, 0, 0);
-            if (PublishTime == null) PublishTime = Instant.FromUtc(2021, 2, 27, 0, 0, 0);
             if (Authors == null)
             {
                 Authors = new List<RawDocumentAuthor>()
@@ -151,6 +155,28 @@ namespace AggregatorLibTest
             var doc = extractor.RawDocuments.First();
 
             AssertSinglePostTestDocumentProperties(doc, Authors: new List<RawDocumentAuthor>() { new RawDocumentAuthor("Test Blogger", "blog", null) } );
+            AssertSinglePostTestDocumentContentProperties(doc.Content);
+        }
+
+        [Test]
+        public void SinglePost_WithPublishedTime()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost_WithPublishedTime.xml");
+
+            var doc = extractor.RawDocuments.First();
+
+            AssertSinglePostTestDocumentProperties(doc, PublishTime: Instant.FromUtc(2021, 2, 27, 0, 0));
+            AssertSinglePostTestDocumentContentProperties(doc.Content);
+        }
+
+        [Test]
+        public void SinglePost_WithUpdatedTime()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost_WithUpdatedTime.xml");
+
+            var doc = extractor.RawDocuments.First();
+
+            AssertSinglePostTestDocumentProperties(doc, UpdateTime: Instant.FromUtc(2021, 2, 27, 0, 0));
             AssertSinglePostTestDocumentContentProperties(doc.Content);
         }
     }

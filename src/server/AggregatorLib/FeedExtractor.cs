@@ -62,12 +62,15 @@ namespace AggregatorLib
 
                     var content = new WordpressContent(
                         Title: WebUtility.HtmlDecode(item.Title.Text),
-                        Content: (item?.Content as TextSyndicationContent)?.Text!,  // TODO: handle errors, handle no content present, only summary
+                        Content: (item.Content as TextSyndicationContent)?.Text!,  // TODO: handle errors, handle no content present, only summary
                         Categories: categories,
                         AllowsComments: commentUri != null || commentFeedUri != null,
                         CommentUri: commentUri,
                         CommentFeedUri: commentFeedUri
                     ) ;
+
+                    Instant? UpdateTime = item.LastUpdatedTime.Year != 1 ? Instant.FromDateTimeOffset(item.LastUpdatedTime) : null;
+                    Instant? PublishTime = item.PublishDate.Year != 1 ? Instant.FromDateTimeOffset(item.PublishDate) : null;
 
                     yield return new RawDocument(
                         Id: Guid.NewGuid(),
@@ -75,8 +78,8 @@ namespace AggregatorLib
                         SourceId: item.Id,
                         ParentDocumentUri: null,
                         RetrieveTime: retrieveTime,
-                        UpdateTime: Instant.FromDateTimeOffset(item.LastUpdatedTime),   // TODO: test these times not being present
-                        PublishTime: Instant.FromDateTimeOffset(item.PublishDate),
+                        UpdateTime: UpdateTime,
+                        PublishTime: PublishTime,
                         Content: content,
                         Authors: authors
                     );

@@ -103,5 +103,26 @@ namespace AggregatorLibTest
 
             AssertRawDocumentsAreIdentical(instance, instanceInDatabase);
         }
+
+        [Test]
+        public void RawDocumentWithNullPublishTime()
+        {
+            var instance = new RawDocument
+            (
+                Id: Guid.NewGuid(),
+                Uri: "http://example.com/1234",
+                SourceId: "1234",
+                ParentDocumentUri: "http://example.com/1233",
+                RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000),
+                UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
+                PublishTime: null,
+                Content: TestWordpressContent(),
+                Authors: new List<RawDocumentAuthor>() { new RawDocumentAuthor("Test Author", "Test Context") }
+            );
+
+            var instanceInDatabase = StoreAndRetrieve(instance);
+
+            AssertRawDocumentsAreIdentical(instance, instanceInDatabase);
+        }
     }
 }
