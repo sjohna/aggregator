@@ -124,5 +124,44 @@ namespace AggregatorLibTest
 
             AssertUnprocessedDocumentsAreIdentical(instance, instanceInDatabase);
         }
+
+        [Test]
+        public void RawContentWithSpecificGuidPassedIn()
+        {
+            var id = Guid.NewGuid();
+
+            var instance = new RawContent
+            (
+                Id: id,
+                Type: "testtype",
+                Content: "Test Content",
+                SourceUri: "http://example.com"
+            );
+
+            var instanceInDatabase = StoreAndRetrieve(instance);
+
+            Assert.AreEqual(instanceInDatabase.Id, id);
+            Assert.AreEqual(instanceInDatabase.Type, "testtype");
+            Assert.AreEqual(instanceInDatabase.Content, "Test Content");
+            Assert.AreEqual(instanceInDatabase.SourceUri, "http://example.com");
+        }
+
+        [Test]
+        public void RawContentWithGuidSetAutomatically()
+        {
+            var instance = new RawContent
+            (
+                Type: "testtype",
+                Content: "Test Content",
+                SourceUri: "http://example.com"
+            );
+
+            var instanceInDatabase = StoreAndRetrieve(instance);
+
+            Assert.AreEqual(instanceInDatabase.Id, instance.Id);
+            Assert.AreEqual(instanceInDatabase.Type, "testtype");
+            Assert.AreEqual(instanceInDatabase.Content, "Test Content");
+            Assert.AreEqual(instanceInDatabase.SourceUri, "http://example.com");
+        }
     }
 }
