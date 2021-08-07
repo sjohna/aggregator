@@ -7,28 +7,28 @@ using System.Threading.Tasks;
 
 namespace AggregatorLib
 {
-    public class LiteDBRawDocumentRepository : IRawDocumentRepository
+    public class LiteDBRawDocumentRepository : IUnprocessedDocumentRepository
     {
         private LiteDatabase Database;
-        private ILiteCollection<RawDocument> Collection;
+        private ILiteCollection<UnprocessedDocument> Collection;
 
         public LiteDBRawDocumentRepository(LiteDatabase Database)
         {
             this.Database = Database;
-            this.Collection = this.Database.GetCollection<RawDocument>("RawDocument");
+            this.Collection = this.Database.GetCollection<UnprocessedDocument>("RawDocument");
         }
 
-        public void AddRawDocument(RawDocument document)
+        public void AddRawDocument(UnprocessedDocument document)
         {
             Collection.Insert(document);
         }
 
-        public IEnumerable<RawDocument> GetAllRawDocuments()
+        public IEnumerable<UnprocessedDocument> GetAllRawDocuments()
         {
             return Collection.FindAll();
         }
 
-        public RawDocument GetRawDocumentById(Guid Id)
+        public UnprocessedDocument GetRawDocumentById(Guid Id)
         {
             var doc = Collection.Find(doc => doc.Id == Id).FirstOrDefault();
 

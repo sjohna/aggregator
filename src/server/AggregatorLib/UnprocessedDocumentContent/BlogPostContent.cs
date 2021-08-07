@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AggregatorLib
 {
-    public class BlogPostContent : RawDocumentContent
+    public class BlogPostContent : UnprocessedDocumentContent
     {
         public string Title { get; protected set; }
         public string Content { get; protected set; }

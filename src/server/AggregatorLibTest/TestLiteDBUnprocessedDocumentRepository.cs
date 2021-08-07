@@ -9,10 +9,10 @@ using static AggregatorLibTest.TestHelpers;
 namespace AggregatorLibTest
 {
     [TestFixture]
-    class TestLiteDBRawDocumentRepository
+    class TestLiteDBUnprocessedDocumentRepository
     {
 #pragma warning disable CS8618
-        private IRawDocumentRepository repository;
+        private IUnprocessedDocumentRepository repository;
 #pragma warning restore CS8618
 
         [SetUp]
@@ -22,9 +22,9 @@ namespace AggregatorLibTest
             repository = new LiteDBRawDocumentRepository(new LiteDatabase(":memory:"));
         }
 
-        private RawDocument TestDocument(int index)
+        private UnprocessedDocument TestDocument(int index)
         {
-            return new RawDocument
+            return new UnprocessedDocument
             (
                 Id: TestDocumentId(index),
                 Uri: $"http://example.com/{index}",
@@ -34,7 +34,7 @@ namespace AggregatorLibTest
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000 + index),
                 PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000 + index),
                 Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
-                Authors: new List<RawDocumentAuthor> { new RawDocumentAuthor($"Author {index}", $"Context {index}") }
+                Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") }
             );
         }
 
@@ -43,7 +43,7 @@ namespace AggregatorLibTest
             return Guid.Parse($"12345678-1234-1234-1234-{index:D12}");
         }
 
-        private IEnumerable<RawDocument> DocumentSequence(IEnumerable<int> sequence)
+        private IEnumerable<UnprocessedDocument> DocumentSequence(IEnumerable<int> sequence)
         {
             foreach (var index in sequence)
             {
@@ -51,7 +51,7 @@ namespace AggregatorLibTest
             }
         }
 
-        private IEnumerable<RawDocument> DocumentSequence(params int[] indices)
+        private IEnumerable<UnprocessedDocument> DocumentSequence(params int[] indices)
         {
             return DocumentSequence(indices as IEnumerable<int>);
         }

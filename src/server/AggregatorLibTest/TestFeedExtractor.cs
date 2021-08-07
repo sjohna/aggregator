@@ -32,20 +32,20 @@ namespace AggregatorLibTest
 
         // assert properties for single post tests
         private void AssertSinglePostTestDocumentProperties(
-            RawDocument doc,
+            UnprocessedDocument doc,
             string Uri = "https://example.com/testblog/test-blog-entry-title",
             string SourceId = "12345",
             string? ParentDocumentUri = null,
             Instant? UpdateTime = null,
             Instant? PublishTime = null,
-            List<RawDocumentAuthor>? Authors = null
+            List<UnprocessedDocumentAuthor>? Authors = null
         )
         {
             if (Authors == null)
             {
-                Authors = new List<RawDocumentAuthor>()
+                Authors = new List<UnprocessedDocumentAuthor>()
                 {
-                    new RawDocumentAuthor(
+                    new UnprocessedDocumentAuthor(
                         Name: "Test Blogger",
                         Context: "blog",
                         Uri: "https://example.com/testblog"
@@ -70,7 +70,7 @@ namespace AggregatorLibTest
         }
 
         private void AssertSinglePostTestDocumentContentProperties(
-           RawDocumentContent rawContent,
+           UnprocessedDocumentContent rawContent,
            string Title = "Test Blog Entry Title",
            string Content = "<p>This is the test blog entry content.</p>",
            List<string>? Categories = null,
@@ -154,7 +154,7 @@ namespace AggregatorLibTest
 
             var doc = extractor.RawDocuments.First();
 
-            AssertSinglePostTestDocumentProperties(doc, Authors: new List<RawDocumentAuthor>() { new RawDocumentAuthor("Test Blogger", "blog", null) } );
+            AssertSinglePostTestDocumentProperties(doc, Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Blogger", "blog", null) } );
             AssertSinglePostTestDocumentContentProperties(doc.Content);
         }
 

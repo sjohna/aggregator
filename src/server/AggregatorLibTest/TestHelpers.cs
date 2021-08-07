@@ -40,7 +40,7 @@ namespace AggregatorLibTest
             return new Container<T>(value);
         }
 
-        public static void AssertRawDocumentsAreIdentical(RawDocument expected, RawDocument actual)
+        public static void AssertRawDocumentsAreIdentical(UnprocessedDocument expected, UnprocessedDocument actual)
         {
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Uri, actual.Uri);

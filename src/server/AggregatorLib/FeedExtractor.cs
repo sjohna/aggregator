@@ -26,7 +26,7 @@ namespace AggregatorLib
                 feed = SyndicationFeed.Load(feedReader);
             }
         }
-        public IEnumerable<RawDocument> RawDocuments
+        public IEnumerable<UnprocessedDocument> RawDocuments
         {
             get
             {
@@ -42,10 +42,10 @@ namespace AggregatorLib
                     var commentFeedLink = item.Links.FirstOrDefault(link => link.RelationshipType == "replies" && link.MediaType == "application/atom+xml");    // TODO: this might not be the only type to check...
                     string? commentFeedUri = commentFeedLink?.Uri.ToString();
 
-                    var authors = new List<RawDocumentAuthor>();
+                    var authors = new List<UnprocessedDocumentAuthor>();
                     foreach (var author in item.Authors)
                     {
-                        authors.Add(new RawDocumentAuthor(
+                        authors.Add(new UnprocessedDocumentAuthor(
                             Name: author.Name,
                             Context: "blog",
                             Uri: author.Uri
@@ -73,7 +73,7 @@ namespace AggregatorLib
                     Instant? UpdateTime = item.LastUpdatedTime.Year != 1 ? Instant.FromDateTimeOffset(item.LastUpdatedTime) : null;
                     Instant? PublishTime = item.PublishDate.Year != 1 ? Instant.FromDateTimeOffset(item.PublishDate) : null;
 
-                    yield return new RawDocument(
+                    yield return new UnprocessedDocument(
                         Id: Guid.NewGuid(),
                         Uri: sourceUri,
                         SourceId: item.Id,

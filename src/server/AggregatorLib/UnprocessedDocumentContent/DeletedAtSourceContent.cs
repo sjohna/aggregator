@@ -1,6 +1,6 @@
 ﻿namespace AggregatorLib
 {
-    public class DeletedAtSourceContent : RawDocumentContent
+    public class DeletedAtSourceContent : UnprocessedDocumentContent
     {
         public DeletedAtSourceContent() { }
     }

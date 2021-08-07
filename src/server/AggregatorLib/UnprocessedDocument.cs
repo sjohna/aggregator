@@ -9,7 +9,7 @@ namespace AggregatorLib
      * Represents a document information in a form close to that in which it was downloaded.
      * 
      */
-    public class RawDocument
+    public class UnprocessedDocument
     {
         [BsonId]
         public Guid Id { get; protected set; }
@@ -20,15 +20,15 @@ namespace AggregatorLib
         public Instant? UpdateTime { get; protected set; }
         public Instant? PublishTime { get; protected set; }
 
-        public RawDocumentContent Content { get; protected set; }
+        public UnprocessedDocumentContent Content { get; protected set; }
 
-        public IReadOnlyList<RawDocumentAuthor> Authors { get; protected set; }
+        public IReadOnlyList<UnprocessedDocumentAuthor> Authors { get; protected set; }
 
 #pragma warning disable CS8618  // disable null checking, as this constructor is only used by LiteDB, which sets the properties of this object immediately after constructing
-        protected RawDocument() { }
+        protected UnprocessedDocument() { }
 #pragma warning restore CS8618
 
-        public RawDocument
+        public UnprocessedDocument
         (
             Guid Id,
             string Uri,
@@ -37,8 +37,8 @@ namespace AggregatorLib
             Instant RetrieveTime,
             Instant? UpdateTime,
             Instant? PublishTime,
-            RawDocumentContent Content,
-            IReadOnlyList<RawDocumentAuthor> Authors
+            UnprocessedDocumentContent Content,
+            IReadOnlyList<UnprocessedDocumentAuthor> Authors
         )
         {
             this.Id = Id;

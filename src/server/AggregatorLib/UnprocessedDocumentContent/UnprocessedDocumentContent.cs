@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AggregatorLib
 {
-    public abstract class RawDocumentContent
+    public abstract class UnprocessedDocumentContent
     {
-        protected RawDocumentContent() { }
+        protected UnprocessedDocumentContent() { }
     }
 }

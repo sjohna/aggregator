@@ -54,7 +54,7 @@ namespace AggregatorLibTest
         [Test]
         public void RawDocumentAuthor()
         {
-            var instance = new RawDocumentAuthor("Test Author", "Test Context", "http://example.com/test");
+            var instance = new UnprocessedDocumentAuthor("Test Author", "Test Context", "http://example.com/test");
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
@@ -86,7 +86,7 @@ namespace AggregatorLibTest
         [Test]
         public void RawDocument()
         {
-            var instance = new RawDocument
+            var instance = new UnprocessedDocument
             (
                 Id: Guid.NewGuid(),
                 Uri: "http://example.com/1234",
@@ -96,7 +96,7 @@ namespace AggregatorLibTest
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000),
                 Content: TestWordpressContent(),
-                Authors: new List<RawDocumentAuthor>() { new RawDocumentAuthor("Test Author", "Test Context") }
+                Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") }
             );
 
             var instanceInDatabase = StoreAndRetrieve(instance);
@@ -107,7 +107,7 @@ namespace AggregatorLibTest
         [Test]
         public void RawDocumentWithNullPublishTime()
         {
-            var instance = new RawDocument
+            var instance = new UnprocessedDocument
             (
                 Id: Guid.NewGuid(),
                 Uri: "http://example.com/1234",
@@ -117,7 +117,7 @@ namespace AggregatorLibTest
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: null,
                 Content: TestWordpressContent(),
-                Authors: new List<RawDocumentAuthor>() { new RawDocumentAuthor("Test Author", "Test Context") }
+                Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") }
             );
 
             var instanceInDatabase = StoreAndRetrieve(instance);
