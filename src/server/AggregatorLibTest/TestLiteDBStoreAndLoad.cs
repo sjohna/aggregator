@@ -52,7 +52,7 @@ namespace AggregatorLibTest
         }
 
         [Test]
-        public void RawDocumentAuthor()
+        public void UnprocessedDocumentAuthor()
         {
             var instance = new UnprocessedDocumentAuthor("Test Author", "Test Context", "http://example.com/test");
 
@@ -72,7 +72,7 @@ namespace AggregatorLibTest
         }
 
         [Test]
-        public void RawWordpressContent()
+        public void UnprocessedBlogPostContent()
         {
             var instance = TestWordpressContent();
 
@@ -84,7 +84,7 @@ namespace AggregatorLibTest
         }
 
         [Test]
-        public void RawDocument()
+        public void UnprocessedDocument()
         {
             var instance = new UnprocessedDocument
             (
@@ -101,11 +101,11 @@ namespace AggregatorLibTest
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
-            AssertRawDocumentsAreIdentical(instance, instanceInDatabase);
+            AssertUnprocessedDocumentsAreIdentical(instance, instanceInDatabase);
         }
 
         [Test]
-        public void RawDocumentWithNullPublishTime()
+        public void UnprocessedDocumentWithNullPublishTime()
         {
             var instance = new UnprocessedDocument
             (
@@ -122,7 +122,7 @@ namespace AggregatorLibTest
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
-            AssertRawDocumentsAreIdentical(instance, instanceInDatabase);
+            AssertUnprocessedDocumentsAreIdentical(instance, instanceInDatabase);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace AggregatorLib
 {
     /**
-     * Represents a document information in a form close to that in which it was downloaded.
+     * Represents a document in a form close to that in which it was downloaded.
      * 
      */
     public class UnprocessedDocument

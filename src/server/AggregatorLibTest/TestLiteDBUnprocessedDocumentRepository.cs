@@ -69,11 +69,11 @@ namespace AggregatorLibTest
 
             repository.AddRawDocument(rawDoc);
             var docById = repository.GetRawDocumentById(rawDoc.Id);
-            AssertRawDocumentsAreIdentical(rawDoc, docById);
+            AssertUnprocessedDocumentsAreIdentical(rawDoc, docById);
 
             Assert.AreEqual(1, repository.GetAllRawDocuments().Count());
             var rawDocInAllRawDocuments = repository.GetAllRawDocuments().First();
-            AssertRawDocumentsAreIdentical(rawDocInAllRawDocuments, docById);
+            AssertUnprocessedDocumentsAreIdentical(rawDocInAllRawDocuments, docById);
         }
 
         [Test]
@@ -99,14 +99,14 @@ namespace AggregatorLibTest
             repository.AddRawDocument(TestDocument(1));
             repository.AddRawDocument(TestDocument(2));
 
-            AssertRawDocumentsAreIdentical(TestDocument(1), repository.GetRawDocumentById(TestDocumentId(1)));
-            AssertRawDocumentsAreIdentical(TestDocument(2), repository.GetRawDocumentById(TestDocumentId(2)));
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetRawDocumentById(TestDocumentId(1)));
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetRawDocumentById(TestDocumentId(2)));
 
             var documentsInRepository = repository.GetAllRawDocuments().OrderBy(doc => doc.Id).ToList();
 
             for (int index = 1; index <= documentsInRepository.Count; ++index)
             {
-                AssertRawDocumentsAreIdentical(TestDocument(index), documentsInRepository[index-1]);
+                AssertUnprocessedDocumentsAreIdentical(TestDocument(index), documentsInRepository[index-1]);
             }
         }
 
@@ -117,19 +117,19 @@ namespace AggregatorLibTest
             {
                 var doc = TestDocument(index);
                 repository.AddRawDocument(doc);
-                AssertRawDocumentsAreIdentical(doc, repository.GetRawDocumentById(TestDocumentId(index)));
+                AssertUnprocessedDocumentsAreIdentical(doc, repository.GetRawDocumentById(TestDocumentId(index)));
             }
 
             for (int index = 1; index <= 1000; ++index)
             {
-                AssertRawDocumentsAreIdentical(TestDocument(index), repository.GetRawDocumentById(TestDocumentId(index)));
+                AssertUnprocessedDocumentsAreIdentical(TestDocument(index), repository.GetRawDocumentById(TestDocumentId(index)));
             }
 
             var documentsInRepository = repository.GetAllRawDocuments().OrderBy(doc => doc.Id).ToList();
 
             for (int index = 1; index <= documentsInRepository.Count; ++index)
             {
-                AssertRawDocumentsAreIdentical(TestDocument(index), documentsInRepository[index - 1]);
+                AssertUnprocessedDocumentsAreIdentical(TestDocument(index), documentsInRepository[index - 1]);
             }
         }
     }
