@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using NodaTime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace AggregatorLib
     {
         [BsonId]
         public Guid Id { get; protected set; }
+        public Instant RetrieveTime { get; protected set; }
         public string Content { get; protected set; }
         public string Type { get; protected set; }
         public string? SourceUri { get; protected set; }
@@ -19,14 +21,15 @@ namespace AggregatorLib
         protected RawContent() { }
 #pragma warning restore CS8618
 
-        public RawContent(string Type, string Content, string? SourceUri = null)
-            : this(Guid.NewGuid(), Type, Content, SourceUri)
+        public RawContent(Instant RetrieveTime, string Type, string Content, string? SourceUri = null)
+            : this(Guid.NewGuid(), RetrieveTime, Type, Content, SourceUri)
         {
         }
 
-        public RawContent(Guid Id, string Type, string Content, string? SourceUri = null)
+        public RawContent(Guid Id, Instant RetrieveTime, string Type, string Content, string? SourceUri = null)
         {
             this.Id = Id;
+            this.RetrieveTime = RetrieveTime;
             this.Type = Type;
             this.Content = Content;
             this.SourceUri = SourceUri;

@@ -133,6 +133,7 @@ namespace AggregatorLibTest
             var instance = new RawContent
             (
                 Id: id,
+                RetrieveTime: NodaTime.Instant.FromUnixTimeMilliseconds(123454321),
                 Type: "testtype",
                 Content: "Test Content",
                 SourceUri: "http://example.com"
@@ -151,6 +152,7 @@ namespace AggregatorLibTest
         {
             var instance = new RawContent
             (
+                RetrieveTime: NodaTime.Instant.FromUnixTimeMilliseconds(123454321),
                 Type: "testtype",
                 Content: "Test Content",
                 SourceUri: "http://example.com"
