@@ -35,6 +35,7 @@ namespace AggregatorLib
                     var alternateLink = item.Links.FirstOrDefault(link => link.RelationshipType == "alternate");
                     string sourceUri = alternateLink?.Uri.ToString() ?? throw new Exception();  // TODO: different exception here
 
+                    // TODO: rethink how to detect whether comments are allowed
                     var commentLink = item.Links.FirstOrDefault(link => link.RelationshipType == "replies" && link.MediaType != "application/atom+xml");    // TODO: this might not be the only type to check...
                     string? commentUri = commentLink?.Uri.ToString();
 
@@ -46,7 +47,7 @@ namespace AggregatorLib
                     {
                         authors.Add(new RawDocumentAuthor(
                             Name: author.Name,
-                            Context: "blog",        // TODO: maybe this should be the site? Not sure what I should do with the context...
+                            Context: "blog",
                             Uri: author.Uri
                         ));
                     }
@@ -60,7 +61,7 @@ namespace AggregatorLib
                         }
                     }
 
-                    var content = new WordpressContent(
+                    var content = new BlogPostContent(
                         Title: WebUtility.HtmlDecode(item.Title.Text),
                         Content: (item.Content as TextSyndicationContent)?.Text!,  // TODO: handle errors, handle no content present, only summary
                         Categories: categories,

@@ -33,7 +33,7 @@ namespace AggregatorLibTest
                 RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000 + index),
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000 + index),
                 PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000 + index),
-                Content: new WordpressContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
+                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
                 Authors: new List<RawDocumentAuthor> { new RawDocumentAuthor($"Author {index}", $"Context {index}") }
             );
         }

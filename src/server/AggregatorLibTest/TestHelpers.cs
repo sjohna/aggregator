@@ -50,12 +50,12 @@ namespace AggregatorLibTest
             Assert.AreEqual(expected.UpdateTime, actual.UpdateTime);
             Assert.AreEqual(expected.PublishTime, actual.PublishTime);
 
-            Assert.AreEqual((expected.Content as WordpressContent)!.Title, (actual.Content as WordpressContent)!.Title);
-            Assert.AreEqual((expected.Content as WordpressContent)!.Content, (actual.Content as WordpressContent)!.Content);
-            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as WordpressContent)!.Categories, (actual.Content as WordpressContent)!.Categories));
-            Assert.AreEqual((expected.Content as WordpressContent)!.AllowsComments, (actual.Content as WordpressContent)!.AllowsComments);
-            Assert.AreEqual((expected.Content as WordpressContent)!.CommentUri, (actual.Content as WordpressContent)!.CommentUri);
-            Assert.AreEqual((expected.Content as WordpressContent)!.CommentFeedUri, (actual.Content as WordpressContent)!.CommentFeedUri);
+            Assert.AreEqual((expected.Content as BlogPostContent)!.Title, (actual.Content as BlogPostContent)!.Title);
+            Assert.AreEqual((expected.Content as BlogPostContent)!.Content, (actual.Content as BlogPostContent)!.Content);
+            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as BlogPostContent)!.Categories, (actual.Content as BlogPostContent)!.Categories));
+            Assert.AreEqual((expected.Content as BlogPostContent)!.AllowsComments, (actual.Content as BlogPostContent)!.AllowsComments);
+            Assert.AreEqual((expected.Content as BlogPostContent)!.CommentUri, (actual.Content as BlogPostContent)!.CommentUri);
+            Assert.AreEqual((expected.Content as BlogPostContent)!.CommentFeedUri, (actual.Content as BlogPostContent)!.CommentFeedUri);
 
             Assert.AreEqual(expected.Authors.Count, actual.Authors.Count);
 

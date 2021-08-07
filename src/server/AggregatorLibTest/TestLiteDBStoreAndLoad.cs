@@ -28,9 +28,9 @@ namespace AggregatorLibTest
             return AssertNotNull(collection.FindAll().First().Value);
         }
 
-        private WordpressContent TestWordpressContent()
+        private BlogPostContent TestWordpressContent()
         {
-            return new WordpressContent
+            return new BlogPostContent
             (
                 Title: "Test Title",
                 Content: "Test Content",

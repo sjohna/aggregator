@@ -81,8 +81,8 @@ namespace AggregatorLibTest
         {
             if (Categories == null) Categories = new List<string>();
 
-            Assert.IsTrue(rawContent is WordpressContent);
-            var content = (rawContent as WordpressContent)!;
+            Assert.IsTrue(rawContent is BlogPostContent);
+            var content = (rawContent as BlogPostContent)!;
 
             Assert.AreEqual(Title, content.Title);
             Assert.AreEqual(Content, content.Content);
