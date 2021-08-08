@@ -136,6 +136,7 @@ namespace AggregatorLibTest
                 RetrieveTime: NodaTime.Instant.FromUnixTimeMilliseconds(123454321),
                 Type: "testtype",
                 Content: "Test Content",
+                Context: "Test Context",
                 SourceUri: "http://example.com"
             );
 
@@ -144,6 +145,7 @@ namespace AggregatorLibTest
             Assert.AreEqual(instanceInDatabase.Id, id);
             Assert.AreEqual(instanceInDatabase.Type, "testtype");
             Assert.AreEqual(instanceInDatabase.Content, "Test Content");
+            Assert.AreEqual(instanceInDatabase.Context, "Test Context");
             Assert.AreEqual(instanceInDatabase.SourceUri, "http://example.com");
         }
 
@@ -155,6 +157,7 @@ namespace AggregatorLibTest
                 RetrieveTime: NodaTime.Instant.FromUnixTimeMilliseconds(123454321),
                 Type: "testtype",
                 Content: "Test Content",
+                Context: "Test Context",
                 SourceUri: "http://example.com"
             );
 
@@ -163,6 +166,7 @@ namespace AggregatorLibTest
             Assert.AreEqual(instanceInDatabase.Id, instance.Id);
             Assert.AreEqual(instanceInDatabase.Type, "testtype");
             Assert.AreEqual(instanceInDatabase.Content, "Test Content");
+            Assert.AreEqual(instanceInDatabase.Context, "Test Context");
             Assert.AreEqual(instanceInDatabase.SourceUri, "http://example.com");
         }
     }

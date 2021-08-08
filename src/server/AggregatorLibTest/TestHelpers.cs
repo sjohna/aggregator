@@ -1,6 +1,7 @@
 ﻿using AggregatorLib;
 using LiteDB;
 using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace AggregatorLibTest
@@ -65,6 +66,20 @@ namespace AggregatorLibTest
                 Assert.AreEqual(expected.Authors[i].Context, actual.Authors[i].Context);
                 Assert.AreEqual(expected.Authors[i].Uri, actual.Authors[i].Uri);
             }
+        }
+
+        public static void AssertRawContentIsIdentical(RawContent expected, RawContent actual)
+        {
+            Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreEqual(expected.Type, actual.Type);
+            Assert.AreEqual(expected.Content, actual.Content);
+            Assert.AreEqual(expected.Context, actual.Context);
+            Assert.AreEqual(expected.SourceUri, actual.SourceUri);
+        }
+
+        public static Guid TestId(int index)
+        {
+            return Guid.Parse($"12345678-1234-1234-1234-{index:D12}");
         }
     }
 }

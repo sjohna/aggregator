@@ -14,6 +14,7 @@ namespace AggregatorLib
         public Guid Id { get; protected set; }
         public Instant RetrieveTime { get; protected set; }
         public string Content { get; protected set; }
+        public string Context { get; protected set; }
         public string Type { get; protected set; }
         public string? SourceUri { get; protected set; }
 
@@ -21,17 +22,18 @@ namespace AggregatorLib
         protected RawContent() { }
 #pragma warning restore CS8618
 
-        public RawContent(Instant RetrieveTime, string Type, string Content, string? SourceUri = null)
-            : this(Guid.NewGuid(), RetrieveTime, Type, Content, SourceUri)
+        public RawContent(Instant RetrieveTime, string Type, string Content, string Context, string? SourceUri = null)
+            : this(Guid.NewGuid(), RetrieveTime, Type, Content, Context, SourceUri)
         {
         }
 
-        public RawContent(Guid Id, Instant RetrieveTime, string Type, string Content, string? SourceUri = null)
+        public RawContent(Guid Id, Instant RetrieveTime, string Type, string Content, string Context, string? SourceUri = null)
         {
             this.Id = Id;
             this.RetrieveTime = RetrieveTime;
             this.Type = Type;
             this.Content = Content;
+            this.Context = Context;
             this.SourceUri = SourceUri;
         }
 

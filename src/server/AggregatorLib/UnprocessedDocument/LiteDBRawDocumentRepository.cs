@@ -15,24 +15,24 @@ namespace AggregatorLib
         public LiteDBRawDocumentRepository(LiteDatabase Database)
         {
             this.Database = Database;
-            this.Collection = this.Database.GetCollection<UnprocessedDocument>("RawDocument");
+            this.Collection = this.Database.GetCollection<UnprocessedDocument>("UnprocessedDocument");
         }
 
-        public void AddRawDocument(UnprocessedDocument document)
+        public void AddUnprocessedDocument(UnprocessedDocument document)
         {
             Collection.Insert(document);
         }
 
-        public IEnumerable<UnprocessedDocument> GetAllRawDocuments()
+        public IEnumerable<UnprocessedDocument> GetAllUnprocessedDocuments()
         {
             return Collection.FindAll();
         }
 
-        public UnprocessedDocument GetRawDocumentById(Guid Id)
+        public UnprocessedDocument GetUnprocessedDocumentById(Guid Id)
         {
             var doc = Collection.Find(doc => doc.Id == Id).FirstOrDefault();
 
-            return doc ?? throw new RepositoryException($"RawDocument with id {Id} not present in repository.");
+            return doc ?? throw new RepositoryException($"UnprocessedDocument with id {Id} not present in repository.");
         }
     }
 }
