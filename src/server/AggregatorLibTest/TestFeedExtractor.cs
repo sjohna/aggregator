@@ -7,27 +7,55 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AggregatorLibTest.TestHelpers;
 
 namespace AggregatorLibTest
 {
-    [TestFixture]
+    [TestFixture(ExtractorInitMode.Stream)]
+    [TestFixture(ExtractorInitMode.String)]
     class TestFeedExtractor
     {
-        private FeedExtractor ExtractorForEmbeddedFile(string filename)
+        public enum ExtractorInitMode
         {
-            string resourceName = $"AggregatorLibTest.TestData.atom.{filename}";
-
-            var assembly = typeof(AggregatorLibTest.TestFeedExtractor).Assembly;
-
-            Stream resourceStream = assembly.GetManifestResourceStream(resourceName) ?? throw new Exception("Null resource stream");
-
-            return new FeedExtractor(resourceStream, Instant.FromUnixTimeSeconds(12345678));
+            Stream,
+            String
         }
 
-        [SetUp]
-        public void SetUp()
-        {
+        private ExtractorInitMode InitMode;
+        private Guid SourceRawContentId = Guid.NewGuid();
 
+        public TestFeedExtractor(ExtractorInitMode mode)
+        {
+            this.InitMode = mode;
+        }
+
+        private FeedExtractor ExtractorForEmbeddedFile(string filename)
+        {
+            if (this.InitMode == ExtractorInitMode.Stream)
+            {
+                return ExtractorForEmbeddedFileFromStream(filename);
+            }
+            else
+            {
+                return ExtractorForEmbeddedFileFromString(filename);
+            }
+        }
+
+        private FeedExtractor ExtractorForEmbeddedFileFromStream(string filename)
+        {
+            Stream resourceStream = GetTestDataResourceStream($"atom.{filename}");
+
+            return new FeedExtractor(resourceStream, Instant.FromUnixTimeSeconds(12345678), SourceRawContentId);
+        }
+
+        private FeedExtractor ExtractorForEmbeddedFileFromString(string filename)
+        {
+            Stream resourceStream = GetTestDataResourceStream($"atom.{filename}");
+
+            using (var streamReader = new StreamReader(resourceStream))
+            {
+                return new FeedExtractor(streamReader.ReadToEnd(), Instant.FromUnixTimeSeconds(12345678), SourceRawContentId);
+            }
         }
 
         // assert properties for single post tests
@@ -58,6 +86,7 @@ namespace AggregatorLibTest
             Assert.AreEqual(ParentDocumentUri, doc.ParentDocumentUri);
             Assert.AreEqual(UpdateTime, doc.UpdateTime);
             Assert.AreEqual(PublishTime, doc.PublishTime);
+            Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
 
             Assert.AreEqual(Authors.Count, doc.Authors.Count);
             
@@ -70,7 +99,7 @@ namespace AggregatorLibTest
         }
 
         private void AssertSinglePostTestDocumentContentProperties(
-           UnprocessedDocumentContent rawContent,
+           UnprocessedDocumentContent unprocessedDocument,
            string Title = "Test Blog Entry Title",
            string Content = "<p>This is the test blog entry content.</p>",
            List<string>? Categories = null,
@@ -81,8 +110,8 @@ namespace AggregatorLibTest
         {
             if (Categories == null) Categories = new List<string>();
 
-            Assert.IsTrue(rawContent is BlogPostContent);
-            var content = (rawContent as BlogPostContent)!;
+            Assert.IsTrue(unprocessedDocument is BlogPostContent);
+            var content = (unprocessedDocument as BlogPostContent)!;
 
             Assert.AreEqual(Title, content.Title);
             Assert.AreEqual(Content, content.Content);

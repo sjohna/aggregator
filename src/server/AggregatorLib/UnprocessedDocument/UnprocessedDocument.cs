@@ -19,10 +19,9 @@ namespace AggregatorLib
         public Instant RetrieveTime { get; protected set; }
         public Instant? UpdateTime { get; protected set; }
         public Instant? PublishTime { get; protected set; }
-
         public UnprocessedDocumentContent Content { get; protected set; }
-
         public IReadOnlyList<UnprocessedDocumentAuthor> Authors { get; protected set; }
+        public Guid? SourceRawContentId { get; protected set; }
 
 #pragma warning disable CS8618  // disable null checking, as this constructor is only used by LiteDB, which sets the properties of this object immediately after constructing
         protected UnprocessedDocument() { }
@@ -38,7 +37,9 @@ namespace AggregatorLib
             Instant? UpdateTime,
             Instant? PublishTime,
             UnprocessedDocumentContent Content,
-            IReadOnlyList<UnprocessedDocumentAuthor> Authors
+            IReadOnlyList<UnprocessedDocumentAuthor> Authors,
+            Guid? SourceRawContentId
+
         )
         {
             this.Id = Id;
@@ -50,6 +51,7 @@ namespace AggregatorLib
             this.PublishTime = PublishTime;
             this.Content = Content;
             this.Authors = Authors;
+            this.SourceRawContentId = SourceRawContentId;
         }
     }
 }

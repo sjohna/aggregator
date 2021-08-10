@@ -17,6 +17,7 @@
     <None Remove="TestData\atom\singlePost_NoCommentsLinkOrFeed.xml" />
     <None Remove="TestData\atom\singlePost_WithCategories.xml" />
     <None Remove="TestData\atom\singlePost_WithPublishedTime.xml" />
+    <None Remove="TestData\atom\singlePost_WithUpdateAndPublishTime.xml" />
     <None Remove="TestData\atom\singlePost_WithUpdatedTime.xml" />
     <None Remove="TestData\atom\tenPosts.xml" />
     <None Remove="TestData\atom\tenPosts_3to12.xml" />
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TestData\atom\singlePost_WithUpdateAndPublishTime.xml" />
     <EmbeddedResource Include="TestData\atom\singlePost_WithUpdatedTime.xml" />
     <EmbeddedResource Include="TestData\atom\singlePost_WithPublishedTime.xml" />
     <EmbeddedResource Include="TestData\atom\singlePost_NoAuthorUri.xml" />

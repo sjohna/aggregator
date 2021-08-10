@@ -96,7 +96,8 @@ namespace AggregatorLibTest
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000),
                 Content: TestWordpressContent(),
-                Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") }
+                Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") },
+                SourceRawContentId: Guid.NewGuid()
             );
 
             var instanceInDatabase = StoreAndRetrieve(instance);
@@ -117,7 +118,8 @@ namespace AggregatorLibTest
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: null,
                 Content: TestWordpressContent(),
-                Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") }
+                Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") },
+                SourceRawContentId: Guid.NewGuid()
             );
 
             var instanceInDatabase = StoreAndRetrieve(instance);

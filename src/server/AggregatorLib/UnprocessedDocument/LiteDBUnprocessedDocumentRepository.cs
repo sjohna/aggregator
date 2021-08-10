@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace AggregatorLib
 {
-    public class LiteDBRawDocumentRepository : IUnprocessedDocumentRepository
+    public class LiteDBUnprocessedDocumentRepository : IUnprocessedDocumentRepository
     {
         private LiteDatabase Database;
         private ILiteCollection<UnprocessedDocument> Collection;
 
-        public LiteDBRawDocumentRepository(LiteDatabase Database)
+        public LiteDBUnprocessedDocumentRepository(LiteDatabase Database)
         {
             this.Database = Database;
             this.Collection = this.Database.GetCollection<UnprocessedDocument>("UnprocessedDocument");

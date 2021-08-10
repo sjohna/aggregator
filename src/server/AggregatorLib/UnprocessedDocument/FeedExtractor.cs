@@ -15,17 +15,32 @@ namespace AggregatorLib
     {
         SyndicationFeed feed;
         Instant retrieveTime;
+        Guid sourceRawContentId;
         
         // TODO: id as source URI, alternate link doesn't exist, only summary (return stub content type), different feed link types, different content types?, source feed for content, parent documents for comments
-        public FeedExtractor(Stream feedStream, Instant retrieveTime)
+        public FeedExtractor(Stream feedStream, Instant retrieveTime, Guid sourceRawContentId)
         {
             this.retrieveTime = retrieveTime;
+            this.sourceRawContentId = sourceRawContentId;
 
             using (var feedReader = XmlReader.Create(feedStream))
             {
                 feed = SyndicationFeed.Load(feedReader);
             }
         }
+
+        public FeedExtractor(String feedString, Instant retrieveTime, Guid sourceRawContentId)
+        {
+            this.retrieveTime = retrieveTime;
+            this.sourceRawContentId = sourceRawContentId;
+
+            using (var stringReader = new StringReader(feedString))
+            using (var feedReader = XmlReader.Create(stringReader))
+            {
+                feed = SyndicationFeed.Load(feedReader);
+            }
+        }
+
         public IEnumerable<UnprocessedDocument> RawDocuments
         {
             get
@@ -82,7 +97,8 @@ namespace AggregatorLib
                         UpdateTime: UpdateTime,
                         PublishTime: PublishTime,
                         Content: content,
-                        Authors: authors
+                        Authors: authors,
+                        SourceRawContentId: sourceRawContentId
                     );
                 }
             }

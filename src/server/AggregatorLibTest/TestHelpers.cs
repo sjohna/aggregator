@@ -2,6 +2,7 @@
 using LiteDB;
 using NUnit.Framework;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace AggregatorLibTest
@@ -50,6 +51,7 @@ namespace AggregatorLibTest
             Assert.AreEqual(expected.RetrieveTime, actual.RetrieveTime);
             Assert.AreEqual(expected.UpdateTime, actual.UpdateTime);
             Assert.AreEqual(expected.PublishTime, actual.PublishTime);
+            Assert.AreEqual(expected.SourceRawContentId, actual.SourceRawContentId);
 
             Assert.AreEqual((expected.Content as BlogPostContent)!.Title, (actual.Content as BlogPostContent)!.Title);
             Assert.AreEqual((expected.Content as BlogPostContent)!.Content, (actual.Content as BlogPostContent)!.Content);
@@ -80,6 +82,15 @@ namespace AggregatorLibTest
         public static Guid TestId(int index)
         {
             return Guid.Parse($"12345678-1234-1234-1234-{index:D12}");
+        }
+
+        public static Stream GetTestDataResourceStream(string path)
+        {
+            string resourceName = $"AggregatorLibTest.TestData.{path}";
+
+            var assembly = typeof(AggregatorLibTest.TestFeedExtractor).Assembly;
+
+            return assembly.GetManifestResourceStream(resourceName) ?? throw new Exception("Null resource stream");
         }
     }
 }
