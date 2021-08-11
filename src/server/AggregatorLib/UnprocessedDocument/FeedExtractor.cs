@@ -27,7 +27,7 @@ namespace AggregatorLib
             }
         }
 
-        public FeedExtractor(String feedString, Instant retrieveTime, Guid sourceRawContentId)
+        public FeedExtractor(string feedString, Instant retrieveTime, Guid sourceRawContentId)
         {
             this.retrieveTime = retrieveTime;
             this.sourceRawContentId = sourceRawContentId;

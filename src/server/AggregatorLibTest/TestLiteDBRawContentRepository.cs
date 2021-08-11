@@ -61,7 +61,7 @@ namespace AggregatorLibTest
         [Test]
         public void GetRawContentByIdInEmptyRepository()
         {
-            Assert.Throws<RepositoryException>(() => repository.GetRawContentById(Guid.NewGuid()));
+            Assert.IsNull(repository.GetRawContentById(Guid.NewGuid()));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace AggregatorLibTest
                 repository.AddRawContent(TestContent(i));
             }
 
-            Assert.Throws<RepositoryException>(() => repository.GetRawContentById(TestId(1000)));
+            Assert.IsNull(repository.GetRawContentById(TestId(1000)));
         }
 
         [Test]

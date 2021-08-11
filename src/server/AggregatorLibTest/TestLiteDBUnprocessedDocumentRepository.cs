@@ -62,7 +62,7 @@ namespace AggregatorLibTest
         [Test]
         public void GetUnprocessedDocumentByIdInEmptyRepository()
         {
-            Assert.Throws<RepositoryException>(() => repository.GetUnprocessedDocumentById(Guid.NewGuid()));
+            Assert.IsNull(repository.GetUnprocessedDocumentById(Guid.NewGuid()));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace AggregatorLibTest
                 repository.AddUnprocessedDocument(TestDocument(i));
             }
 
-            Assert.Throws<RepositoryException>(() => repository.GetUnprocessedDocumentById(TestId(1000)));
+            Assert.IsNull(repository.GetUnprocessedDocumentById(TestId(1000)));
         }
 
         [Test]

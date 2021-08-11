@@ -10,7 +10,7 @@ namespace AggregatorLib
     {
         public void AddUnprocessedDocument(UnprocessedDocument document);
 
-        public UnprocessedDocument GetUnprocessedDocumentById(Guid Id);
+        public UnprocessedDocument? GetUnprocessedDocumentById(Guid Id);
 
         public IEnumerable<UnprocessedDocument> GetAllUnprocessedDocuments();
 

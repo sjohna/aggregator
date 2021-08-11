@@ -306,5 +306,9 @@ namespace AggregatorLibTest
 
             Assert.IsNull(doc);
         }
+
+        // TODO: test author on feed but not on items: item author(s) should inherit from feed
+        // TODO: test feed author on TitleDocument
+        // TODO: test comment feeds
     }
 }

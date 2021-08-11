@@ -28,11 +28,11 @@ namespace AggregatorLib
             return Collection.FindAll();
         }
 
-        public RawContent GetRawContentById(Guid Id)
+        public RawContent? GetRawContentById(Guid Id)
         {
             var content = Collection.Find(content => content.Id == Id).FirstOrDefault();
 
-            return content ?? throw new RepositoryException($"RawContent with id {Id} not present in repository.");
+            return content;
         }
     }
 }

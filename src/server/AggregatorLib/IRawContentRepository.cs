@@ -10,7 +10,7 @@ namespace AggregatorLib
     {
         public void AddRawContent(RawContent content);
 
-        public RawContent GetRawContentById(Guid Id);
+        public RawContent? GetRawContentById(Guid Id);
 
         public IEnumerable<RawContent> GetAllRawContent();
 

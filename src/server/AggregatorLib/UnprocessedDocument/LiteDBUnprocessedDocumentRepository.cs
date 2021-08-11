@@ -28,11 +28,11 @@ namespace AggregatorLib
             return Collection.FindAll();
         }
 
-        public UnprocessedDocument GetUnprocessedDocumentById(Guid Id)
+        public UnprocessedDocument? GetUnprocessedDocumentById(Guid Id)
         {
             var doc = Collection.Find(doc => doc.Id == Id).FirstOrDefault();
 
-            return doc ?? throw new RepositoryException($"UnprocessedDocument with id {Id} not present in repository.");
+            return doc;
         }
     }
 }
