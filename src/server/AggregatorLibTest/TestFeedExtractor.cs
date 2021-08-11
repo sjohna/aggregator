@@ -43,14 +43,14 @@ namespace AggregatorLibTest
 
         private FeedExtractor ExtractorForEmbeddedFileFromStream(string filename)
         {
-            Stream resourceStream = GetTestDataResourceStream($"atom.{filename}");
+            Stream resourceStream = GetTestDataResourceStream($"FeedExtractor.atom.{filename}");
 
             return new FeedExtractor(resourceStream, Instant.FromUnixTimeSeconds(12345678), SourceRawContentId);
         }
 
         private FeedExtractor ExtractorForEmbeddedFileFromString(string filename)
         {
-            Stream resourceStream = GetTestDataResourceStream($"atom.{filename}");
+            Stream resourceStream = GetTestDataResourceStream($"FeedExtractor.atom.{filename}");
 
             using (var streamReader = new StreamReader(resourceStream))
             {

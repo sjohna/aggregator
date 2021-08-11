@@ -38,7 +38,7 @@ namespace AggregatorLibTest
 
         private RawContent RawContentForEmbeddedAtomFeed(string filename)
         {
-            Stream resourceStream = GetTestDataResourceStream($"atom.{filename}");
+            Stream resourceStream = GetTestDataResourceStream($"AggregatorSystem.atom.{filename}");
 
             using (var reader = new StreamReader(resourceStream))
             {
@@ -78,7 +78,7 @@ namespace AggregatorLibTest
         [Test]
         public void ProcessAtomContentWithSingleItem()
         {
-            var content = RawContentForEmbeddedAtomFeed("singlePost_WithUpdateAndPublishTime.xml");
+            var content = RawContentForEmbeddedAtomFeed("singlePost.xml");
 
             system.ProcessRawContent(content);
 
@@ -144,7 +144,7 @@ namespace AggregatorLibTest
         [Test]
         public void ProcessingContentWithgExistingIdThrowsException()
         {
-            var content = RawContentForEmbeddedAtomFeed("singlePost_WithUpdateAndPublishTime.xml");
+            var content = RawContentForEmbeddedAtomFeed("singlePost.xml");
             system.ProcessRawContent(content);
 
             Assert.Throws<AggregatorSystemException>(() => system.ProcessRawContent(content));
@@ -153,10 +153,10 @@ namespace AggregatorLibTest
         [Test]
         public void ProcessingSameFeedTwiceInARowIsIdempotent()
         {
-            var content = RawContentForEmbeddedAtomFeed("singlePost_WithUpdateAndPublishTime.xml");
+            var content = RawContentForEmbeddedAtomFeed("singlePost.xml");
             system.ProcessRawContent(content);
 
-            var content2 = RawContentForEmbeddedAtomFeed("singlePost_WithUpdateAndPublishTime.xml");
+            var content2 = RawContentForEmbeddedAtomFeed("singlePost.xml");
             system.ProcessRawContent(content2);
 
             Assert.AreEqual(1, system.RawContentRepository.GetAllRawContent().Count());
@@ -217,5 +217,17 @@ namespace AggregatorLibTest
                 Assert.AreEqual(doc.SourceRawContentId, content.Id);
             }
         }
+
+        // NEXT:
+        // Test update to existing document
+        // Test different document
+        // Test some docs same and some new
+        // Test some docs same and some updated
+        // Test same, updated, and new intermixed
+        // Test update to title
+        // Test updates to all of the above at once
+        // Performance testing:
+        //   Come up with a way to generate feeds, then process ~1000 feeds, all with various updates, intermixed with feeds with no updates. I think this will force the issue of querying for repositories
+        // Refactor testing to be better organized. Might do this before the above.
     }
 }
