@@ -87,6 +87,7 @@ namespace AggregatorLibTest
             Assert.AreEqual(UpdateTime, doc.UpdateTime);
             Assert.AreEqual(PublishTime, doc.PublishTime);
             Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
+            Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
 
             Assert.AreEqual(Authors.Count, doc.Authors.Count);
             
@@ -207,6 +208,103 @@ namespace AggregatorLibTest
 
             AssertSinglePostTestDocumentProperties(doc, UpdateTime: Instant.FromUtc(2021, 2, 27, 0, 0));
             AssertSinglePostTestDocumentContentProperties(doc.Content);
+        }
+
+        [Test]
+        public void TitleDocumentForSinglePost()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost.xml");
+
+            var doc = extractor.TitleDocument!;
+
+            Assert.IsNotNull(doc);
+
+            Assert.AreEqual("https://example.com/testblog", doc.Uri);
+            Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
+            Assert.AreEqual(null, doc.ParentDocumentUri);
+            Assert.AreEqual(null, doc.UpdateTime);
+            Assert.AreEqual(null, doc.PublishTime);
+            Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
+            Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
+            Assert.AreEqual(UnprocessedDocumentType.SourceDescription, doc.DocumentType);
+
+            Assert.AreEqual(0, doc.Authors.Count);
+
+            var content = (doc.Content as FeedSourceDescriptionContent)!;
+
+            Assert.IsNotNull(content);
+
+            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual("This is the subtitle for the test blog.", content.Description);
+            Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", content.IconUri);
+        }
+
+        [Test]
+        public void TitleDocumentForSinglePost_NoSubtitle()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost_NoSubtitle.xml");
+
+            var doc = extractor.TitleDocument!;
+
+            Assert.IsNotNull(doc);
+
+            Assert.AreEqual("https://example.com/testblog", doc.Uri);
+            Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
+            Assert.AreEqual(null, doc.ParentDocumentUri);
+            Assert.AreEqual(null, doc.UpdateTime);
+            Assert.AreEqual(null, doc.PublishTime);
+            Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
+            Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
+            Assert.AreEqual(UnprocessedDocumentType.SourceDescription, doc.DocumentType);
+
+            Assert.AreEqual(0, doc.Authors.Count);
+
+            var content = (doc.Content as FeedSourceDescriptionContent)!;
+
+            Assert.IsNotNull(content);
+
+            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual(null, content.Description);
+            Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", content.IconUri);
+        }
+
+        [Test]
+        public void TitleDocumentForSinglePost_NoIconUri()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost_NoIconUri.xml");
+
+            var doc = extractor.TitleDocument!;
+
+            Assert.IsNotNull(doc);
+
+            Assert.AreEqual("https://example.com/testblog", doc.Uri);
+            Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
+            Assert.AreEqual(null, doc.ParentDocumentUri);
+            Assert.AreEqual(null, doc.UpdateTime);
+            Assert.AreEqual(null, doc.PublishTime);
+            Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
+            Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
+            Assert.AreEqual(UnprocessedDocumentType.SourceDescription, doc.DocumentType);
+
+            Assert.AreEqual(0, doc.Authors.Count);
+
+            var content = (doc.Content as FeedSourceDescriptionContent)!;
+
+            Assert.IsNotNull(content);
+
+            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual("This is the subtitle for the test blog.", content.Description);
+            Assert.AreEqual(null, content.IconUri);
+        }
+
+        [Test]
+        public void TitleDocumentForSinglePost_NoFeedTitle()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost_NoFeedTitle.xml");
+
+            var doc = extractor.TitleDocument!;
+
+            Assert.IsNull(doc);
         }
     }
 }

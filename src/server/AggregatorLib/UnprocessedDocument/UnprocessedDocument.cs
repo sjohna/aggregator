@@ -5,6 +5,13 @@ using System.Collections.Generic;
 
 namespace AggregatorLib
 {
+    public enum UnprocessedDocumentType
+    {
+        Regular = 1,
+        SourceDescription = 2,
+        AuthorDescription = 3
+    }
+
     /**
      * Represents a document in a form close to that in which it was downloaded.
      * 
@@ -22,6 +29,7 @@ namespace AggregatorLib
         public UnprocessedDocumentContent Content { get; protected set; }
         public IReadOnlyList<UnprocessedDocumentAuthor> Authors { get; protected set; }
         public Guid? SourceRawContentId { get; protected set; }
+        public UnprocessedDocumentType DocumentType { get; protected set; }
 
 #pragma warning disable CS8618  // disable null checking, as this constructor is only used by LiteDB, which sets the properties of this object immediately after constructing
         protected UnprocessedDocument() { }
@@ -38,8 +46,8 @@ namespace AggregatorLib
             Instant? PublishTime,
             UnprocessedDocumentContent Content,
             IReadOnlyList<UnprocessedDocumentAuthor> Authors,
-            Guid? SourceRawContentId
-
+            Guid? SourceRawContentId,
+            UnprocessedDocumentType DocumentType = UnprocessedDocumentType.Regular
         )
         {
             this.Id = Id;
@@ -52,6 +60,7 @@ namespace AggregatorLib
             this.Content = Content;
             this.Authors = Authors;
             this.SourceRawContentId = SourceRawContentId;
+            this.DocumentType = DocumentType;
         }
     }
 }

@@ -5,8 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace AggregatorLib
@@ -38,6 +36,52 @@ namespace AggregatorLib
             using (var feedReader = XmlReader.Create(stringReader))
             {
                 feed = SyndicationFeed.Load(feedReader);
+            }
+        }
+
+        public UnprocessedDocument? TitleDocument
+        {
+            get
+            {
+                var title = feed.Title?.Text;
+                if (title == null) return null;
+
+                var iconElement = feed.ElementExtensions.FirstOrDefault(element => element.GetReader().Name == "icon");
+                var iconUri = iconElement?.GetObject<string>(); // TODO: catch XmlException if content is not in fact a string
+
+                var alternateLink = feed.Links.FirstOrDefault(link => link.RelationshipType == "alternate");
+                string sourceUri = alternateLink?.Uri.ToString() ?? throw new Exception();  // TODO: different exception here
+
+                var content = new FeedSourceDescriptionContent
+                (
+                    Title: title,
+                    Description: feed.Description?.Text,
+                    IconUri: iconUri
+                );
+
+                var authors = new List<UnprocessedDocumentAuthor>();
+                foreach (var author in feed.Authors)
+                {
+                    authors.Add(new UnprocessedDocumentAuthor(
+                        Name: author.Name,
+                        Context: "blog",
+                        Uri: author.Uri
+                    ));
+                }
+
+                return new UnprocessedDocument(
+                        Id: Guid.NewGuid(),
+                        Uri: sourceUri,
+                        SourceId: feed.Id,
+                        ParentDocumentUri: null,
+                        RetrieveTime: retrieveTime,
+                        UpdateTime: null,
+                        PublishTime: null,
+                        Content: content,
+                        Authors: authors,
+                        SourceRawContentId: sourceRawContentId,
+                        DocumentType: UnprocessedDocumentType.SourceDescription
+                    );
             }
         }
 

@@ -52,6 +52,7 @@ namespace AggregatorLibTest
             Assert.AreEqual(expected.UpdateTime, actual.UpdateTime);
             Assert.AreEqual(expected.PublishTime, actual.PublishTime);
             Assert.AreEqual(expected.SourceRawContentId, actual.SourceRawContentId);
+            Assert.AreEqual(expected.DocumentType, actual.DocumentType);
 
             Assert.AreEqual((expected.Content as BlogPostContent)!.Title, (actual.Content as BlogPostContent)!.Title);
             Assert.AreEqual((expected.Content as BlogPostContent)!.Content, (actual.Content as BlogPostContent)!.Content);

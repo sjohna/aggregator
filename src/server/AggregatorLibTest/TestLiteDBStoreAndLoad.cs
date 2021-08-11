@@ -144,11 +144,11 @@ namespace AggregatorLibTest
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
-            Assert.AreEqual(instanceInDatabase.Id, id);
-            Assert.AreEqual(instanceInDatabase.Type, "testtype");
-            Assert.AreEqual(instanceInDatabase.Content, "Test Content");
-            Assert.AreEqual(instanceInDatabase.Context, "Test Context");
-            Assert.AreEqual(instanceInDatabase.SourceUri, "http://example.com");
+            Assert.AreEqual(id, instanceInDatabase.Id);
+            Assert.AreEqual("testtype", instanceInDatabase.Type);
+            Assert.AreEqual("Test Content", instanceInDatabase.Content);
+            Assert.AreEqual("Test Context", instanceInDatabase.Context);
+            Assert.AreEqual("http://example.com", instanceInDatabase.SourceUri);
         }
 
         [Test]
@@ -165,11 +165,28 @@ namespace AggregatorLibTest
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
-            Assert.AreEqual(instanceInDatabase.Id, instance.Id);
-            Assert.AreEqual(instanceInDatabase.Type, "testtype");
-            Assert.AreEqual(instanceInDatabase.Content, "Test Content");
-            Assert.AreEqual(instanceInDatabase.Context, "Test Context");
-            Assert.AreEqual(instanceInDatabase.SourceUri, "http://example.com");
+            Assert.AreEqual(instance.Id, instanceInDatabase.Id);
+            Assert.AreEqual("testtype", instanceInDatabase.Type);
+            Assert.AreEqual("Test Content", instanceInDatabase.Content);
+            Assert.AreEqual("Test Context", instanceInDatabase.Context);
+            Assert.AreEqual("http://example.com", instanceInDatabase.SourceUri);
+        }
+
+        [Test]
+        public void FeedSourceDescriptionContent()
+        {
+            var instance = new FeedSourceDescriptionContent
+            (
+                Title: "Test Title",
+                Description: "Test Description",
+                IconUri: "http://example.com/icon.jpg"
+            );
+
+            var instanceInDatabase = StoreAndRetrieve(instance);
+
+            Assert.AreEqual("Test Title", instanceInDatabase.Title);
+            Assert.AreEqual("Test Description", instanceInDatabase.Description);
+            Assert.AreEqual("http://example.com/icon.jpg", instanceInDatabase.IconUri);
         }
     }
 }
