@@ -1067,29 +1067,36 @@ namespace AggregatorLibTest.TestAggregatorSystem
         }
 
         [Test]
+        [Repeat(50)]
         public void IdempotencyScenario()
         {
             var content = RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUnixTimeSeconds(12345678));
             system.ProcessRawContent(content);
 
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUnixTimeSeconds(99999999)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUtc(2021, 8, 11, 1, 0, 0)));
 
             var content2 = RawContentForEmbeddedAtomFeed("twoPosts.xml", Instant.FromUnixTimeSeconds(23456789));
             system.ProcessRawContent(content2);
 
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUnixTimeSeconds(99999999)));
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("secondPost.xml", Instant.FromUnixTimeSeconds(99999999)));
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("twoPosts.xml", Instant.FromUnixTimeSeconds(99999999)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUtc(2021, 8, 11, 2, 0, 0)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("secondPost.xml", Instant.FromUtc(2021, 8, 11, 3, 0, 0)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("twoPosts.xml", Instant.FromUtc(2021, 8, 11, 4, 0, 0)));
 
             var content3 = RawContentForEmbeddedAtomFeed("threePostsOneUpdated.xml", Instant.FromUnixTimeSeconds(34567890));
             system.ProcessRawContent(content3);
 
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUnixTimeSeconds(99999999)));
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("secondPost.xml", Instant.FromUnixTimeSeconds(99999999)));
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("twoPosts.xml", Instant.FromUnixTimeSeconds(99999999)));
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePostUpdated.xml", Instant.FromUnixTimeSeconds(99999999)));
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("twoPostsOneUpdated.xml", Instant.FromUnixTimeSeconds(99999999)));
-            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("threePostsOneUpdated.xml", Instant.FromUnixTimeSeconds(99999999)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUtc(2021, 8, 11, 5, 0, 0)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("secondPost.xml", Instant.FromUtc(2021, 8, 11, 6, 0, 0)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("twoPosts.xml", Instant.FromUtc(2021, 8, 11, 7, 0, 0)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("singlePostUpdated.xml", Instant.FromUtc(2021, 8, 11, 8, 0, 0)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("twoPostsOneUpdated.xml", Instant.FromUtc(2021, 8, 11, 9, 0, 0)));
+            system.ProcessRawContent(RawContentForEmbeddedAtomFeed("threePostsOneUpdated.xml", Instant.FromUtc(2021, 8, 11, 10, 0, 0)));
+
+            if (system.RawContentRepository.GetAllRawContent().Count() != 3)
+            {
+                var contentList = system.RawContentRepository.GetAllRawContent().ToList();
+                Console.WriteLine("help");
+            }
 
             Assert.AreEqual(3, system.RawContentRepository.GetAllRawContent().Count());
             Assert.AreEqual(5, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());

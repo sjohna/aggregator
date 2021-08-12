@@ -82,7 +82,8 @@ namespace AggregatorLib
             foreach (var newDocument in extractor.RawDocuments)
             {
                 var existingDocument = UnprocessedDocumentRepository.GetAllUnprocessedDocuments()
-                    .FirstOrDefault(doc => doc.SourceId == newDocument.SourceId && doc.DocumentType == newDocument.DocumentType);
+                    .OrderBy(doc => doc.UpdateTime)
+                    .LastOrDefault(doc => doc.SourceId == newDocument.SourceId && doc.DocumentType == newDocument.DocumentType);
 
                 // TODO: option for deep compare?
                 if (existingDocument == null || existingDocument.UpdateTime < newDocument.UpdateTime)
