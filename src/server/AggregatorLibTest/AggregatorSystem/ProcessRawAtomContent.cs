@@ -10,10 +10,10 @@ using NodaTime;
 using static AggregatorLibTest.TestHelpers;
 using System.IO;
 
-namespace AggregatorLibTest
+namespace AggregatorLibTest.TestAggregatorSystem
 {
     [TestFixture]
-    class TestAggregatorSystem
+    class ProcessAtomContent
     {
 #pragma warning disable CS8618
         private AggregatorSystem system;
@@ -51,28 +51,6 @@ namespace AggregatorLibTest
                     SourceUri: "http://example.com/atom"
                 );
             }
-        }
-
-        [Test]
-        public void StateAfterCreation()
-        {
-            Assert.AreEqual(0, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(0, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
-        }
-
-        [Test]
-        public void ProcessRawContentWithInvalidType()
-        {
-            var content = new RawContent
-            (
-                    RetrieveTime: Instant.FromUnixTimeSeconds(12345678),
-                    Type: "Invalid Type",
-                    Content: "Test Content",
-                    Context: "Test Context",
-                    SourceUri: "http://example.com/test"
-            );
-
-            Assert.Throws<AggregatorSystemException>(() => system.ProcessRawContent(content));
         }
 
         [Test]
@@ -139,15 +117,6 @@ namespace AggregatorLibTest
 
                 Assert.AreEqual(doc.SourceRawContentId, content.Id);
             }
-        }
-
-        [Test]
-        public void ProcessingContentWithgExistingIdThrowsException()
-        {
-            var content = RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUnixTimeSeconds(12345678));
-            system.ProcessRawContent(content);
-
-            Assert.Throws<AggregatorSystemException>(() => system.ProcessRawContent(content));
         }
 
         [Test]
