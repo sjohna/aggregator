@@ -57,7 +57,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
         public void StateAfterCreation()
         {
             Assert.AreEqual(0, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(0, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(0, system.UnprocessedDocumentRepository.GetAll().Count());
         }
 
         [Test]

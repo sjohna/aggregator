@@ -61,11 +61,11 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content);
 
             Assert.AreEqual(1, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(2, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(2, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // post
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.Regular);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.Regular);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
@@ -97,7 +97,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -129,11 +129,11 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content2);
 
             Assert.AreEqual(1, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(2, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(2, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // post
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.Regular);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.Regular);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
@@ -165,7 +165,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -197,13 +197,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content2);
 
             Assert.AreEqual(2, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // post - first version
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -240,7 +240,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .Skip(1)
@@ -276,7 +276,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -308,13 +308,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content2);
 
             Assert.AreEqual(2, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // post - first version
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -350,7 +350,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             // title doc - first version
             {
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "http://example.com/testblog/feed/atom/" && doc.DocumentType == UnprocessedDocumentType.SourceDescription)
                     .OrderBy(doc => doc.RetrieveTime)
                     .First();
@@ -377,7 +377,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             // title doc - second version
             {
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "http://example.com/testblog/feed/atom/" && doc.DocumentType == UnprocessedDocumentType.SourceDescription)
                     .OrderBy(doc => doc.RetrieveTime)
                     .Skip(1)
@@ -410,13 +410,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content);
 
             Assert.AreEqual(1, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // first post
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -453,7 +453,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12346")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -488,7 +488,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -520,13 +520,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content2);
 
             Assert.AreEqual(2, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // first post
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -563,7 +563,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12346")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -598,7 +598,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -630,13 +630,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content2);
 
             Assert.AreEqual(2, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(3, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // first post
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -673,7 +673,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12346")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -708,7 +708,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -740,13 +740,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content2);
 
             Assert.AreEqual(2, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(4, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(4, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // first post - first version
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -783,7 +783,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .Skip(1)
@@ -821,7 +821,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12346")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -856,7 +856,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -891,13 +891,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             system.ProcessRawContent(content3);
 
             Assert.AreEqual(3, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(5, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(5, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // first post - first version
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -934,7 +934,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .Skip(1)
@@ -972,7 +972,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12346")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -1009,7 +1009,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12347")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -1044,7 +1044,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
@@ -1067,7 +1067,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
         }
 
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void IdempotencyScenario()
         {
             var content = RawContentForEmbeddedAtomFeed("singlePost.xml", Instant.FromUnixTimeSeconds(12345678));
@@ -1099,13 +1099,13 @@ namespace AggregatorLibTest.TestAggregatorSystem
             }
 
             Assert.AreEqual(3, system.RawContentRepository.GetAllRawContent().Count());
-            Assert.AreEqual(5, system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(5, system.UnprocessedDocumentRepository.GetAll().Count());
 
             // first post - first version
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -1142,7 +1142,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12345")
                     .OrderBy(doc => doc.UpdateTime)
                     .Skip(1)
@@ -1180,7 +1180,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12346")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -1217,7 +1217,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
-                    .GetAllUnprocessedDocuments()
+                    .GetAll()
                     .Where(doc => doc.SourceId == "12347")
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
@@ -1252,7 +1252,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // title doc
             {
-                var doc = system.UnprocessedDocumentRepository.GetAllUnprocessedDocuments().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
+                var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
                 Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);

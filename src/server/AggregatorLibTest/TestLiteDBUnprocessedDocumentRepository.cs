@@ -42,7 +42,7 @@ namespace AggregatorLibTest
         [Test]
         public void StateAfterCreation()
         {
-            Assert.AreEqual(0, repository.GetAllUnprocessedDocuments().Count());
+            Assert.AreEqual(0, repository.GetAll().Count());
         }
 
         [Test]
@@ -50,19 +50,29 @@ namespace AggregatorLibTest
         {
             var unprocessedDoc = TestDocument(1);
 
-            repository.AddUnprocessedDocument(unprocessedDoc);
-            var docById = repository.GetUnprocessedDocumentById(unprocessedDoc.Id);
+            repository.Add(unprocessedDoc);
+            var docById = repository.GetById(unprocessedDoc.Id)!;
+
+            Assert.IsNotNull(docById);
             AssertUnprocessedDocumentsAreIdentical(unprocessedDoc, docById);
 
-            Assert.AreEqual(1, repository.GetAllUnprocessedDocuments().Count());
-            var unprocessedDocInAllDocuments = repository.GetAllUnprocessedDocuments().First();
+            Assert.AreEqual(1, repository.GetAll().Count());
+            var unprocessedDocInAllDocuments = repository.GetAll().First();
             AssertUnprocessedDocumentsAreIdentical(unprocessedDoc, unprocessedDocInAllDocuments);
+
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetBySourceId("1").First());
         }
 
         [Test]
-        public void GetUnprocessedDocumentByIdInEmptyRepository()
+        public void GetByIdInEmptyRepository()
         {
-            Assert.IsNull(repository.GetUnprocessedDocumentById(Guid.NewGuid()));
+            Assert.IsNull(repository.GetById(Guid.NewGuid()));
+        }
+
+        [Test]
+        public void GetBySourceIdInEmptyRepository()
+        {
+            Assert.AreEqual(0, repository.GetBySourceId("1").Count());
         }
 
         [Test]
@@ -70,27 +80,41 @@ namespace AggregatorLibTest
         {
             for (int i = 1; i <= 100; ++i)
             {
-                repository.AddUnprocessedDocument(TestDocument(i));
+                repository.Add(TestDocument(i));
             }
 
-            Assert.IsNull(repository.GetUnprocessedDocumentById(TestId(1000)));
+            Assert.IsNull(repository.GetById(TestId(1000)));
+        }
+
+        [Test]
+        public void GetNonPresentSourceIdInNonEmptyRepository()
+        {
+            for (int i = 1; i <= 100; ++i)
+            {
+                repository.Add(TestDocument(i));
+            }
+
+            Assert.AreEqual(0, repository.GetBySourceId("1000").Count());
         }
 
         [Test]
         public void AddTwoUnprocessedDocuments()
         {
-            repository.AddUnprocessedDocument(TestDocument(1));
-            repository.AddUnprocessedDocument(TestDocument(2));
+            repository.Add(TestDocument(1));
+            repository.Add(TestDocument(2));
 
-            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetUnprocessedDocumentById(TestId(1)));
-            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetUnprocessedDocumentById(TestId(2)));
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetById(TestId(1)));
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetById(TestId(2)));
 
-            var documentsInRepository = repository.GetAllUnprocessedDocuments().OrderBy(doc => doc.Id).ToList();
+            var documentsInRepository = repository.GetAll().OrderBy(doc => doc.Id).ToList();
 
             for (int index = 1; index <= documentsInRepository.Count; ++index)
             {
                 AssertUnprocessedDocumentsAreIdentical(TestDocument(index), documentsInRepository[index-1]);
             }
+
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetBySourceId("1").First());
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetBySourceId("2").First());
         }
     }
 }

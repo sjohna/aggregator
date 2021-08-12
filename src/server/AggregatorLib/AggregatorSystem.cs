@@ -39,6 +39,7 @@ namespace AggregatorLib
         // TODO: settings to override title document processing, maybe others?
         // TODO: associate said settings with document in database
         // TODO: logging
+        // TODO: add checks for if rawcontent is too big
         private void ProcessAtomContent(RawContent content)
         {
             // TODO SOON: give this function a refactor, or at least look at the variable names...
@@ -57,12 +58,12 @@ namespace AggregatorLib
             {
                 // check for title updates
                 // TODO: some sort of query on DB here, instead of doing this in LINQ
-                var existingTitleDocument = UnprocessedDocumentRepository.GetAllUnprocessedDocuments()
+                var existingTitleDocument = UnprocessedDocumentRepository.GetAll()
                     .FirstOrDefault(doc => doc.SourceId == titleDocument.SourceId && doc.DocumentType == titleDocument.DocumentType);
 
                 if (existingTitleDocument == null)
                 {
-                    UnprocessedDocumentRepository.AddUnprocessedDocument(titleDocument);
+                    UnprocessedDocumentRepository.Add(titleDocument);
                     anyUnprocessedDocumentUpdates = true;
                 }
                 else
@@ -73,7 +74,7 @@ namespace AggregatorLib
 
                     if (existingContent != null && currentContent != null && !existingContent.Equals(currentContent))
                     {
-                        UnprocessedDocumentRepository.AddUnprocessedDocument(titleDocument);
+                        UnprocessedDocumentRepository.Add(titleDocument);
                         anyUnprocessedDocumentUpdates = true;
                     }
                 }
@@ -81,14 +82,14 @@ namespace AggregatorLib
 
             foreach (var newDocument in extractor.RawDocuments)
             {
-                var existingDocument = UnprocessedDocumentRepository.GetAllUnprocessedDocuments()
+                var existingDocument = UnprocessedDocumentRepository.GetBySourceId(newDocument.SourceId)    // TODO: null check
                     .OrderBy(doc => doc.UpdateTime)
-                    .LastOrDefault(doc => doc.SourceId == newDocument.SourceId && doc.DocumentType == newDocument.DocumentType);
+                    .LastOrDefault();
 
                 // TODO: option for deep compare?
                 if (existingDocument == null || existingDocument.UpdateTime < newDocument.UpdateTime)
                 {
-                    UnprocessedDocumentRepository.AddUnprocessedDocument(newDocument);
+                    UnprocessedDocumentRepository.Add(newDocument);
                     anyUnprocessedDocumentUpdates = true;
                 }
             }

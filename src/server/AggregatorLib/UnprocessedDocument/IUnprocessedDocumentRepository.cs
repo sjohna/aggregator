@@ -8,11 +8,13 @@ namespace AggregatorLib
 {
     public interface IUnprocessedDocumentRepository
     {
-        public void AddUnprocessedDocument(UnprocessedDocument document);
+        public void Add(UnprocessedDocument document);
 
-        public UnprocessedDocument? GetUnprocessedDocumentById(Guid Id);
+        public UnprocessedDocument? GetById(Guid Id);
 
-        public IEnumerable<UnprocessedDocument> GetAllUnprocessedDocuments();
+        public IEnumerable<UnprocessedDocument> GetAll();
+
+        public IEnumerable<UnprocessedDocument> GetBySourceId(string sourceId);
 
         // TODO: queries
     }
