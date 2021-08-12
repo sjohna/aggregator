@@ -9,7 +9,7 @@ namespace AggregatorLib
     /**
      * Content that describes a feed source.
      */
-    public class FeedSourceDescriptionContent : UnprocessedDocumentContent
+    public class FeedSourceDescriptionContent : UnprocessedDocumentContent, IEquatable<FeedSourceDescriptionContent>
     {
         public string Title { get; protected set; }
         public string? Description { get; protected set; }
@@ -24,6 +24,25 @@ namespace AggregatorLib
             this.Title = Title;
             this.Description = Description;
             this.IconUri = IconUri;
+        }
+
+        public override bool Equals(object? other)
+        {
+            if (other is FeedSourceDescriptionContent rightType)
+            {
+                return this.Equals(rightType);
+            }
+
+            return false;
+        }
+
+        public bool Equals(FeedSourceDescriptionContent? other)
+        {
+            if (other == null) return false;
+
+            return this.Title == other.Title
+                   && this.Description == other.Description
+                   && this.IconUri == other.IconUri;
         }
     }
 }

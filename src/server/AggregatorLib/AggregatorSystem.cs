@@ -60,10 +60,22 @@ namespace AggregatorLib
                 var existingTitleDocument = UnprocessedDocumentRepository.GetAllUnprocessedDocuments()
                     .FirstOrDefault(doc => doc.SourceId == titleDocument.SourceId && doc.DocumentType == titleDocument.DocumentType);
 
-                if (existingTitleDocument == null || existingTitleDocument.Content.Equals(titleDocument.Content))
+                if (existingTitleDocument == null)
                 {
                     UnprocessedDocumentRepository.AddUnprocessedDocument(titleDocument);
                     anyUnprocessedDocumentUpdates = true;
+                }
+                else
+                {
+                    // TODO: a less hacky way of doing this...
+                    var existingContent = existingTitleDocument.Content as FeedSourceDescriptionContent;
+                    var currentContent = titleDocument.Content as FeedSourceDescriptionContent;
+
+                    if (existingContent != null && currentContent != null && !existingContent.Equals(currentContent))
+                    {
+                        UnprocessedDocumentRepository.AddUnprocessedDocument(titleDocument);
+                        anyUnprocessedDocumentUpdates = true;
+                    }
                 }
             }
 
@@ -76,6 +88,7 @@ namespace AggregatorLib
                 if (existingDocument == null || existingDocument.UpdateTime < newDocument.UpdateTime)
                 {
                     UnprocessedDocumentRepository.AddUnprocessedDocument(newDocument);
+                    anyUnprocessedDocumentUpdates = true;
                 }
             }
 
