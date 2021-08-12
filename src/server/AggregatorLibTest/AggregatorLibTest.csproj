@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestData\AggregatorSystem\atom\secondPost.xml" />
     <None Remove="TestData\AggregatorSystem\atom\singlePostWithUpdatedSubtitle.xml" />
+    <None Remove="TestData\AggregatorSystem\atom\threePostsOneUpdated.xml" />
+    <None Remove="TestData\AggregatorSystem\atom\twoPosts.xml" />
+    <None Remove="TestData\AggregatorSystem\atom\twoPostsOneUpdated.xml" />
     <None Remove="TestData\atom\singlePost.xml" />
     <None Remove="TestData\atom\singlePostUpdated.xml" />
     <None Remove="TestData\atom\singlePost_NoAuthorUri.xml" />
@@ -31,6 +35,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="TestData\AggregatorSystem\atom\singlePostWithUpdatedSubtitle.xml" />
+    <EmbeddedResource Include="TestData\AggregatorSystem\atom\secondPost.xml" />
+    <EmbeddedResource Include="TestData\AggregatorSystem\atom\threePostsOneUpdated.xml" />
+    <EmbeddedResource Include="TestData\AggregatorSystem\atom\twoPostsOneUpdated.xml" />
+    <EmbeddedResource Include="TestData\AggregatorSystem\atom\twoPosts.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoFeedTitle.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoIconUri.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoSubtitle.xml" />
