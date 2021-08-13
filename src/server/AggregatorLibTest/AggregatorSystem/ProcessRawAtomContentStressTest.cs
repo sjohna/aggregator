@@ -197,5 +197,52 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 AssertDocumentIsCorrect(doc, i, 1, retrieveTime);
             }
         }
+
+        [TestCase(10)]
+        [TestCase(100)]
+        //[TestCase(1000)]
+        public void OverlappingTenItemFeedsUpToItemN(int N)
+        {
+            Instant retrieveTime = Instant.FromUnixTimeSeconds(12345678);
+
+            for (int max = 10; max <= N; ++max)
+            {
+                var feed = Feed();
+                AddItemRange(feed, max - 10 + 1, max, 1);
+
+                system.ProcessRawContent(ToContent(feed, retrieveTime));
+            }
+
+            for (int i = 1; i <= N; ++i)
+            {
+                var doc = system.UnprocessedDocumentRepository.GetBySourceId(ItemId(i)).First();
+                AssertDocumentIsCorrect(doc, i, 1, retrieveTime);
+            }
+        }
+
+        [TestCase(10)]
+        [TestCase(100)]
+        public void NewVersionsOfFeedUpToVersionN(int N)
+        {
+            Instant retrieveTime = Instant.FromUnixTimeSeconds(12345678);
+
+            for (int version = 1; version <= N; ++version)
+            {
+                var feed = Feed();
+                AddItemRange(feed, 1, 10, version);
+
+                system.ProcessRawContent(ToContent(feed, retrieveTime));
+            }
+
+            for (int i = 1; i <= 10; ++i)
+            {
+                var docs = system.UnprocessedDocumentRepository.GetBySourceId(ItemId(i)).OrderBy(doc => doc.UpdateTime).ToList();
+
+                for (int version = 1; version <= N; ++version)
+                {
+                    AssertDocumentIsCorrect(docs[version-1], i, version, retrieveTime);
+                }
+            }
+        }
     }
 }

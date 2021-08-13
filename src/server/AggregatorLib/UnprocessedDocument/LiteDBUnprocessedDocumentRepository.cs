@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using NodaTime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,12 @@ namespace AggregatorLib
         public IEnumerable<UnprocessedDocument> GetBySourceId(string sourceId)
         {
             return Collection.Find(doc => doc.SourceId == sourceId);
+        }
+
+        // TODO: unit test this. Include tests: null mixed with non-null
+        public UnprocessedDocument GetLatestForSourceId(string sourceId)
+        {
+            return Collection.Query().Where(doc => doc.SourceId == sourceId).OrderByDescending(doc => doc.UpdateTime).FirstOrDefault();
         }
     }
 }
