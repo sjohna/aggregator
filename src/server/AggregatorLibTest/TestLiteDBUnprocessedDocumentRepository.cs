@@ -1,5 +1,6 @@
 ﻿using AggregatorLib;
 using LiteDB;
+using NodaTime;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,26 @@ namespace AggregatorLibTest
                 Uri: $"http://example.com/{index}",
                 SourceId: $"{index}",
                 ParentDocumentUri: $"http://example.com/{index - 1}",
-                RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000 + index),
-                UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000 + index),
-                PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000 + index),
+                RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
+                UpdateTime: Instant.FromUnixTimeSeconds(2000000 + index),
+                PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
+                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
+                Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
+                SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
+            );
+        }
+
+        private UnprocessedDocument TestDocumentWithUpdateTime(int index, Instant? UpdateTime, Guid? Id = null)
+        {
+            return new UnprocessedDocument
+            (
+                Id: Id != null ? Id.Value : TestId(index),
+                Uri: $"http://example.com/{index}",
+                SourceId: $"{index}",
+                ParentDocumentUri: $"http://example.com/{index - 1}",
+                RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
+                UpdateTime: UpdateTime,
+                PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
                 Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
                 Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
                 SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
@@ -101,6 +119,35 @@ namespace AggregatorLibTest
             }
 
             Assert.AreEqual(0, repository.GetBySourceId("1000").Count());
+        }
+
+        [Test]
+        public void GetLatestForNonPresentSourceIdInNonEmptyRepository()
+        {
+            for (int i = 1; i <= 100; ++i)
+            {
+                repository.Add(TestDocument(i));
+            }
+
+            Assert.IsNull(repository.GetLatestForSourceId("1000"));
+        }
+
+        [Test]
+        public void GetLatestForSourceIdWithOneDocumentWithNullUpdateTime()
+        {
+            repository.Add(TestDocumentWithUpdateTime(1, null));
+
+            AssertUnprocessedDocumentsAreIdentical(TestDocumentWithUpdateTime(1, null), repository.GetLatestForSourceId("1"));
+        }
+
+        [Test]
+        public void GetLatestForSourceIdWhenOneDocumentHasNullUpdateTime()
+        {
+            var id = Guid.NewGuid();
+            repository.Add(TestDocumentWithUpdateTime(1, null));
+            repository.Add(TestDocumentWithUpdateTime(1, Instant.FromUnixTimeSeconds(3000000), id));
+
+            AssertUnprocessedDocumentsAreIdentical(TestDocumentWithUpdateTime(1, Instant.FromUnixTimeSeconds(3000000), id), repository.GetLatestForSourceId("1"));
         }
 
         [Test]
