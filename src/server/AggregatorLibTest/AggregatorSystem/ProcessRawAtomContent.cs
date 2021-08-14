@@ -1273,18 +1273,5 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(doc.SourceRawContentId, content.Id);
             }
         }
-
-
-        // NEXT:
-        // (DONE) Test update to existing document
-        // (DONE) Test different document
-        // (DONE) Test two documents
-        // (DONE) Test some docs same and some new
-        // (DONE) Test some docs same and some updated
-        // (DONE) Test same, updated, and new intermixed
-        // (DONE) Test update to title
-        // Performance testing:
-        //   Come up with a way to generate feeds, then process ~1000 feeds, all with various updates, intermixed with feeds with no updates. I think this will force the issue of querying for repositories
-        // (DONE) Refactor testing to be better organized. Might do this before the above.
     }
 }

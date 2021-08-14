@@ -76,6 +76,12 @@ namespace AggregatorLibTest
         }
 
         [Test]
+        public void GetLatestForSourceIdInEmptyRepository()
+        {
+            Assert.IsNull(repository.GetLatestForSourceId("1"));
+        }
+
+        [Test]
         public void GetInvalidUnprocessedDocumentIdInNonEmptyRepository()
         {
             for (int i = 1; i <= 100; ++i)
@@ -115,6 +121,9 @@ namespace AggregatorLibTest
 
             AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetBySourceId("1").First());
             AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetBySourceId("2").First());
+
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetLatestForSourceId("1"));
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetLatestForSourceId("2"));
         }
     }
 }
