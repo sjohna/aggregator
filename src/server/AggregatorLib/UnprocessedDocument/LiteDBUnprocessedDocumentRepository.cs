@@ -43,7 +43,6 @@ namespace AggregatorLib
             return Collection.Find(doc => doc.SourceId == sourceId);
         }
 
-        // TODO: unit test this. Include tests: null mixed with non-null
         public UnprocessedDocument GetLatestForSourceId(string sourceId)
         {
             return Collection.Query().Where(doc => doc.SourceId == sourceId).OrderByDescending(doc => doc.UpdateTime).FirstOrDefault();

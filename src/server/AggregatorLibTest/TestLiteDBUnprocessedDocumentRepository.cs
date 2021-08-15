@@ -156,8 +156,8 @@ namespace AggregatorLibTest
             repository.Add(TestDocument(1));
             repository.Add(TestDocument(2));
 
-            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetById(TestId(1)));
-            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetById(TestId(2)));
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetById(TestId(1))!);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetById(TestId(2))!);
 
             var documentsInRepository = repository.GetAll().OrderBy(doc => doc.Id).ToList();
 

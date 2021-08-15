@@ -127,7 +127,7 @@ namespace AggregatorLib
                         AllowsComments: commentUri != null || commentFeedUri != null,
                         CommentUri: commentUri,
                         CommentFeedUri: commentFeedUri
-                    ) ;
+                    );
 
                     Instant? UpdateTime = item.LastUpdatedTime.Year != 1 ? Instant.FromDateTimeOffset(item.LastUpdatedTime) : null;
                     Instant? PublishTime = item.PublishDate.Year != 1 ? Instant.FromDateTimeOffset(item.PublishDate) : null;

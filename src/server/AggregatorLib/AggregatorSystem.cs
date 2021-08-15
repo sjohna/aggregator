@@ -68,7 +68,6 @@ namespace AggregatorLib
                 }
                 else
                 {
-                    // TODO: a less hacky way of doing this...
                     var existingContent = existingTitleDocument.Content as FeedSourceDescriptionContent;
                     var currentContent = titleDocument.Content as FeedSourceDescriptionContent;
 
@@ -82,7 +81,7 @@ namespace AggregatorLib
 
             foreach (var newDocument in extractor.RawDocuments)
             {
-                var existingDocument = UnprocessedDocumentRepository.GetLatestForSourceId(newDocument.SourceId);    // TODO: null check
+                var existingDocument = UnprocessedDocumentRepository.GetLatestForSourceId(newDocument.SourceId!);    // SourceId is definitely not null: FeedExtractor throws an exception if it can't populate
 
                 // TODO: option for deep compare?
                 if (existingDocument == null || existingDocument.UpdateTime < newDocument.UpdateTime)

@@ -44,6 +44,8 @@ namespace AggregatorLibTest
 
         public static void AssertUnprocessedDocumentsAreIdentical(UnprocessedDocument expected, UnprocessedDocument actual)
         {
+            Assert.IsNotNull(actual);
+
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Uri, actual.Uri);
             Assert.AreEqual(expected.SourceId, actual.SourceId);
@@ -73,6 +75,8 @@ namespace AggregatorLibTest
 
         public static void AssertRawContentIsIdentical(RawContent expected, RawContent actual)
         {
+            Assert.IsNotNull(actual);
+
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Type, actual.Type);
             Assert.AreEqual(expected.Content, actual.Content);

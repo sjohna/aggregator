@@ -51,7 +51,9 @@ namespace AggregatorLibTest
 
             repository.AddRawContent(rawContent);
             var rawContentById = repository.GetRawContentById(rawContent.Id);
-            AssertRawContentIsIdentical(rawContent, rawContentById);
+            Assert.IsNotNull(rawContentById);
+
+            AssertRawContentIsIdentical(rawContent, rawContentById!);
 
             Assert.AreEqual(1, repository.GetAllRawContent().Count());
             var rawContentInAllRawContent = repository.GetAllRawContent().First();
@@ -81,8 +83,8 @@ namespace AggregatorLibTest
             repository.AddRawContent(TestContent(1));
             repository.AddRawContent(TestContent(2));
 
-            AssertRawContentIsIdentical(TestContent(1), repository.GetRawContentById(TestId(1)));
-            AssertRawContentIsIdentical(TestContent(2), repository.GetRawContentById(TestId(2)));
+            AssertRawContentIsIdentical(TestContent(1), repository.GetRawContentById(TestId(1))!);
+            AssertRawContentIsIdentical(TestContent(2), repository.GetRawContentById(TestId(2))!);
 
             var documentsInRepository = repository.GetAllRawContent().OrderBy(doc => doc.Id).ToList();
 

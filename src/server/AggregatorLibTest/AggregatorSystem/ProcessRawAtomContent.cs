@@ -201,7 +201,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // post - first version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -238,7 +237,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // post - second version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -312,7 +310,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // post - first version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -414,7 +411,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -451,7 +447,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // second post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12346")
@@ -524,7 +519,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -561,7 +555,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // second post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12346")
@@ -634,7 +627,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -671,7 +663,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // second post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12346")
@@ -744,7 +735,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post - first version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -781,7 +771,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post - second version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -819,7 +808,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // second post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12346")
@@ -895,7 +883,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post - first version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -932,7 +919,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post - second version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -970,7 +956,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // second post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12346")
@@ -1007,7 +992,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // third post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12347")
@@ -1103,7 +1087,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post - first version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -1140,7 +1123,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // first post - second version
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12345")
@@ -1178,7 +1160,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // second post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12346")
@@ -1215,7 +1196,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
             // third post
             {
-                // TODO: queries...
                 var doc = system.UnprocessedDocumentRepository
                     .GetAll()
                     .Where(doc => doc.SourceId == "12347")
