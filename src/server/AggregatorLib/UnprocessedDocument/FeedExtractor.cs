@@ -23,7 +23,7 @@ namespace AggregatorLib
 
             using (var feedReader = XmlReader.Create(feedStream))
             {
-                feed = SyndicationFeed.Load(feedReader);
+                feed = LoadFeed(feedReader);
             }
         }
 
@@ -35,7 +35,19 @@ namespace AggregatorLib
             using (var stringReader = new StringReader(feedString))
             using (var feedReader = XmlReader.Create(stringReader))
             {
-                feed = SyndicationFeed.Load(feedReader);
+                feed = LoadFeed(feedReader);
+            }
+        }
+
+        private SyndicationFeed LoadFeed(XmlReader feedReader)
+        {
+            try
+            {
+                return SyndicationFeed.Load(feedReader);
+            }
+            catch (XmlException xe)
+            {
+                throw new AggregatorSystemException("Error parsing syndication feed", xe);
             }
         }
 

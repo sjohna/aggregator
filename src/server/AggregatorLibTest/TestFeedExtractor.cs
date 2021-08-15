@@ -307,8 +307,54 @@ namespace AggregatorLibTest
             Assert.IsNull(doc);
         }
 
+        [Test]
+        public void InvalidAtomXMLThrowsException()
+        {
+            Assert.Throws<AggregatorSystemException>(() => ExtractorForEmbeddedFile("invalidXml.xml"));
+        }
+
+        [Test]
+        public void IncompleteAtomXMLThrowsException()
+        {
+            Assert.Throws<AggregatorSystemException>(() => ExtractorForEmbeddedFile("incompleteXml.xml"));
+        }
+
+        [Test]
+        public void TitleDocumentForSinglePostWithFeedAuthor()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost_WithFeedAuthor.xml");
+
+            var doc = extractor.TitleDocument!;
+
+            Assert.IsNotNull(doc);
+
+            Assert.AreEqual("https://example.com/testblog", doc.Uri);
+            Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
+            Assert.AreEqual(null, doc.ParentDocumentUri);
+            Assert.AreEqual(null, doc.UpdateTime);
+            Assert.AreEqual(null, doc.PublishTime);
+            Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
+            Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
+            Assert.AreEqual(UnprocessedDocumentType.SourceDescription, doc.DocumentType);
+
+            Assert.AreEqual(1, doc.Authors.Count);
+
+            Assert.AreEqual("Test Blogger", doc.Authors[0].Name);
+            Assert.AreEqual("blog", doc.Authors[0].Context);
+            Assert.AreEqual("https://example.com/testblog", doc.Authors[0].Uri);
+
+            var content = (doc.Content as FeedSourceDescriptionContent)!;
+
+            Assert.IsNotNull(content);
+
+            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual("This is the subtitle for the test blog.", content.Description);
+            Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", content.IconUri);
+        }
+
         // TODO: test author on feed but not on items: item author(s) should inherit from feed
-        // TODO: test feed author on TitleDocument
+        // TODO: (DONE) test feed author on TitleDocument
         // TODO: test comment feeds
+        // TODO: test when things go wrong: essential fields not available, (DONE) can't parse input
     }
 }

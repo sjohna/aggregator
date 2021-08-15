@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -14,6 +14,9 @@
     <None Remove="TestData\AggregatorSystem\atom\threePostsOneUpdated.xml" />
     <None Remove="TestData\AggregatorSystem\atom\twoPosts.xml" />
     <None Remove="TestData\AggregatorSystem\atom\twoPostsOneUpdated.xml" />
+    <None Remove="TestData\FeedExtractor\atom\incompleteXml.xml" />
+    <None Remove="TestData\FeedExtractor\atom\invalidXml.xml" />
+    <None Remove="TestData\FeedExtractor\atom\singlePost_WithFeedAuthor.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +25,9 @@
     <EmbeddedResource Include="TestData\AggregatorSystem\atom\threePostsOneUpdated.xml" />
     <EmbeddedResource Include="TestData\AggregatorSystem\atom\twoPostsOneUpdated.xml" />
     <EmbeddedResource Include="TestData\AggregatorSystem\atom\twoPosts.xml" />
+    <EmbeddedResource Include="TestData\FeedExtractor\atom\invalidXml.xml" />
+    <EmbeddedResource Include="TestData\FeedExtractor\atom\incompleteXml.xml" />
+    <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_WithFeedAuthor.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoFeedTitle.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoIconUri.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoSubtitle.xml" />
