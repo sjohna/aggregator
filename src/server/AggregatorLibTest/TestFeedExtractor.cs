@@ -356,5 +356,6 @@ namespace AggregatorLibTest
         // TODO: (DONE) test feed author on TitleDocument
         // TODO: test comment feeds
         // TODO: test when things go wrong: essential fields not available, (DONE) can't parse input
+        // TODO: better error handling and reporting strategy, parameterized handling strategy
     }
 }

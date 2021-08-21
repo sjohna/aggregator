@@ -9,6 +9,19 @@ namespace AggregatorLib
 {
     public class AggregatorSystem
     {
+        public class ProcessedContentAdditions
+        {
+            public List<RawContent> RawContentAdditions { get; }
+
+            public List<UnprocessedDocument> UnprocessedDocumentAdditions { get; }
+
+            public ProcessedContentAdditions()
+            {
+                RawContentAdditions = new List<RawContent>();
+                UnprocessedDocumentAdditions = new List<UnprocessedDocument>();
+            }
+        }
+
         // TODO: consider how to handle reads form the system
         public IRawContentRepository RawContentRepository { get; }
         public IUnprocessedDocumentRepository UnprocessedDocumentRepository { get; }
@@ -23,11 +36,11 @@ namespace AggregatorLib
             this.UnprocessedDocumentRepository = UnprocessedDocumentRepository;
         }
 
-        public void ProcessRawContent(RawContent content) 
+        public ProcessedContentAdditions ProcessRawContent(RawContent content) 
         {
             if (content.Type == "atom/xml")
             {
-                ProcessAtomContent(content);
+                return ProcessAtomContent(content);
             }
             else
             {
@@ -40,9 +53,10 @@ namespace AggregatorLib
         // TODO: associate said settings with document in database
         // TODO: logging
         // TODO: add checks for if rawcontent is too big
-        private void ProcessAtomContent(RawContent content)
+        private ProcessedContentAdditions ProcessAtomContent(RawContent content)
         {
             // TODO SOON: give this function a refactor, or at least look at the variable names...
+            var additions = new ProcessedContentAdditions();
 
             // validate content
             // TODO: handle race condition here with some sort of lock on content processing
@@ -64,6 +78,7 @@ namespace AggregatorLib
                 if (existingTitleDocument == null)
                 {
                     UnprocessedDocumentRepository.Add(titleDocument);
+                    additions.UnprocessedDocumentAdditions.Add(titleDocument);
                     anyUnprocessedDocumentUpdates = true;
                 }
                 else
@@ -74,6 +89,7 @@ namespace AggregatorLib
                     if (existingContent != null && currentContent != null && !existingContent.Equals(currentContent))
                     {
                         UnprocessedDocumentRepository.Add(titleDocument);
+                        additions.UnprocessedDocumentAdditions.Add(titleDocument);
                         anyUnprocessedDocumentUpdates = true;
                     }
                 }
@@ -87,6 +103,7 @@ namespace AggregatorLib
                 if (existingDocument == null || existingDocument.UpdateTime < newDocument.UpdateTime)
                 {
                     UnprocessedDocumentRepository.Add(newDocument);
+                    additions.UnprocessedDocumentAdditions.Add(newDocument);
                     anyUnprocessedDocumentUpdates = true;
                 }
             }
@@ -94,7 +111,10 @@ namespace AggregatorLib
             if (anyUnprocessedDocumentUpdates)
             {
                 RawContentRepository.AddRawContent(content);
+                additions.RawContentAdditions.Add(content);
             }
+
+            return additions;
         }
     }
 }
