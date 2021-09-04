@@ -2,6 +2,7 @@
 using NodaTime;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace AggregatorLib
 {
@@ -24,6 +25,7 @@ namespace AggregatorLib
         public string? SourceId { get; protected set; }
         public string? ParentDocumentUri { get; protected set; }
         public Instant RetrieveTime { get; protected set; }
+        // TODO: test how converter this interacts with null in the nullable field
         public Instant? UpdateTime { get; protected set; }
         public Instant? PublishTime { get; protected set; }
         public UnprocessedDocumentContent Content { get; protected set; }

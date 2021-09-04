@@ -14,6 +14,7 @@ namespace AggregatorLib
         public string Title { get; protected set; }
         public string? Description { get; protected set; }
         public string? IconUri { get; protected set; }
+        public override string ContentType => "FeedSourceDescription";
 
 #pragma warning disable CS8618  // disable null checking, as this constructor is only used by LiteDB, which sets the properties of this object immediately after constructing
         protected FeedSourceDescriptionContent() { }

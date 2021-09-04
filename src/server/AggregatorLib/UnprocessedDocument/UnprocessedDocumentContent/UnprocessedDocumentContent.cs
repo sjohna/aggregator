@@ -9,5 +9,7 @@ namespace AggregatorLib
     public abstract class UnprocessedDocumentContent
     {
         protected UnprocessedDocumentContent() { }
+
+        public abstract string ContentType { get; }
     }
 }

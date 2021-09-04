@@ -12,6 +12,7 @@ namespace AggregatorLib
         public bool AllowsComments { get; protected set; }
         public string? CommentUri { get; protected set; }
         public string? CommentFeedUri { get; protected set; }
+        public override string ContentType => "BlogPost";
 
 #pragma warning disable CS8618  // disable null checking, as this constructor is only used by LiteDB, which sets the properties of this object immediately after constructing
         protected BlogPostContent() { }
