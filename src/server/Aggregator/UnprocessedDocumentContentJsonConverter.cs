@@ -22,6 +22,14 @@ namespace Aggregator
             {
                 JsonSerializer.Serialize<BlogPostContent>(writer, bpc, options);
             }
+            else if (value is FeedSourceDescriptionContent fsdc)
+            {
+                JsonSerializer.Serialize<FeedSourceDescriptionContent>(writer, fsdc, options);
+            }
+            else if (value is DeletedAtSourceContent dasc)
+            {
+                JsonSerializer.Serialize<DeletedAtSourceContent>(writer, dasc, options);
+            }
         }
     }
 }
