@@ -38,3 +38,9 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+
+#frontend stuff
+**/node_modules
+
+src/frontend/dist/bundle.js
+src/frontend/dist/bundle.js.map
