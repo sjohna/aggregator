@@ -21,7 +21,7 @@ class UnprocessedDocument {
   content: any;
   authors: UnprocessedDocumentAuthor[];
   sourceRawContentId: string;
-  documentType: number;
+  documentType: 'Regular' | 'SourceDescription' | 'AuthorDescription';
 }
 
 let unprocessedDocuments : UnprocessedDocument[];
@@ -44,6 +44,10 @@ function renderDocuments() {
   const containerElement = createElement('div', 'unprocessedDocuments');
 
   for (const unprocessedDocument of unprocessedDocuments) {
+    if (unprocessedDocument.documentType !== 'Regular') {
+      continue;
+    }
+
     const documentElement = createElement('div', 'unprocessedDocument');
     containerElement.appendChild(documentElement);
 

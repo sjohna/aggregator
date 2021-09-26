@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Aggregator
@@ -62,6 +63,9 @@ namespace Aggregator
                 {
                     o.JsonSerializerOptions.Converters.Add(new InstantJsonConverter());
                     o.JsonSerializerOptions.Converters.Add(new UnprocessedDocumentContentJsonConverter());
+
+                    // for serializing enums as strings (https://stackoverflow.com/questions/59096102/asp-net-mvc-core-api-serialize-enums-to-string)
+                    o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
             services.AddMvc().AddJsonOptions(options =>
