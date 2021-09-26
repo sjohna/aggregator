@@ -1,7 +1,5 @@
 import "./styles.css";
 
-console.log("Scripts work.");
-
 const UnprocessedDocumentsUri = 'api/UnprocessedDocument';
 
 const uri = 'https://localhost:44365/' + UnprocessedDocumentsUri;
@@ -43,29 +41,30 @@ async function fetchUnprocessedDocuments() {
 function renderDocuments() {
   let body = document.getElementsByTagName('body')[0];
 
-  const containerElement = document.createElement('div');
-  containerElement.classList.add('unprocessedDocuments');
+  const containerElement = createElement('div', 'unprocessedDocuments');
 
   for (const unprocessedDocument of unprocessedDocuments) {
-    const documentElement = document.createElement('div');
-    documentElement.classList.add('unprocessedDocument');
+    const documentElement = createElement('div', 'unprocessedDocument');
     containerElement.appendChild(documentElement);
 
-    const titleElement = document.createElement('h2');
-    titleElement.classList.add('title');
+    const titleElement = createElement('h2', 'title');
     titleElement.innerHTML = unprocessedDocument.content.title;
     documentElement.appendChild(titleElement);
 
-    const dateAndAuthorElement = document.createElement('div');
-    dateAndAuthorElement.classList.add('dateAndAuthor');
+    const dateAndAuthorElement = createElement('div', 'dateAndAuthor');
     dateAndAuthorElement.innerText = `${unprocessedDocument.updateTime} ${unprocessedDocument?.authors[0]?.name}`
     documentElement.appendChild(dateAndAuthorElement);
 
-    const contentElement = document.createElement('div');
-    contentElement.classList.add('content');
+    const contentElement = createElement('div', 'content');
     contentElement.innerHTML = unprocessedDocument.content.content;
     documentElement.appendChild(contentElement);
   }
 
   body.appendChild(containerElement);
+}
+
+function createElement(tag: string, className: string): HTMLElement {
+  const element = document.createElement(tag);
+  element.classList.add(className);
+  return element;
 }
