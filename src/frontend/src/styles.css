@@ -1,0 +1,22 @@
+.unprocessedDocument {
+  border: 1px solid;
+  margin: 10px;
+}
+
+.unprocessedDocument div {
+  padding-left: 10px;
+}
+
+.unprocessedDocument h2 {
+  padding-left: 10px;
+}
+
+.title {
+  margin: 0px;
+  background: darkgray;
+}
+
+.dateAndAuthor {
+  background: lightgray;
+  font-size: 14px;
+}

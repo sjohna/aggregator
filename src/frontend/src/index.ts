@@ -1,3 +1,5 @@
+import "./styles.css";
+
 console.log("Scripts work.");
 
 const UnprocessedDocumentsUri = 'api/UnprocessedDocument';
