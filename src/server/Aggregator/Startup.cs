@@ -39,7 +39,8 @@ namespace Aggregator
                                   {
                                       builder.AllowAnyOrigin()
                                              .AllowAnyMethod()
-                                             .AllowAnyHeader();
+                                             .AllowAnyHeader()
+                                             .WithOrigins("http://localhost:4201");
                                   });
             });
 
@@ -87,6 +88,8 @@ namespace Aggregator
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
