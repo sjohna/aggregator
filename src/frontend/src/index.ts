@@ -1,6 +1,7 @@
 import "./styles.css";
 import { RawContent, renderRawContent } from "./rawContent";
 import { renderDocuments, UnprocessedDocument } from "./unprocessedDocument";
+import { createElement } from "./util";
 
 const UnprocessedDocumentUri = 'api/UnprocessedDocument';
 const RawContentUri = 'api/RawContent';
@@ -71,28 +72,26 @@ function configureHeader() {
 
 function selectionUpdated() {
   if (currentSelection === "UnprocessedDocuments") {
-    unprocessedDocumentsButton.classList.remove('headerButtonUnselected');
-    unprocessedDocumentsButton.classList.add('headerButtonSelected');
-    rawContentButton.classList.remove('headerButtonSelected');
-    rawContentButton.classList.add('headerButtonUnselected');
+    setHeaderButtonSelected(unprocessedDocumentsButton);
+    setHeaderButtonUnselected(rawContentButton);
 
     mainElement.innerHTML = '';
     renderDocuments(mainElement, unprocessedDocuments);
   } else if (currentSelection === "RawContent") {
-    unprocessedDocumentsButton.classList.add('headerButtonUnselected');
-    unprocessedDocumentsButton.classList.remove('headerButtonSelected');
-    rawContentButton.classList.add('headerButtonSelected');
-    rawContentButton.classList.remove('headerButtonUnselected');
+    setHeaderButtonSelected(rawContentButton);
+    setHeaderButtonUnselected(unprocessedDocumentsButton);
 
     mainElement.innerHTML = '';
     renderRawContent(mainElement, rawContent);
   }
 }
 
-function createElement(tag: string, ...classNames: string[]): HTMLElement {
-  const element = document.createElement(tag);
-  for (const className of classNames) {
-    if (className) element.classList.add(className);
-  }
-  return element;
+function setHeaderButtonSelected(button: HTMLElement) {
+  button.classList.remove('headerButtonUnselected');
+  button.classList.add('headerButtonSelected');
+}
+
+function setHeaderButtonUnselected(button: HTMLElement) {
+  button.classList.remove('headerButtonSelected');
+  button.classList.add('headerButtonUnselected');
 }

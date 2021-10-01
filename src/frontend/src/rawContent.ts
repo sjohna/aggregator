@@ -1,3 +1,5 @@
+import { createElement } from "./util";
+
 export class RawContent {
   id: string;
   retrieveTime: string;
@@ -28,10 +30,4 @@ export function renderRawContent(containingElement: HTMLElement, rawContent: Raw
   }
 
   containingElement.appendChild(containerElement);
-}
-
-function createElement(tag: string, className: string = null): HTMLElement {
-  const element = document.createElement(tag);
-  if (className) element.classList.add(className);
-  return element;
 }

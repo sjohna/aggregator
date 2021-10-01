@@ -1,3 +1,5 @@
+import { createElement } from "./util";
+
 export class UnprocessedDocumentAuthor {
   name: string;
   context: string;
@@ -90,10 +92,4 @@ export function createContentElement(doc: UnprocessedDocument) {
   }
 
   return contentElement;
-}
-
-function createElement(tag: string, className: string = null): HTMLElement {
-  const element = document.createElement(tag);
-  if (className) element.classList.add(className);
-  return element;
 }
