@@ -11,12 +11,35 @@
   padding-left: 10px;
 }
 
-.title {
+.unprocessedDocument .title {
   margin: 0px;
   background: darkgray;
 }
 
-.dateAndAuthor {
+.unprocessedDocument .dateAndAuthor {
   background: lightgray;
+  font-size: 14px;
+}
+
+.individualRawContent {
+  border: 1px solid;
+  margin: 10px;
+}
+
+.individualRawContent div {
+  padding-left: 10px;
+}
+
+.individualRawContent h2 {
+  padding-left: 10px;
+}
+
+.individualRawContent .rawContentSourceUri {
+  margin: 0px;
+  background: lightsteelblue;
+}
+
+.individualRawContent .rawContentRetrieveTime {
+  background: lightblue;
   font-size: 14px;
 }
