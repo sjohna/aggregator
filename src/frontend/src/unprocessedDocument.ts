@@ -49,47 +49,47 @@ export function createContentElement(doc: UnprocessedDocument) {
   const contentElement = createElement('div', 'content');
   contentElement.innerHTML = doc.content.content;
 
-  const imageTags = contentElement.getElementsByTagName('img');
+  // const imageTags = contentElement.getElementsByTagName('img');
 
-  for (let i = 0; i < imageTags.length; ++i) {
-    const image = imageTags.item(i);
+  // for (let i = 0; i < imageTags.length; ++i) {
+  //   const image = imageTags.item(i);
     
-    // TODO: find a more general way to stopp image loading. I don't like how I have to figure out exactly which attributes to cache.
-    let src: string;
-    if (image.src) {
-      src = image.src;
-      image.src = '#';
-    }
+  //   // TODO: find a more general way to stopp image loading. I don't like how I have to figure out exactly which attributes to cache.
+  //   let src: string;
+  //   if (image.src) {
+  //     src = image.src;
+  //     image.src = '#';
+  //   }
 
-    let srcset: string;
-    if (image.srcset) {
-      srcset = image.srcset;
-      image.srcset = '#';
-    }
+  //   let srcset: string;
+  //   if (image.srcset) {
+  //     srcset = image.srcset;
+  //     image.srcset = '#';
+  //   }
 
-    const placeholderElement = createElement('div','imagePlaceholder');
-    placeholderElement.style.height = '250px';
-    placeholderElement.style.width = '250px';
+  //   const placeholderElement = createElement('div','imagePlaceholder');
+  //   placeholderElement.style.height = '250px';
+  //   placeholderElement.style.width = '250px';
 
-    const showPlaceholderDiv = createElement('div');
-    const showPlaceholderButton = createElement('button');
-    showPlaceholderButton.innerText = "Show Image";
-    showPlaceholderButton.onclick = (event) => {
-      //contentElement.replaceChild(image, placeholderElement);
-      placeholderElement.insertAdjacentElement('afterend', image);
-      placeholderElement.remove();
-      if (src) image.src = src;
-      if (srcset) image.srcset = srcset;
-    }
-    showPlaceholderDiv.appendChild(showPlaceholderButton);
-    placeholderElement.appendChild(showPlaceholderDiv);
-    const imageLinkText = createElement('div','imagePlaceholderLinkText');
-    imageLinkText.innerText = srcset;
-    placeholderElement.appendChild(imageLinkText);
+  //   const showPlaceholderDiv = createElement('div');
+  //   const showPlaceholderButton = createElement('button');
+  //   showPlaceholderButton.innerText = "Show Image";
+  //   showPlaceholderButton.onclick = (event) => {
+  //     //contentElement.replaceChild(image, placeholderElement);
+  //     placeholderElement.insertAdjacentElement('afterend', image);
+  //     placeholderElement.remove();
+  //     if (src) image.src = src;
+  //     if (srcset) image.srcset = srcset;
+  //   }
+  //   showPlaceholderDiv.appendChild(showPlaceholderButton);
+  //   placeholderElement.appendChild(showPlaceholderDiv);
+  //   const imageLinkText = createElement('div','imagePlaceholderLinkText');
+  //   imageLinkText.innerText = srcset;
+  //   placeholderElement.appendChild(imageLinkText);
 
-    image.insertAdjacentElement('afterend', placeholderElement);
-    image.remove();
-  }
+  //   image.insertAdjacentElement('afterend', placeholderElement);
+  //   image.remove();
+  // }
 
   return contentElement;
 }

@@ -37,11 +37,17 @@ async function fetchUnprocessedDocuments() {
 async function fetchRawContent() {
   try {
     const uri = 'https://localhost:44365/' + RawContentUri;
-    rawContent = await (await fetch(uri)).json();
-    renderRawContent(mainElement, rawContent);
-    if (currentSelection === "RawContent") {
-      selectionUpdated();
-    }
+    const fetchResponse = await fetch(uri);
+    console.log(fetchResponse);
+
+    // const result = await fetchResponse.body.getReader().read();
+    // console.log(result);
+
+    
+    // rawContent = await fetchResponse.json();
+    // if (currentSelection === "RawContent") {
+    //   selectionUpdated();
+    // }
   } catch (error) {
     console.log(error);
   }
@@ -151,6 +157,8 @@ async function sendDownloadRequest() {
     if (xhr.readyState === 4) {
         console.log(xhr.status);
         console.log(xhr.responseText);
+        const responseData = JSON.parse(this.responseText);
+        contentField.innerText = `${xhr.status}\nDocuments Added: ${responseData.unprocessedDocumentAdditions?.length}\nRaw Content Added: ${responseData.rawContentAdditions?.length}`
     }};
 
   var data = {
