@@ -1,3 +1,4 @@
+/* Unprocessed Document */
 .unprocessedDocument {
   border: 1px solid;
   margin: 10px;
@@ -21,6 +22,9 @@
   font-size: 14px;
 }
 
+
+
+/* Raw Content */
 .individualRawContent {
   border: 1px solid;
   margin: 10px;
@@ -44,6 +48,9 @@
   font-size: 14px;
 }
 
+
+
+/* Header */
 #header {
   margin: 10px;
   padding-left: 0px;
@@ -58,4 +65,52 @@
 
 .headerButtonUnselected {
   background-color: #aaa;
+}
+
+
+
+/* Upload Content */
+.uploadContentRow {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.uploadContentRowFlex {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.uploadContentLabel {
+  width: 120px;
+  background-color: lightgrey;
+  margin-left: 5px;
+  margin-right: 8px;
+  padding-right: 4px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  display: inline-block;  /* needed to make width apply */
+  text-align: right;
+}
+
+.uploadContentInputShort {
+  width: 100px;
+}
+
+.uploadContentInputLong {
+  width: 400px;
+}
+
+.uploadContentContent {
+  height: 100%;
+  background-color: lightskyblue;
+  display: inline-block;
+  flex-grow: 1;
+  margin-left: 5px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.uploadContentContentLabel {
+  align-self: flex-start;
 }

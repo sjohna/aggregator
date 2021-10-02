@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Aggregator.Controllers
@@ -37,7 +39,7 @@ namespace Aggregator.Controllers
             return system.RawContentRepository.GetRawContentById(id);
         }
 
-        [HttpPost("process")]
+        [HttpPost("Process")]
         public AggregatorSystem.ProcessedContentAdditions Process(RawContentTransferObject contentTransferObject)
         {
             var content = new RawContent(Id: Guid.NewGuid(),
@@ -49,6 +51,28 @@ namespace Aggregator.Controllers
 
             // TODO: error handling...
             return system.ProcessRawContent(content);
+        }
+
+        [HttpPost("Download")]
+        public AggregatorSystem.ProcessedContentAdditions Download(DownloadRawContentTransferObject downloadRawContentTransferObject)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(downloadRawContentTransferObject.SourceUri);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                var content = new RawContent(Id: Guid.NewGuid(),
+                             RetrieveTime: NodaTime.SystemClock.Instance.GetCurrentInstant(),
+                             Type: downloadRawContentTransferObject.Type,
+                             Content: reader.ReadToEnd(),
+                             Context: downloadRawContentTransferObject.Context,
+                             SourceUri: downloadRawContentTransferObject.SourceUri);
+
+                // TODO: error handling...
+                return system.ProcessRawContent(content);
+            }
         }
 
         //// POST api/<RawContentController>
