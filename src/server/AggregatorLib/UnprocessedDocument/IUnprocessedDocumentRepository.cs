@@ -18,5 +18,12 @@ namespace AggregatorLib
         public IEnumerable<UnprocessedDocument> GetBySourceId(string sourceId);
 
         public UnprocessedDocument GetLatestForSourceId(string sourceId);
+
+        public IEnumerable<UnprocessedDocument> Query(
+            string? Where = null,
+            string? OrderByAsc = null,
+            string? OrderByDesc = null,
+            int? Offset = null,
+            int? Limit = null);
     }
 }

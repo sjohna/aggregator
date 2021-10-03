@@ -71,9 +71,10 @@ namespace AggregatorLib
             if (titleDocument != null)
             {
                 // check for title updates
-                // TODO: some sort of query on DB here, instead of doing this in LINQ
-                var existingTitleDocument = UnprocessedDocumentRepository.GetAll()
-                    .FirstOrDefault(doc => doc.SourceId == titleDocument.SourceId && doc.DocumentType == titleDocument.DocumentType);
+                var existingTitleDocument = UnprocessedDocumentRepository.Query(
+                    Where: $"SourceId = '{titleDocument.SourceId}' AND DocumentType = '{titleDocument.DocumentType}'",
+                    OrderByDesc: "RetrieveTime",
+                    Limit: 1).FirstOrDefault();
 
                 if (existingTitleDocument == null)
                 {

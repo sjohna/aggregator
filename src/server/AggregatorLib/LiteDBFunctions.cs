@@ -17,6 +17,8 @@ namespace AggregatorLib
                 serialize: (instant) => NodaTime.Text.InstantPattern.ExtendedIso.Format(instant),
                 deserialize: (bson) => NodaTime.Text.InstantPattern.ExtendedIso.Parse(bson.AsString).Value
             );
+
+            BsonMapper.Global.TrimWhitespace = false;
         }
     }
 }

@@ -26,15 +26,8 @@ namespace AggregatorLibTest
 
         public static T AssertNotNull<T>(T? value)
         {
-            if (value == null)
-            {
-                Assert.IsNotNull(value);
-                throw new System.Exception();   // shouldn't be reached, but will silence the compiler
-            }
-            else
-            {
-                return value;
-            }
+            Assert.IsNotNull(value);
+            return value!;
         }
 
         public static Container<T> InContainer<T>(this T value)

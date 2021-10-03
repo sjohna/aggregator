@@ -172,5 +172,156 @@ namespace AggregatorLibTest
             AssertUnprocessedDocumentsAreIdentical(TestDocument(1), repository.GetLatestForSourceId("1"));
             AssertUnprocessedDocumentsAreIdentical(TestDocument(2), repository.GetLatestForSourceId("2"));
         }
+
+        [Test]
+        public void QuerySingleDocument()
+        {
+            repository.Add(TestDocument(1));
+            var queryResult = repository.Query(Where: "SourceID = '1'").ToList();
+
+            Assert.AreEqual(1, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(1), queryResult[0]);
+        }
+
+        [Test]
+        public void QueryReturnsNoDocuments()
+        {
+            repository.Add(TestDocument(1));
+            var queryResult = repository.Query(Where: "SourceID = '2'").ToList();
+
+            Assert.AreEqual(0, queryResult.Count);
+        }
+
+        [Test]
+        public void QueryForAuthor()
+        {
+            repository.Add(TestDocument(1));
+            repository.Add(TestDocument(2));
+            repository.Add(TestDocument(3));
+            var queryResult = repository.Query(Where: "Authors[0].Name = 'Author 2'").ToList();
+
+            Assert.AreEqual(1, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), queryResult[0]);
+        }
+
+        //[Test]
+        //public void QueryGuidField()
+        //{
+        //    repository.Add(TestDocument(1));
+        //    repository.Add(TestDocument(2));
+        //    repository.Add(TestDocument(3));
+        //    var queryResult = repository.Query(Where: $"Id = '{TestDocument(3).Id}'").ToList();
+
+        //    Assert.AreEqual(1, queryResult.Count);
+        //    AssertUnprocessedDocumentsAreIdentical(TestDocument(3), queryResult[0]);
+        //}
+
+        [Test]
+        public void QueryUpdateTimeField()
+        {
+            repository.Add(TestDocument(1));
+            repository.Add(TestDocument(2));
+            repository.Add(TestDocument(3));
+            var queryResult = repository.Query(Where: $"UpdateTime = '{NodaTime.Text.InstantPattern.ExtendedIso.Format(TestDocument(3).UpdateTime!.Value)}'").ToList();
+
+            Assert.AreEqual(1, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(3), queryResult[0]);
+        }
+
+        [Test]
+        public void QueryAfterSpecificTime()
+        {
+            repository.Add(TestDocument(1));
+            repository.Add(TestDocument(2));
+            repository.Add(TestDocument(3));
+            var queryResult = repository.Query(
+                    Where: $"UpdateTime >= '{NodaTime.Text.InstantPattern.ExtendedIso.Format(TestDocument(2).UpdateTime!.Value)}'",
+                    OrderByAsc: "UpdateTime"
+                ).ToList();
+
+            Assert.AreEqual(2, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), queryResult[0]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(3), queryResult[1]);
+        }
+
+        [Test]
+        public void QueryAfterSpecificTimeInDescendingOrder()
+        {
+            repository.Add(TestDocument(1));
+            repository.Add(TestDocument(2));
+            repository.Add(TestDocument(3));
+            var queryResult = repository.Query(
+                    Where: $"UpdateTime >= '{NodaTime.Text.InstantPattern.ExtendedIso.Format(TestDocument(2).UpdateTime!.Value)}'",
+                    OrderByDesc: "UpdateTime"
+                ).ToList();
+
+            Assert.AreEqual(2, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(3), queryResult[0]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(2), queryResult[1]);
+        }
+
+        [Test]
+        public void QueryAfterSpecificTimeAndLimit()
+        {
+            for (int i = 1; i <= 10; ++i)
+            {
+                repository.Add(TestDocument(i));
+            }
+
+            var queryResult = repository.Query(
+                    Where: $"UpdateTime >= '{NodaTime.Text.InstantPattern.ExtendedIso.Format(TestDocument(4).UpdateTime!.Value)}'",
+                    OrderByAsc: "UpdateTime",
+                    Limit: 3
+                ).ToList();
+
+            Assert.AreEqual(3, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(4), queryResult[0]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(5), queryResult[1]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(6), queryResult[2]);
+        }
+
+        [Test]
+        public void QueryAfterSpecificTimeAndOffset()
+        {
+            for (int i = 1; i <= 10; ++i)
+            {
+                repository.Add(TestDocument(i));
+            }
+
+            var queryResult = repository.Query(
+                    Where: $"UpdateTime >= '{NodaTime.Text.InstantPattern.ExtendedIso.Format(TestDocument(4).UpdateTime!.Value)}'",
+                    OrderByAsc: "UpdateTime",
+                    Offset: 2
+                ).ToList();
+
+            Assert.AreEqual(5, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(6), queryResult[0]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(7), queryResult[1]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(8), queryResult[2]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(9), queryResult[3]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(10), queryResult[4]);
+        }
+
+        [Test]
+        public void QueryAfterSpecificTimeAndOffsetAndLimit()
+        {
+            for (int i = 1; i <= 10; ++i)
+            {
+                repository.Add(TestDocument(i));
+            }
+
+            var queryResult = repository.Query(
+                    Where: $"UpdateTime >= '{NodaTime.Text.InstantPattern.ExtendedIso.Format(TestDocument(4).UpdateTime!.Value)}'",
+                    OrderByAsc: "UpdateTime",
+                    Offset: 2,
+                    Limit: 4
+                ).ToList();
+
+            Assert.AreEqual(4, queryResult.Count);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(6), queryResult[0]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(7), queryResult[1]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(8), queryResult[2]);
+            AssertUnprocessedDocumentsAreIdentical(TestDocument(9), queryResult[3]);
+        }
     }
 }

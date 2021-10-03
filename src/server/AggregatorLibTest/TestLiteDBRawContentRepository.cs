@@ -86,12 +86,32 @@ namespace AggregatorLibTest
             AssertRawContentIsIdentical(TestContent(1), repository.GetRawContentById(TestId(1))!);
             AssertRawContentIsIdentical(TestContent(2), repository.GetRawContentById(TestId(2))!);
 
-            var documentsInRepository = repository.GetAllRawContent().OrderBy(doc => doc.Id).ToList();
+            var contentInRepository = repository.GetAllRawContent().OrderBy(doc => doc.Id).ToList();
 
-            for (int index = 1; index <= documentsInRepository.Count; ++index)
+            for (int index = 1; index <= contentInRepository.Count; ++index)
             {
-                AssertRawContentIsIdentical(TestContent(index), documentsInRepository[index - 1]);
+                AssertRawContentIsIdentical(TestContent(index), contentInRepository[index - 1]);
             }
+        }
+
+        [Test]
+        public void StoringRawContentDoesNotTrimWhitespace()
+        {
+            var content = new RawContent
+            (
+                Id: TestId(1),
+                RetrieveTime: Instant.FromUnixTimeSeconds(12345678),
+                Type: "Type 1",
+                Content: "Content with trailing newlines\n\n",
+                Context: "Context 1",
+                SourceUri: "http://example.com/atom-1.xml"
+            );
+
+            repository.AddRawContent(content);
+
+            var contentInRepository = repository.GetAllRawContent().First();
+
+            AssertRawContentIsIdentical(content, contentInRepository);
         }
     }
 }
