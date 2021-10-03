@@ -2,6 +2,8 @@ import "./styles.css";
 import { RawContent, renderRawContent } from "./rawContent";
 import { renderDocuments, UnprocessedDocument } from "./unprocessedDocument";
 import { createElement } from "./util";
+import { Buffer } from 'buffer';
+import * as $ from 'jquery';
 
 const UnprocessedDocumentUri = 'api/UnprocessedDocument';
 const RawContentUri = 'api/RawContent';
@@ -34,20 +36,17 @@ async function fetchUnprocessedDocuments() {
   }
 }
 
+function gotRawContent(data: any) {
+  rawContent = data.responseJSON;
+}
+
 async function fetchRawContent() {
   try {
     const uri = 'https://localhost:44365/' + RawContentUri;
-    const fetchResponse = await fetch(uri);
-    console.log(fetchResponse);
-
-    // const result = await fetchResponse.body.getReader().read();
-    // console.log(result);
-
-    
-    // rawContent = await fetchResponse.json();
-    // if (currentSelection === "RawContent") {
-    //   selectionUpdated();
-    // }
+    rawContent = await (await fetch(uri)).json();
+    if (currentSelection === "RawContent") {
+      selectionUpdated();
+    }
   } catch (error) {
     console.log(error);
   }

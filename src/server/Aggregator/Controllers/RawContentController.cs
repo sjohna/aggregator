@@ -28,7 +28,14 @@ namespace Aggregator.Controllers
         {
             // TODO: pagination
             // TODO: error handling?
-            return system.RawContentRepository.GetAllRawContent();
+            try
+            {
+                return system.RawContentRepository.GetAllRawContent().ToList(); // need to convert to list before returning. Something doesn't play nice if the LiteDB deserialization happens within the framework...
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         // GET api/<RawContentController>/5
