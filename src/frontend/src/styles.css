@@ -7,6 +7,10 @@
   background: lightgray;
 }
 
+.unprocessedDocumentsHeader {
+  margin: 10px;
+  padding-left: 0px;
+}
 
 
 /* Raw Content */
@@ -17,6 +21,8 @@
 .individualRawContent .simpleContainerTagline {
   background: lightblue;
 }
+
+
 
 /* Simple Container */
 .simpleContainer {

@@ -2,10 +2,7 @@ import "./styles.css";
 import { RawContent, renderRawContent } from "./rawContent";
 import { renderDocuments, UnprocessedDocument } from "./unprocessedDocument";
 import { createElement } from "./util";
-import { Buffer } from 'buffer';
-import * as $ from 'jquery';
 
-const UnprocessedDocumentUri = 'api/UnprocessedDocument';
 const RawContentUri = 'api/RawContent';
 const DownloadRawContentUri = 'api/RawContent/Download';
 
@@ -21,24 +18,8 @@ let rawContent: RawContent[];
 let currentSelection = "UnprocessedDocuments";
 
 configureHeader();
-fetchUnprocessedDocuments();
 fetchRawContent();
-
-async function fetchUnprocessedDocuments() {
-  try {
-    const uri = 'https://localhost:44365/' + UnprocessedDocumentUri;
-    unprocessedDocuments = await (await fetch(uri)).json();
-    if (currentSelection === "UnprocessedDocuments") {
-      selectionUpdated();
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-function gotRawContent(data: any) {
-  rawContent = data.responseJSON;
-}
+renderDocuments(mainElement);
 
 async function fetchRawContent() {
   try {
@@ -52,7 +33,6 @@ async function fetchRawContent() {
   }
 }
 
-const retrieveTimeField = createElement('input', 'uploadContentInputShort') as HTMLInputElement;
 const contextField = createElement('input', 'uploadContentInputShort') as HTMLInputElement;
 const typeField = createElement('input', 'uploadContentInputShort') as HTMLInputElement;
 const sourceUriField = createElement('input', 'uploadContentInputLong') as HTMLInputElement;
@@ -60,23 +40,6 @@ const contentField = createElement('span', 'uploadContentContent');
 
 function renderUploadRawContent(containingElement: HTMLElement) {
   const containerElement = createElement('div','uploadRawContent');
-
-  // public Int64 RetrieveTime { get; set; }
-  // public string Context { get; set; }
-  // public string Type { get; set; }
-  // public string? SourceUri { get; set; }
-  // public string Content { get; set; }
-
-  // {
-  //   const retrieveTimeRow = createElement('div', 'uploadContentRow');
-  //   const retrieveTimeLabel = createElement('span', 'uploadContentLabel');
-  //   retrieveTimeLabel.innerText = "Retrieve Time:";
-  //   retrieveTimeRow.appendChild(retrieveTimeLabel);
-  //   retrieveTimeField.setAttribute('type', 'text');
-  //   retrieveTimeField.setAttribute('name', 'retrieveTime');
-  //   retrieveTimeRow.appendChild(retrieveTimeField);
-  //   containerElement.appendChild(retrieveTimeRow);
-  // }
   
   const downloadButton = createElement('button', 'updateContentDownloadButton');
   downloadButton.innerText = 'Download and Process Source';
@@ -213,7 +176,7 @@ function selectionUpdated() {
     setHeaderButtonUnselected(uploadRawContentButton);
 
     mainElement.innerHTML = '';
-    renderDocuments(mainElement, unprocessedDocuments);
+    renderDocuments(mainElement);
   } else if (currentSelection === "RawContent") {
     setHeaderButtonSelected(rawContentButton);
     setHeaderButtonUnselected(unprocessedDocumentsButton);

@@ -20,13 +20,21 @@ namespace Aggregator.Controllers
             this.system = system;
         }
 
+        // TODO: unit test various cases
         // GET: api/<UnprocessedDocumentController>
         [HttpGet]
-        public IEnumerable<UnprocessedDocument> Get()
+        public IEnumerable<UnprocessedDocument> Get(string? filter, string? sort, bool? sortDescending)
         {
             // TODO: pagination
             // TODO: error handling?
-            return system.UnprocessedDocumentRepository.GetAll();
+            if (!sortDescending.HasValue || !sortDescending.Value)
+            {
+                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByAsc: sort);
+            }
+            else
+            {
+                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByDesc: sort);
+            }
         }
 
         // GET api/<UnprocessedDocumentController>/5

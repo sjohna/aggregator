@@ -21,7 +21,19 @@ export class UnprocessedDocument {
   documentType: 'Regular' | 'SourceDescription' | 'AuthorDescription';
 }
 
-export function renderDocuments(containingElement: HTMLElement, unprocessedDocuments: UnprocessedDocument[]) {
+let documentsElement: HTMLElement;
+let orderByUpdatedCheckbox: HTMLInputElement;
+const UnprocessedDocumentUri = 'api/UnprocessedDocument';
+
+async function fetchUnprocessedDocuments(): Promise<UnprocessedDocument[]> {
+  let uri = 'https://localhost:44365/' + UnprocessedDocumentUri;
+  if (orderByUpdatedCheckbox?.checked === true) {
+    uri += '?sort=UpdateTime';
+  }
+  return await (await fetch(uri)).json();
+}
+
+function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocessedDocuments: UnprocessedDocument[]) {
   const containerElement = createElement('div', 'unprocessedDocuments');
 
   for (const unprocessedDocument of unprocessedDocuments) {
@@ -40,6 +52,44 @@ export function renderDocuments(containingElement: HTMLElement, unprocessedDocum
   }
 
   containingElement.appendChild(containerElement);
+}
+
+export async function renderDocuments(containingElement: HTMLElement) {
+  // top row: options
+  const headerElement = createElement('div', 'unprocessedDocumentsHeader');
+  const refreshButton = createElement('button', 'headerButton');
+
+  refreshButton.innerText = "Refresh";
+
+  refreshButton.onclick = async () => {
+    await fetchAndRenderDocuments(documentsElement);
+  }
+
+  headerElement.appendChild(refreshButton);
+
+  orderByUpdatedCheckbox = createElement('input', 'unprocessedDocumentsHeaderInput') as HTMLInputElement;
+  orderByUpdatedCheckbox.setAttribute('type','checkbox');
+  orderByUpdatedCheckbox.setAttribute('id', 'orderByUpdated')
+  headerElement.appendChild(orderByUpdatedCheckbox);
+  const orderByUpdatedLabel = createElement('label');
+  orderByUpdatedLabel.innerText = "Order by Update Time";
+  orderByUpdatedLabel.setAttribute('for','orderByUpdated');
+  headerElement.appendChild(orderByUpdatedLabel);
+
+
+  containingElement.appendChild(headerElement);
+
+  documentsElement = createElement('div');
+  containingElement.appendChild(documentsElement);
+
+  await fetchAndRenderDocuments(documentsElement);
+}
+
+async function fetchAndRenderDocuments(containingElement: HTMLElement) {
+  const documents = await fetchUnprocessedDocuments();
+  containingElement.innerHTML = '';
+
+  renderUnprocessedDocumentPage(containingElement, documents);
 }
 
 export function createContentElement(doc: UnprocessedDocument) {
