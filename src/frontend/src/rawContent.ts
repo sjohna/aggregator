@@ -1,4 +1,5 @@
 import { createElement } from "./util";
+import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
 
 export class RawContent {
   id: string;
@@ -13,20 +14,14 @@ export function renderRawContent(containingElement: HTMLElement, rawContent: Raw
   const containerElement = createElement('div', 'rawContent');
 
   for (const content of rawContent) {
-    const rawContentElement = createElement('div', 'individualRawContent');
-    containerElement.appendChild(rawContentElement);
-
-    const sourceUriElement = createElement('h2','rawContentSourceUri');
-    sourceUriElement.innerText = `${content.context} (${content.type}) ${content.sourceUri ?? 'No Source URI'}`;
-    rawContentElement.appendChild(sourceUriElement);
-
-    const dateAndAuthorElement = createElement('div', 'rawContentRetrieveTime');
-    dateAndAuthorElement.innerText = `${content.retrieveTime}`
-    rawContentElement.appendChild(dateAndAuthorElement);
-
-    const contentElement = createElement('div','rawContentContent');
-    contentElement.innerText = content.content;
-    rawContentElement.appendChild(contentElement);
+    renderSimpleContainer(
+      containerElement,
+      `${content.context} (${content.type}) ${content.sourceUri ?? 'No Source URI'}`,
+      `${content.retrieveTime}`,
+      content.content,
+      'individualRawContent',
+      SimpleContainerContentType.Text
+    );
   }
 
   containingElement.appendChild(containerElement);

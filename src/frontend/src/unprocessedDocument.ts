@@ -1,4 +1,5 @@
 import { createElement } from "./util";
+import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
 
 export class UnprocessedDocumentAuthor {
   name: string;
@@ -28,18 +29,14 @@ export function renderDocuments(containingElement: HTMLElement, unprocessedDocum
       continue;
     }
 
-    const documentElement = createElement('div', 'unprocessedDocument');
-    containerElement.appendChild(documentElement);
-
-    const titleElement = createElement('h2', 'title');
-    titleElement.innerHTML = unprocessedDocument.content.title;
-    documentElement.appendChild(titleElement);
-
-    const dateAndAuthorElement = createElement('div', 'dateAndAuthor');
-    dateAndAuthorElement.innerText = `${unprocessedDocument.updateTime} ${unprocessedDocument?.authors[0]?.name}`
-    documentElement.appendChild(dateAndAuthorElement);
-
-    documentElement.appendChild(createContentElement(unprocessedDocument));
+    renderSimpleContainer(
+      containerElement,
+      unprocessedDocument.content.title,
+      `${unprocessedDocument.updateTime} ${unprocessedDocument?.authors[0]?.name}`,
+      unprocessedDocument?.content?.content,
+      'unprocessedDocument',
+      SimpleContainerContentType.HTML
+    );
   }
 
   containingElement.appendChild(containerElement);

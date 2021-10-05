@@ -1,53 +1,42 @@
 /* Unprocessed Document */
-.unprocessedDocument {
-  border: 1px solid;
-  margin: 10px;
-}
-
-.unprocessedDocument div {
-  padding-left: 10px;
-}
-
-.unprocessedDocument h2 {
-  padding-left: 10px;
-}
-
-.unprocessedDocument .title {
-  margin: 0px;
+.unprocessedDocument .simpleContainerHeader {
   background: darkgray;
 }
 
-.unprocessedDocument .dateAndAuthor {
+.unprocessedDocument .simpleContainerTagline {
   background: lightgray;
-  font-size: 14px;
 }
 
 
 
 /* Raw Content */
-.individualRawContent {
+.individualRawContent .simpleContainerHeader {
+  background: lightsteelblue;
+}
+
+.individualRawContent .simpleContainerTagline {
+  background: lightblue;
+}
+
+/* Simple Container */
+.simpleContainer {
   border: 1px solid;
   margin: 10px;
 }
 
-.individualRawContent div {
+.simpleContainer div {
   padding-left: 10px;
+  padding-right: 10px;
 }
 
-.individualRawContent h2 {
+.simpleContainerHeader {
   padding-left: 10px;
-}
-
-.individualRawContent .rawContentSourceUri {
   margin: 0px;
-  background: lightsteelblue;
 }
 
-.individualRawContent .rawContentRetrieveTime {
-  background: lightblue;
+.simpleContainerTagline {
   font-size: 14px;
 }
-
 
 
 /* Header */
