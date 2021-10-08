@@ -23,17 +23,17 @@ namespace Aggregator.Controllers
         // TODO: unit test various cases
         // GET: api/<UnprocessedDocumentController>
         [HttpGet]
-        public IEnumerable<UnprocessedDocument> Get(string? filter, string? sort, bool? sortDescending)
+        public IEnumerable<UnprocessedDocument> Get(string? filter = null, string? sort = null, bool? sortDescending = null, int pageSize = 10, int offset = 0)
         {
             // TODO: pagination
             // TODO: error handling?
             if (!sortDescending.HasValue || !sortDescending.Value)
             {
-                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByAsc: sort);
+                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByAsc: sort, Limit: pageSize, Offset: offset);
             }
             else
             {
-                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByDesc: sort);
+                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByDesc: sort, Limit: pageSize, Offset: offset);
             }
         }
 
