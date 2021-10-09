@@ -1,4 +1,5 @@
-﻿using AggregatorLib;
+﻿using Aggregator.Models;
+using AggregatorLib;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,21 +21,31 @@ namespace Aggregator.Controllers
             this.system = system;
         }
 
-        // TODO: unit test various cases
+        // TODO: test various cases
+        // TODO: test pagination
         // GET: api/<UnprocessedDocumentController>
         [HttpGet]
-        public IEnumerable<UnprocessedDocument> Get(string? filter = null, string? sort = null, bool? sortDescending = null, int pageSize = 10, int offset = 0)
+        public Page<UnprocessedDocument> Get(string? filter = null, string? sort = null, bool? sortDescending = null, int pageSize = 10, int offset = 0)
         {
-            // TODO: pagination
+            IEnumerable<UnprocessedDocument> queryResult;
+            int total = system.UnprocessedDocumentRepository.Count(filter);
+
             // TODO: error handling?
             if (!sortDescending.HasValue || !sortDescending.Value)
             {
-                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByAsc: sort, Limit: pageSize, Offset: offset);
+                queryResult =  system.UnprocessedDocumentRepository.Query(Where: filter, OrderByAsc: sort, Limit: pageSize, Offset: offset);
             }
             else
             {
-                return system.UnprocessedDocumentRepository.Query(Where: filter, OrderByDesc: sort, Limit: pageSize, Offset: offset);
+                queryResult = system.UnprocessedDocumentRepository.Query(Where: filter, OrderByDesc: sort, Limit: pageSize, Offset: offset);
             }
+
+            return new Page<UnprocessedDocument>(
+                    PageSize: pageSize,
+                    Offset: offset,
+                    Total: total,
+                    Items: queryResult.ToList()
+                );
         }
 
         // GET api/<UnprocessedDocumentController>/5

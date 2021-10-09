@@ -74,5 +74,19 @@ namespace AggregatorLib
 
             return result.ToEnumerable();
         }
+
+        // TODO: unit tests
+        public int Count(
+            string? Where = null)
+        {
+            if (Where != null)
+            {
+                return Collection.Count(Where);
+            }
+            else
+            {
+                return Collection.Count();
+            }
+        }
     }
 }

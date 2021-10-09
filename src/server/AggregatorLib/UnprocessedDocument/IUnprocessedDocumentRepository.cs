@@ -25,5 +25,7 @@ namespace AggregatorLib
             string? OrderByDesc = null,
             int? Offset = null,
             int? Limit = null);
+
+        public int Count(string? Where);
     }
 }

@@ -1,5 +1,6 @@
 import { createElement } from "./util";
 import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
+import { Page } from "./page";
 
 export class UnprocessedDocumentAuthor {
   name: string;
@@ -25,18 +26,48 @@ let documentsElement: HTMLElement;
 let orderByUpdatedCheckbox: HTMLInputElement;
 const UnprocessedDocumentUri = 'api/UnprocessedDocument';
 
-async function fetchUnprocessedDocuments(): Promise<UnprocessedDocument[]> {
-  let uri = 'https://localhost:44365/' + UnprocessedDocumentUri;
+let offset = 0;
+let pageSize = 5;
+let total: number;
+
+async function fetchUnprocessedDocuments(pageSize: number, offset: number): Promise<Page<UnprocessedDocument>> {
+  // TODO: better local API for querying
+  let uri = 'https://localhost:44365/' + UnprocessedDocumentUri + `?pageSize=${pageSize}&offset=${offset}&filter=DocumentType='Regular'`;
   if (orderByUpdatedCheckbox?.checked === true) {
-    uri += '?sort=UpdateTime';
+    uri += '&sort=UpdateTime';
   }
-  return await (await fetch(uri)).json();
+  const page = await (await fetch(uri)).json();
+  total = page.total;
+  return page;
 }
 
-function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocessedDocuments: UnprocessedDocument[]) {
+function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocessedDocuments: Page<UnprocessedDocument>) {
   const containerElement = createElement('div', 'unprocessedDocuments');
+  const paginationElement = createElement('div', 'paginationInformation');
+  const infoElement = createElement('span');
+  infoElement.innerText = `Documents ${unprocessedDocuments.offset + 1} - ${unprocessedDocuments.offset + unprocessedDocuments.items.length} of ${unprocessedDocuments.total}`;
+  paginationElement.appendChild(infoElement);
+  const nextPageButton = createElement('button');
+  nextPageButton.innerText = "Next";
+  nextPageButton.onclick = async () => {
+    if (offset + pageSize < total) {
+      offset += pageSize;
+      await fetchAndRenderDocuments(documentsElement)
+    }
+  }
+  const prevPageButton = createElement('button');
+  prevPageButton.innerText = "Prev";
+  prevPageButton.onclick = async () => {
+    if (offset - pageSize >= 0) {
+      offset -= pageSize;
+      await fetchAndRenderDocuments(documentsElement)
+    }
+  }
+  paginationElement.appendChild(prevPageButton);
+  paginationElement.appendChild(nextPageButton);
+  containerElement.appendChild(paginationElement);
 
-  for (const unprocessedDocument of unprocessedDocuments) {
+  for (const unprocessedDocument of unprocessedDocuments.items) {
     if (unprocessedDocument.documentType !== 'Regular') {
       continue;
     }
@@ -86,7 +117,7 @@ export async function renderDocuments(containingElement: HTMLElement) {
 }
 
 async function fetchAndRenderDocuments(containingElement: HTMLElement) {
-  const documents = await fetchUnprocessedDocuments();
+  const documents = await fetchUnprocessedDocuments(pageSize,offset);
   containingElement.innerHTML = '';
 
   renderUnprocessedDocumentPage(containingElement, documents);
