@@ -1,5 +1,5 @@
 import { Page } from "./page";
-import { createElement } from "./util";
+import { createSubElement } from "./util";
 
 export type Render<T> = (containingElement: HTMLElement, item: T) => void;
 
@@ -10,19 +10,10 @@ export function renderPage<T>(containingElement: HTMLElement, page: Page<T>, ren
 }
 
 export function renderPaginationNavigation<T>(containerElement: HTMLElement, paginationInfo: PaginationInfo, page: Page<T>, renderPage: () => Promise<void>) {
-  const paginationElement = createElement('div', 'paginationInformation');
-  const infoElement = createElement('span');
+  const paginationElement = createSubElement(containerElement, 'div', 'paginationInformation');
+  const infoElement = createSubElement(paginationElement, 'span');
   infoElement.innerText = `Documents ${page.offset + 1} - ${page.offset + page.items.length} of ${page.total}`;
-  paginationElement.appendChild(infoElement);
-  const nextPageButton = createElement('button');
-  nextPageButton.innerText = "Next";
-  nextPageButton.onclick = async () => {
-    if (paginationInfo.offset + paginationInfo.pageSize < paginationInfo.total) {
-      paginationInfo.offset += paginationInfo.pageSize;
-      await renderPage();
-    }
-  }
-  const prevPageButton = createElement('button');
+  const prevPageButton = createSubElement(paginationElement, 'button');
   prevPageButton.innerText = "Prev";
   prevPageButton.onclick = async () => {
     if (paginationInfo.offset - paginationInfo.pageSize >= 0) {
@@ -30,9 +21,15 @@ export function renderPaginationNavigation<T>(containerElement: HTMLElement, pag
       await renderPage();
     }
   }
-  paginationElement.appendChild(prevPageButton);
-  paginationElement.appendChild(nextPageButton);
-  containerElement.appendChild(paginationElement);  
+  const nextPageButton = createSubElement(paginationElement, 'button');
+  nextPageButton.innerText = "Next";
+  nextPageButton.onclick = async () => {
+    if (paginationInfo.offset + paginationInfo.pageSize < paginationInfo.total) {
+      paginationInfo.offset += paginationInfo.pageSize;
+      await renderPage();
+    }
+  }
+
 }
 
 export class PaginationInfo {
