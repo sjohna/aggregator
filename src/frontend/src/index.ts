@@ -1,7 +1,7 @@
 import "./styles.css";
 import { RawContent, renderRawContent } from "./rawContent";
 import { renderDocuments, UnprocessedDocument } from "./unprocessedDocument";
-import { createElement } from "./util";
+import { createElement, createSubElement } from "./util";
 
 const RawContentUri = 'api/RawContent';
 const DownloadRawContentUri = 'api/RawContent/Download';
@@ -39,65 +39,47 @@ const sourceUriField = createElement('input', 'uploadContentInputLong') as HTMLI
 const contentField = createElement('span', 'uploadContentContent');
 
 function renderUploadRawContent(containingElement: HTMLElement) {
-  const containerElement = createElement('div','uploadRawContent');
+  const containerElement = createSubElement(containingElement, 'div','uploadRawContent');
   
-  const downloadButton = createElement('button', 'updateContentDownloadButton');
+  const downloadButton = createSubElement(containerElement, 'button', 'updateContentDownloadButton');
   downloadButton.innerText = 'Download and Process Source';
   downloadButton.onclick = () => {
     sendDownloadRequest();
   };
-  containerElement.appendChild(downloadButton);
 
   {
-    const contextRow = createElement('div', 'uploadContentRow');
-    const contextLabel = createElement('span', 'uploadContentLabel');
+    const contextRow = createSubElement(containerElement, 'div', 'uploadContentRow');
+    const contextLabel = createSubElement(contextRow, 'span', 'uploadContentLabel');
     contextLabel.innerText = "Context:";
-    contextRow.appendChild(contextLabel);
     contextField.setAttribute('type', 'text');
     contextField.setAttribute('name', 'context');
     contextField.value = 'blog';
     contextRow.appendChild(contextField);
-    containerElement.appendChild(contextRow);
   }
 
   {
-    const typeRow = createElement('div', 'uploadContentRow');
-    const typeLabel = createElement('span', 'uploadContentLabel');
+    const typeRow = createSubElement(containerElement, 'div', 'uploadContentRow');
+    const typeLabel = createSubElement(typeRow, 'span', 'uploadContentLabel');
     typeLabel.innerText = "Type:";
-    typeRow.appendChild(typeLabel);
     typeField.setAttribute('type', 'text');
     typeField.setAttribute('name', 'type');
     typeField.value = 'atom/xml';
     typeRow.appendChild(typeField);
-    containerElement.appendChild(typeRow);
   }
 
   {
-    const sourceUriRow = createElement('div', 'uploadContentRow');
-    const sourceUriLabel = createElement('span', 'uploadContentLabel');
+    const sourceUriRow = createSubElement(containerElement, 'div', 'uploadContentRow');
+    const sourceUriLabel = createSubElement(sourceUriRow, 'span', 'uploadContentLabel');
     sourceUriLabel.innerText = "Source URI:";
-    sourceUriRow.appendChild(sourceUriLabel);
     sourceUriField.setAttribute('type', 'text');
-    sourceUriField.setAttribute('name', 'type');
+    sourceUriField.setAttribute('name', 'sourceUri');
     sourceUriRow.appendChild(sourceUriField);
-    // const downloadButton = createElement('button', 'downloadSourceUriButton');
-    // downloadButton.onclick = () => downloadSourceUri(sourceUriField, contentField);
-    // downloadButton.innerText = "Download";
-    // sourceUriRow.appendChild(downloadButton);
-    containerElement.appendChild(sourceUriRow);
   }
 
   {
-    const contentRow = createElement('div', 'uploadContentRow','uploadContentRowFlex');
-    // const contentLabel = createElement('span', 'uploadContentLabel', 'uploadContentContentLabel');
-    // contentLabel.innerText = "Content:";
-    // contentRow.appendChild(contentLabel);
-    // contentField.innerText = 'some content\nmore content';
+    const contentRow = createSubElement(containerElement, 'div', 'uploadContentRow','uploadContentRowFlex');
     contentRow.appendChild(contentField);
-    containerElement.appendChild(contentRow);
   }
-
-  containingElement.appendChild(containerElement);
 }
 
 async function downloadSourceUri(sourceUriField: HTMLInputElement, contentField: HTMLElement) {
@@ -135,9 +117,9 @@ async function sendDownloadRequest() {
 // Header ------------------------------------------------------------
 
 function configureHeader() {
-  unprocessedDocumentsButton = createElement('button', 'headerButton', 'headerButtonSelected');
-  rawContentButton = createElement('button', 'headerButton', 'headerButtonUnselected');
-  uploadRawContentButton = createElement('button', 'headerButton', 'headerButtonUnselected');
+  unprocessedDocumentsButton = createSubElement(headerElement, 'button', 'headerButton', 'headerButtonSelected');
+  rawContentButton = createSubElement(headerElement, 'button', 'headerButton', 'headerButtonUnselected');
+  uploadRawContentButton = createSubElement(headerElement, 'button', 'headerButton', 'headerButtonUnselected');
 
   unprocessedDocumentsButton.innerText = "Unprocessed Documents";
   rawContentButton.innerText = "Raw Content";
@@ -163,10 +145,6 @@ function configureHeader() {
       selectionUpdated();
     }
   }
-
-  headerElement.appendChild(unprocessedDocumentsButton);
-  headerElement.appendChild(rawContentButton);
-  headerElement.appendChild(uploadRawContentButton);
 }
 
 function selectionUpdated() {

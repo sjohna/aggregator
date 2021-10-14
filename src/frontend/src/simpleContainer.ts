@@ -1,4 +1,4 @@
-import { createElement } from "./util";
+import { createSubElement } from "./util";
 
 export enum SimpleContainerContentType {
   Text,
@@ -6,23 +6,18 @@ export enum SimpleContainerContentType {
 }
 
 export function renderSimpleContainer(containerElement: HTMLElement, title: string, tagline: string, content: string, parentClass: string, contentType: SimpleContainerContentType) {
-  const simpleContainerElement = createElement('div', 'simpleContainer', parentClass);
-  containerElement.appendChild(simpleContainerElement);
+  const simpleContainerElement = createSubElement(containerElement, 'div', 'simpleContainer', parentClass);
 
-  const sourceUriElement = createElement('h2','simpleContainerHeader');
+  const sourceUriElement = createSubElement(simpleContainerElement, 'h2','simpleContainerHeader');
   sourceUriElement.innerText = title;
-  simpleContainerElement.appendChild(sourceUriElement);
 
-  const dateAndAuthorElement = createElement('div', 'simpleContainerTagline');
-  dateAndAuthorElement.innerText = tagline;
-  simpleContainerElement.appendChild(dateAndAuthorElement);
+  const taglineElement = createSubElement(simpleContainerElement, 'div', 'simpleContainerTagline');
+  taglineElement.innerText = tagline;
 
-  const contentElement = createElement('div','simpleContainerContent');
+  const contentElement = createSubElement(simpleContainerElement, 'div','simpleContainerContent');
   if (contentType === SimpleContainerContentType.Text) {
     contentElement.innerText = content;
   } else if (contentType === SimpleContainerContentType.HTML) {
     contentElement.innerHTML = content;
   }
-
-  simpleContainerElement.appendChild(contentElement);
 }

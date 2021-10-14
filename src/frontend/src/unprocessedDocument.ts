@@ -1,4 +1,4 @@
-import { createElement } from "./util";
+import { createSubElement } from "./util";
 import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
 import { Page } from "./page";
 import { RestRequester } from "./restRequester";
@@ -53,42 +53,31 @@ async function fetchUnprocessedDocuments(pageSize: number, offset: number): Prom
 }
 
 function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocessedDocuments: Page<UnprocessedDocument>) {
-  const containerElement = createElement('div', 'unprocessedDocuments');
+  const containerElement = createSubElement(containingElement, 'div', 'unprocessedDocuments');
 
   renderPaginationNavigation(containerElement, paginationInfo, unprocessedDocuments, () => fetchAndRenderDocuments(documentsElement));
 
   renderPage(containerElement, unprocessedDocuments, renderUnprocessedDocumentInSimpleContainer);
-
-  containingElement.appendChild(containerElement);
 }
 
 export async function renderDocuments(containingElement: HTMLElement) {
-  // top row: options
-  const headerElement = createElement('div', 'unprocessedDocumentsHeader');
-  const refreshButton = createElement('button', 'headerButton');
+  const headerElement = createSubElement(containingElement, 'div', 'unprocessedDocumentsHeader');
 
+  const refreshButton = createSubElement(headerElement, 'button', 'headerButton');
   refreshButton.innerText = "Refresh";
-
   refreshButton.onclick = async () => {
     await fetchAndRenderDocuments(documentsElement);
   }
 
-  headerElement.appendChild(refreshButton);
-
-  orderByUpdatedCheckbox = createElement('input', 'unprocessedDocumentsHeaderInput') as HTMLInputElement;
+  orderByUpdatedCheckbox = createSubElement(headerElement, 'input', 'unprocessedDocumentsHeaderInput') as HTMLInputElement;
   orderByUpdatedCheckbox.setAttribute('type','checkbox');
   orderByUpdatedCheckbox.setAttribute('id', 'orderByUpdated')
-  headerElement.appendChild(orderByUpdatedCheckbox);
-  const orderByUpdatedLabel = createElement('label');
+
+  const orderByUpdatedLabel = createSubElement(headerElement, 'label');
   orderByUpdatedLabel.innerText = "Order by Update Time";
   orderByUpdatedLabel.setAttribute('for','orderByUpdated');
-  headerElement.appendChild(orderByUpdatedLabel);
 
-
-  containingElement.appendChild(headerElement);
-
-  documentsElement = createElement('div');
-  containingElement.appendChild(documentsElement);
+  documentsElement = createSubElement(containingElement, 'div');
 
   await fetchAndRenderDocuments(documentsElement);
 }

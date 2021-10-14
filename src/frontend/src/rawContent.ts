@@ -1,4 +1,4 @@
-import { createElement } from "./util";
+import { createSubElement } from "./util";
 import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
 
 export class RawContent {
@@ -11,7 +11,7 @@ export class RawContent {
 }
 
 export function renderRawContent(containingElement: HTMLElement, rawContent: RawContent[]) {
-  const containerElement = createElement('div', 'rawContent');
+  const containerElement = createSubElement(containingElement, 'div', 'rawContent');
 
   for (const content of rawContent) {
     renderSimpleContainer(
@@ -23,6 +23,4 @@ export function renderRawContent(containingElement: HTMLElement, rawContent: Raw
       SimpleContainerContentType.Text
     );
   }
-
-  containingElement.appendChild(containerElement);
 }
