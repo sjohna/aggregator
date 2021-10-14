@@ -1,6 +1,7 @@
 import { createElement } from "./util";
 import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
 import { Page } from "./page";
+import { RestRequester } from "./restRequester";
 
 export class UnprocessedDocumentAuthor {
   name: string;
@@ -29,14 +30,14 @@ const UnprocessedDocumentUri = 'api/UnprocessedDocument';
 let offset = 0;
 let pageSize = 5;
 let total: number;
+const requester = new RestRequester<UnprocessedDocument>(UnprocessedDocumentUri);
 
 async function fetchUnprocessedDocuments(pageSize: number, offset: number): Promise<Page<UnprocessedDocument>> {
-  // TODO: better local API for querying
-  let uri = 'https://localhost:44365/' + UnprocessedDocumentUri + `?pageSize=${pageSize}&offset=${offset}&filter=DocumentType='Regular'`;
-  if (orderByUpdatedCheckbox?.checked === true) {
-    uri += '&sort=UpdateTime';
-  }
-  const page = await (await fetch(uri)).json();
+  const page = await requester.get(
+    'DocumentType=\'Regular\'', 
+    orderByUpdatedCheckbox?.checked ? 'UpdateTime' : undefined,
+    pageSize,
+    offset);
   total = page.total;
   return page;
 }
@@ -68,10 +69,6 @@ function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocess
   containerElement.appendChild(paginationElement);
 
   for (const unprocessedDocument of unprocessedDocuments.items) {
-    if (unprocessedDocument.documentType !== 'Regular') {
-      continue;
-    }
-
     renderSimpleContainer(
       containerElement,
       unprocessedDocument.content.title,
