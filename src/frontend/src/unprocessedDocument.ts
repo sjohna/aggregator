@@ -2,6 +2,7 @@ import { createElement } from "./util";
 import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
 import { Page } from "./page";
 import { RestRequester } from "./restRequester";
+import { renderPage } from "./pagination";
 
 export class UnprocessedDocumentAuthor {
   name: string;
@@ -21,6 +22,17 @@ export class UnprocessedDocument {
   authors: UnprocessedDocumentAuthor[];
   sourceRawContentId: string;
   documentType: 'Regular' | 'SourceDescription' | 'AuthorDescription';
+}
+
+export function renderUnprocessedDocumentInSimpleContainer(containingElement: HTMLElement, unprocessedDocument: UnprocessedDocument) {
+  renderSimpleContainer(
+    containingElement,
+    unprocessedDocument.content.title,
+    `${unprocessedDocument.updateTime} ${unprocessedDocument?.authors[0]?.name}`,
+    unprocessedDocument?.content?.content,
+    'unprocessedDocument',
+    SimpleContainerContentType.HTML
+  );
 }
 
 let documentsElement: HTMLElement;
@@ -68,16 +80,7 @@ function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocess
   paginationElement.appendChild(nextPageButton);
   containerElement.appendChild(paginationElement);
 
-  for (const unprocessedDocument of unprocessedDocuments.items) {
-    renderSimpleContainer(
-      containerElement,
-      unprocessedDocument.content.title,
-      `${unprocessedDocument.updateTime} ${unprocessedDocument?.authors[0]?.name}`,
-      unprocessedDocument?.content?.content,
-      'unprocessedDocument',
-      SimpleContainerContentType.HTML
-    );
-  }
+  renderPage(containerElement, unprocessedDocuments, renderUnprocessedDocumentInSimpleContainer);
 
   containingElement.appendChild(containerElement);
 }
