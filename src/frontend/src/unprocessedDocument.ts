@@ -23,148 +23,112 @@ export class UnprocessedDocument {
   documentType: 'Regular' | 'SourceDescription' | 'AuthorDescription';
 }
 
-let documentsElement: HTMLElement;
-let orderByUpdatedCheckbox: HTMLInputElement;
 const UnprocessedDocumentUri = 'api/UnprocessedDocument';
 
-let offset = 0;
-let pageSize = 5;
-let total: number;
-const requester = new RestRequester<UnprocessedDocument>(UnprocessedDocumentUri);
+export class PaginatedContainer {
+  public offset = 0;
+  public pageSize = 5;
+  public total: number;
+  public orderByUpdatedCheckbox: HTMLInputElement;
+  private requester = new RestRequester<UnprocessedDocument>(UnprocessedDocumentUri);
+  public filter = 'DocumentType=\'Regular\'';
 
-async function fetchUnprocessedDocuments(pageSize: number, offset: number): Promise<Page<UnprocessedDocument>> {
-  const page = await requester.get(
-    'DocumentType=\'Regular\'', 
-    orderByUpdatedCheckbox?.checked ? 'UpdateTime' : undefined,
-    pageSize,
-    offset);
-  total = page.total;
-  return page;
-}
+  constructor() { }
 
-function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocessedDocuments: Page<UnprocessedDocument>) {
-  const containerElement = createElement('div', 'unprocessedDocuments');
-  const paginationElement = createElement('div', 'paginationInformation');
-  const infoElement = createElement('span');
-  infoElement.innerText = `Documents ${unprocessedDocuments.offset + 1} - ${unprocessedDocuments.offset + unprocessedDocuments.items.length} of ${unprocessedDocuments.total}`;
-  paginationElement.appendChild(infoElement);
-  const nextPageButton = createElement('button');
-  nextPageButton.innerText = "Next";
-  nextPageButton.onclick = async () => {
-    if (offset + pageSize < total) {
-      offset += pageSize;
-      await fetchAndRenderDocuments(documentsElement)
+  async fetch(): Promise<Page<UnprocessedDocument>> {
+    const page = await this.requester.get(
+      this.filter, 
+      this.orderByUpdatedCheckbox?.checked ? 'UpdateTime' : undefined,
+      this.pageSize,
+      this.offset);
+    this.total = page.total;
+    return page;
+  }
+
+  renderPage(containingElement: HTMLElement, unprocessedDocuments: Page<UnprocessedDocument>) {
+    const containerElement = createElement('div', 'unprocessedDocuments');
+    const paginationElement = createElement('div', 'paginationInformation');
+    const infoElement = createElement('span');
+    infoElement.innerText = `Documents ${unprocessedDocuments.offset + 1} - ${unprocessedDocuments.offset + unprocessedDocuments.items.length} of ${unprocessedDocuments.total}`;
+    paginationElement.appendChild(infoElement);
+    const nextPageButton = createElement('button');
+    nextPageButton.innerText = "Next";
+    nextPageButton.onclick = async () => {
+      if (this.offset + this.pageSize < this.total) {
+        this.offset += this.pageSize;
+        await this.fetchAndRenderDocuments(documentsElement)
+      }
     }
-  }
-  const prevPageButton = createElement('button');
-  prevPageButton.innerText = "Prev";
-  prevPageButton.onclick = async () => {
-    if (offset - pageSize >= 0) {
-      offset -= pageSize;
-      await fetchAndRenderDocuments(documentsElement)
+    const prevPageButton = createElement('button');
+    prevPageButton.innerText = "Prev";
+    prevPageButton.onclick = async () => {
+      if (this.offset - this.pageSize >= 0) {
+        this.offset -= this.pageSize;
+        await this.fetchAndRenderDocuments(documentsElement)
+      }
     }
-  }
-  paginationElement.appendChild(prevPageButton);
-  paginationElement.appendChild(nextPageButton);
-  containerElement.appendChild(paginationElement);
-
-  for (const unprocessedDocument of unprocessedDocuments.items) {
-    renderSimpleContainer(
-      containerElement,
-      unprocessedDocument.content.title,
-      `${unprocessedDocument.updateTime} ${unprocessedDocument?.authors[0]?.name}`,
-      unprocessedDocument?.content?.content,
-      'unprocessedDocument',
-      SimpleContainerContentType.HTML
-    );
-  }
-
-  containingElement.appendChild(containerElement);
-}
-
-export async function renderDocuments(containingElement: HTMLElement) {
-  // top row: options
-  const headerElement = createElement('div', 'unprocessedDocumentsHeader');
-  const refreshButton = createElement('button', 'headerButton');
-
-  refreshButton.innerText = "Refresh";
-
-  refreshButton.onclick = async () => {
-    await fetchAndRenderDocuments(documentsElement);
+    paginationElement.appendChild(prevPageButton);
+    paginationElement.appendChild(nextPageButton);
+    containerElement.appendChild(paginationElement);
+  
+    for (const unprocessedDocument of unprocessedDocuments.items) {
+      renderSimpleContainer(
+        containerElement,
+        unprocessedDocument.content.title,
+        `${unprocessedDocument.updateTime} ${unprocessedDocument?.authors[0]?.name}`,
+        unprocessedDocument?.content?.content,
+        'unprocessedDocument',
+        SimpleContainerContentType.HTML
+      );
+    }
+  
+    containingElement.appendChild(containerElement);
   }
 
-  headerElement.appendChild(refreshButton);
-
-  orderByUpdatedCheckbox = createElement('input', 'unprocessedDocumentsHeaderInput') as HTMLInputElement;
-  orderByUpdatedCheckbox.setAttribute('type','checkbox');
-  orderByUpdatedCheckbox.setAttribute('id', 'orderByUpdated')
-  headerElement.appendChild(orderByUpdatedCheckbox);
-  const orderByUpdatedLabel = createElement('label');
-  orderByUpdatedLabel.innerText = "Order by Update Time";
-  orderByUpdatedLabel.setAttribute('for','orderByUpdated');
-  headerElement.appendChild(orderByUpdatedLabel);
-
-
-  containingElement.appendChild(headerElement);
-
-  documentsElement = createElement('div');
-  containingElement.appendChild(documentsElement);
-
-  await fetchAndRenderDocuments(documentsElement);
+  async renderDocuments(containingElement: HTMLElement) {
+    // top row: options
+    const headerElement = createElement('div', 'unprocessedDocumentsHeader');
+    const refreshButton = createElement('button', 'headerButton');
+  
+    refreshButton.innerText = "Refresh";
+  
+    refreshButton.onclick = async () => {
+      await this.fetchAndRenderDocuments(documentsElement);
+    }
+  
+    headerElement.appendChild(refreshButton);
+  
+    this.orderByUpdatedCheckbox = createElement('input', 'unprocessedDocumentsHeaderInput') as HTMLInputElement;
+    this.orderByUpdatedCheckbox.setAttribute('type','checkbox');
+    this.orderByUpdatedCheckbox.setAttribute('id', 'orderByUpdated')
+    headerElement.appendChild(this.orderByUpdatedCheckbox);
+    const orderByUpdatedLabel = createElement('label');
+    orderByUpdatedLabel.innerText = "Order by Update Time";
+    orderByUpdatedLabel.setAttribute('for','orderByUpdated');
+    headerElement.appendChild(orderByUpdatedLabel);
+  
+  
+    containingElement.appendChild(headerElement);
+  
+    documentsElement = createElement('div');
+    containingElement.appendChild(documentsElement);
+  
+    await this.fetchAndRenderDocuments(documentsElement);
+  }
+  
+  async fetchAndRenderDocuments(containingElement: HTMLElement) {
+    const documents = await this.fetch();
+    containingElement.innerHTML = '';
+  
+    this.renderPage(containingElement, documents);
+  }
+  
+  createContentElement(doc: UnprocessedDocument) {
+    const contentElement = createElement('div', 'content');
+    contentElement.innerHTML = doc.content.content;
+  
+    return contentElement;
+  }
 }
 
-async function fetchAndRenderDocuments(containingElement: HTMLElement) {
-  const documents = await fetchUnprocessedDocuments(pageSize,offset);
-  containingElement.innerHTML = '';
-
-  renderUnprocessedDocumentPage(containingElement, documents);
-}
-
-export function createContentElement(doc: UnprocessedDocument) {
-  const contentElement = createElement('div', 'content');
-  contentElement.innerHTML = doc.content.content;
-
-  // const imageTags = contentElement.getElementsByTagName('img');
-
-  // for (let i = 0; i < imageTags.length; ++i) {
-  //   const image = imageTags.item(i);
-    
-  //   // TODO: find a more general way to stopp image loading. I don't like how I have to figure out exactly which attributes to cache.
-  //   let src: string;
-  //   if (image.src) {
-  //     src = image.src;
-  //     image.src = '#';
-  //   }
-
-  //   let srcset: string;
-  //   if (image.srcset) {
-  //     srcset = image.srcset;
-  //     image.srcset = '#';
-  //   }
-
-  //   const placeholderElement = createElement('div','imagePlaceholder');
-  //   placeholderElement.style.height = '250px';
-  //   placeholderElement.style.width = '250px';
-
-  //   const showPlaceholderDiv = createElement('div');
-  //   const showPlaceholderButton = createElement('button');
-  //   showPlaceholderButton.innerText = "Show Image";
-  //   showPlaceholderButton.onclick = (event) => {
-  //     //contentElement.replaceChild(image, placeholderElement);
-  //     placeholderElement.insertAdjacentElement('afterend', image);
-  //     placeholderElement.remove();
-  //     if (src) image.src = src;
-  //     if (srcset) image.srcset = srcset;
-  //   }
-  //   showPlaceholderDiv.appendChild(showPlaceholderButton);
-  //   placeholderElement.appendChild(showPlaceholderDiv);
-  //   const imageLinkText = createElement('div','imagePlaceholderLinkText');
-  //   imageLinkText.innerText = srcset;
-  //   placeholderElement.appendChild(imageLinkText);
-
-  //   image.insertAdjacentElement('afterend', placeholderElement);
-  //   image.remove();
-  // }
-
-  return contentElement;
-}
+let documentsElement: HTMLElement;

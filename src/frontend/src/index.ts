@@ -1,6 +1,6 @@
 import "./styles.css";
 import { RawContent, renderRawContent } from "./rawContent";
-import { renderDocuments, UnprocessedDocument } from "./unprocessedDocument";
+import { PaginatedContainer, UnprocessedDocument } from "./unprocessedDocument";
 import { createElement } from "./util";
 
 const RawContentUri = 'api/RawContent';
@@ -19,7 +19,7 @@ let currentSelection = "UnprocessedDocuments";
 
 configureHeader();
 fetchRawContent();
-renderDocuments(mainElement);
+new PaginatedContainer().renderDocuments(mainElement);
 
 async function fetchRawContent() {
   try {
@@ -176,7 +176,7 @@ function selectionUpdated() {
     setHeaderButtonUnselected(uploadRawContentButton);
 
     mainElement.innerHTML = '';
-    renderDocuments(mainElement);
+    new PaginatedContainer().renderDocuments(mainElement);
   } else if (currentSelection === "RawContent") {
     setHeaderButtonSelected(rawContentButton);
     setHeaderButtonUnselected(unprocessedDocumentsButton);
