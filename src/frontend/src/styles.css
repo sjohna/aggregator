@@ -121,8 +121,16 @@
   margin-left: 5px;
   margin-right: 5px;
   font-size: larger;
+  width: 30px;
+  display: inline-block;
+  text-align: center;
 }
 
 .paginationPagesLinkCurrent {
   font-weight: bold;
+}
+
+.paginationInfo {
+  display: inline-block;
+  width: 120px;
 }

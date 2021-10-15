@@ -11,8 +11,15 @@ export function renderPage<T>(containingElement: HTMLElement, page: Page<T>, ren
 
 export function renderPaginationNavigation<T>(containerElement: HTMLElement, paginationInfo: PaginationInfo, page: Page<T>, renderPage: () => Promise<void>) {
   const paginationElement = createSubElement(containerElement, 'div', 'paginationInformation');
-  const infoElement = createSubElement(paginationElement, 'span');
+  const infoElement = createSubElement(paginationElement, 'span', 'paginationInfo');
   infoElement.innerText = `${page.offset + 1} - ${page.offset + page.items.length} of ${page.total}`;
+
+  const firstPageButton = createSubElement(paginationElement, 'button');
+  firstPageButton.innerText = "First";
+  firstPageButton.onclick = async () => {
+    paginationInfo.offset = 0;
+    await renderPage();
+  }
 
   const prevPageButton = createSubElement(paginationElement, 'button');
   prevPageButton.innerText = "Prev";
@@ -72,6 +79,13 @@ export function renderPaginationNavigation<T>(containerElement: HTMLElement, pag
       paginationInfo.offset += paginationInfo.pageSize;
       await renderPage();
     }
+  }
+
+  const lastPageButton = createSubElement(paginationElement, 'button');
+  lastPageButton.innerText = "Last";
+  lastPageButton.onclick = async () => {
+    paginationInfo.offset = maxPageIndex * paginationInfo.pageSize;
+    await renderPage();
   }
 
 }
