@@ -12,7 +12,8 @@ export function renderPage<T>(containingElement: HTMLElement, page: Page<T>, ren
 export function renderPaginationNavigation<T>(containerElement: HTMLElement, paginationInfo: PaginationInfo, page: Page<T>, renderPage: () => Promise<void>) {
   const paginationElement = createSubElement(containerElement, 'div', 'paginationInformation');
   const infoElement = createSubElement(paginationElement, 'span');
-  infoElement.innerText = `Documents ${page.offset + 1} - ${page.offset + page.items.length} of ${page.total}`;
+  infoElement.innerText = `${page.offset + 1} - ${page.offset + page.items.length} of ${page.total}`;
+
   const prevPageButton = createSubElement(paginationElement, 'button');
   prevPageButton.innerText = "Prev";
   prevPageButton.onclick = async () => {
@@ -21,6 +22,49 @@ export function renderPaginationNavigation<T>(containerElement: HTMLElement, pag
       await renderPage();
     }
   }
+
+  const pagesElement = createSubElement(paginationElement, 'span', 'paginationPages');
+
+  let currentPageIndex = (paginationInfo.offset / paginationInfo.pageSize);  // TODO: handle non-integer here?
+
+  let maxPageIndex = Math.floor(paginationInfo.total / paginationInfo.pageSize);
+  if (paginationInfo.total % paginationInfo.pageSize === 0) {
+    maxPageIndex -= 1;
+  }
+  if (maxPageIndex < 0) {
+    maxPageIndex = 0;
+  }
+
+  let firstPageIndex = currentPageIndex - 5;
+  let lastPageIndex = currentPageIndex + 5;
+  if (firstPageIndex < 0) {
+    lastPageIndex -= firstPageIndex;
+    firstPageIndex = 0;
+  }
+  if (lastPageIndex > maxPageIndex) {
+    firstPageIndex -= (lastPageIndex - maxPageIndex);
+    lastPageIndex = maxPageIndex;
+  }
+
+  if (firstPageIndex < 0) firstPageIndex = 0;
+  if (lastPageIndex > maxPageIndex) lastPageIndex = maxPageIndex;
+
+  for (let currPageIndex = firstPageIndex; currPageIndex <= lastPageIndex; ++currPageIndex) {
+    let pageLinkElement: HTMLElement;
+    if (currPageIndex != currentPageIndex) {
+      pageLinkElement = createSubElement(pagesElement, 'a', 'paginationPagesLink');
+      pageLinkElement.innerText = (currPageIndex+1).toString();
+      pageLinkElement.setAttribute('href','#');
+      pageLinkElement.onclick = async () => {
+        paginationInfo.offset = currPageIndex * paginationInfo.pageSize;
+        await renderPage();
+      }
+    } else {
+      pageLinkElement = createSubElement(pagesElement, 'span', 'paginationPagesLink', 'paginationPagesLinkCurrent');
+      pageLinkElement.innerText = (currPageIndex+1).toString();
+    }
+  }
+
   const nextPageButton = createSubElement(paginationElement, 'button');
   nextPageButton.innerText = "Next";
   nextPageButton.onclick = async () => {
