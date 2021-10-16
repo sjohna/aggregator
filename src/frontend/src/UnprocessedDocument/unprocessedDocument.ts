@@ -1,8 +1,8 @@
-import { createSubElement } from "./util";
-import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
-import { Page } from "./page";
-import { RestRequester } from "./restRequester";
-import { PaginationInfo, renderPage, renderPaginationNavigation } from "./pagination";
+import { createSubElement } from "../Util/util";
+import { renderSimpleContainer, SimpleContainerContentType } from "../Util/simpleContainer";
+import { Page } from "../Util/page";
+import { RestRequester } from "../Util/restRequester";
+import { PaginationInfo, renderPage, renderPaginationNavigation } from "../Pagination/pagination";
 
 export class UnprocessedDocumentAuthor {
   name: string;

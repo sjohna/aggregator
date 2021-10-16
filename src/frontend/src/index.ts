@@ -1,7 +1,7 @@
 import "./styles.css";
-import { RawContent, renderRawContent } from "./rawContent";
-import { renderDocuments, UnprocessedDocument } from "./unprocessedDocument";
-import { createElement, createSubElement } from "./util";
+import { RawContent, renderRawContent } from "./RawContent/rawContent";
+import { renderDocuments, UnprocessedDocument } from "./UnprocessedDocument/unprocessedDocument";
+import { createElement, createSubElement } from "./Util/util";
 
 const RawContentUri = 'api/RawContent';
 const DownloadRawContentUri = 'api/RawContent/Download';

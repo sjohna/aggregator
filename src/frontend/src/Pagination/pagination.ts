@@ -1,5 +1,5 @@
-import { Page } from "./page";
-import { createSubElement } from "./util";
+import { Page } from "../Util/page";
+import { createSubElement } from "../Util/util";
 
 export type Render<T> = (containingElement: HTMLElement, item: T) => void;
 

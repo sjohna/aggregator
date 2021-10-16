@@ -1,5 +1,5 @@
-import { createSubElement } from "./util";
-import { renderSimpleContainer, SimpleContainerContentType } from "./simpleContainer";
+import { createSubElement } from "../Util/util";
+import { renderSimpleContainer, SimpleContainerContentType } from "../Util/simpleContainer";
 
 export class RawContent {
   id: string;
