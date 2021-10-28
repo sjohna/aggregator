@@ -57,7 +57,7 @@ function renderUnprocessedDocumentPage(containingElement: HTMLElement, unprocess
 
   renderPaginationNavigation(containerElement, paginationInfo, unprocessedDocuments, () => fetchAndRenderDocuments(documentsElement));
 
-  renderPage(containerElement, unprocessedDocuments, renderUnprocessedDocumentInSimpleContainer);
+  renderPage(containerElement, unprocessedDocuments, renderUnprocessedDocument);
 }
 
 export async function renderDocuments(containingElement: HTMLElement) {
@@ -87,4 +87,17 @@ async function fetchAndRenderDocuments(containingElement: HTMLElement) {
   containingElement.innerHTML = '';
 
   renderUnprocessedDocumentPage(containingElement, documents);
+}
+
+export function renderUnprocessedDocument(containingElement: HTMLElement, unprocessedDocument: UnprocessedDocument) {
+  const simpleContainerElement = createSubElement(containingElement, 'div', 'unprocessedDocumentContainer', 'unprocessedDocument');
+
+  const sourceUriElement = createSubElement(simpleContainerElement, 'h2','unprocessedDocumentHeader');
+  sourceUriElement.innerText = unprocessedDocument.content.title;
+
+  const taglineElement = createSubElement(simpleContainerElement, 'div', 'unprocessedDocumentTagline');
+  taglineElement.innerText = `${unprocessedDocument?.authors[0]?.name} ${unprocessedDocument.updateTime}`;
+
+  const contentElement = createSubElement(simpleContainerElement, 'div','unprocessedDocumentContent');
+  contentElement.innerHTML = unprocessedDocument?.content?.content;
 }

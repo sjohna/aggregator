@@ -1,15 +1,34 @@
 /* Unprocessed Document */
-.unprocessedDocument .simpleContainerHeader {
+.unprocessedDocument .unprocessedDocumentHeader {
   background: darkgray;
 }
 
-.unprocessedDocument .simpleContainerTagline {
+.unprocessedDocument .unprocessedDocumentTagline {
   background: lightgray;
 }
 
 .unprocessedDocumentsHeader {
   margin: 10px;
   padding-left: 0px;
+}
+
+.unprocessedDocumentContainer {
+  border: 1px solid;
+  margin: 10px;
+}
+
+.unprocessedDocumentContainer div {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.unprocessedDocumentHeader {
+  padding-left: 10px;
+  margin: 0px;
+}
+
+.unprocessedDocumentTagline {
+  font-size: 14px;
 }
 
 
