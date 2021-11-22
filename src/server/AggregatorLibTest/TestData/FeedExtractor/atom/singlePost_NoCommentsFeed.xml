@@ -27,7 +27,6 @@
 		<link rel="alternate" type="text/html" href="https://example.com/testblog/test-blog-entry-title" />
 
 		<id>12345</id>
-		<category scheme="https://example.com/testblog" term="Uncategorized" />
 		<summary type="html"><![CDATA[Test blog entry summary.]]></summary>
 
 					<content type="html" xml:base="https://example.com/testblog/test-blog-entry-title"><![CDATA[<p>This is the test blog entry content.</p>]]></content>

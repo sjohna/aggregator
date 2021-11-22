@@ -49,6 +49,7 @@ namespace AggregatorLibTest
             Assert.AreEqual(expected.SourceRawContentId, actual.SourceRawContentId);
             Assert.AreEqual(expected.DocumentType, actual.DocumentType);
 
+            // TODO: handle different content types
             Assert.AreEqual((expected.Content as BlogPostContent)!.Title, (actual.Content as BlogPostContent)!.Title);
             Assert.AreEqual((expected.Content as BlogPostContent)!.Content, (actual.Content as BlogPostContent)!.Content);
             Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as BlogPostContent)!.Categories, (actual.Content as BlogPostContent)!.Categories));

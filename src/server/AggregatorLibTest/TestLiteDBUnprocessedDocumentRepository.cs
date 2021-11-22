@@ -23,6 +23,16 @@ namespace AggregatorLibTest
             repository = new LiteDBUnprocessedDocumentRepository(new LiteDatabase(":memory:"));
         }
 
+        private IReadOnlyList<AtomCategory> Categories(int index)
+        {
+            return new List<AtomCategory>()
+            {
+                new AtomCategory($"cat1-{index}"),
+                new AtomCategory($"cat2-{index}", $"cat2-{index}-schema"),
+                new AtomCategory($"cat3-{index}", $"cat3-{index}-schema", $"cat3-{index}-label")
+            };
+        }
+
         private UnprocessedDocument TestDocument(int index)
         {
             return new UnprocessedDocument
@@ -34,7 +44,7 @@ namespace AggregatorLibTest
                 RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
                 UpdateTime: Instant.FromUnixTimeSeconds(2000000 + index),
                 PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
-                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
+                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), AllowsComments: false, CommentUri: null, CommentFeedUri: null),
                 Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
                 SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
             );
@@ -51,7 +61,7 @@ namespace AggregatorLibTest
                 RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
                 UpdateTime: UpdateTime,
                 PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
-                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: new List<string>() { $"cat1-{index}", $"cat2-{index}" }, AllowsComments: false, CommentUri: null, CommentFeedUri: null),
+                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), AllowsComments: false, CommentUri: null, CommentFeedUri: null),
                 Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
                 SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
             );

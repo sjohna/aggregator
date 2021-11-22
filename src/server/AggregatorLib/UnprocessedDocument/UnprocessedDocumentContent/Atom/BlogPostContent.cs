@@ -8,7 +8,7 @@ namespace AggregatorLib
     {
         public string Title { get; protected set; }
         public string Content { get; protected set; }
-        public IReadOnlyList<string> Categories { get; protected set; }
+        public IReadOnlyList<AtomCategory> Categories { get; protected set; }
         public bool AllowsComments { get; protected set; }
         public string? CommentUri { get; protected set; }
         public string? CommentFeedUri { get; protected set; }
@@ -18,7 +18,7 @@ namespace AggregatorLib
         protected BlogPostContent() { }
 #pragma warning restore CS8618
 
-        public BlogPostContent(string Title, string Content, IReadOnlyList<string> Categories, bool AllowsComments, string? CommentUri, string? CommentFeedUri) 
+        public BlogPostContent(string Title, string Content, IReadOnlyList<AtomCategory> Categories, bool AllowsComments, string? CommentUri, string? CommentFeedUri) 
         {
             this.Title = Title;
             this.Content = Content;

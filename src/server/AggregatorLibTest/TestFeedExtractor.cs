@@ -103,13 +103,13 @@ namespace AggregatorLibTest
            UnprocessedDocumentContent unprocessedDocument,
            string Title = "Test Blog Entry Title",
            string Content = "<p>This is the test blog entry content.</p>",
-           List<string>? Categories = null,
+           List<AtomCategory>? Categories = null,
            bool AllowsComments = true,
            string? CommentUri = "https://example.com/testblog/test-blog-entry-title/#comments",
            string? CommentFeedUri = "https://example.com/testblog/test-blog-entry-title/feed/atom/"
         )
         {
-            if (Categories == null) Categories = new List<string>();
+            if (Categories == null) Categories = new List<AtomCategory>();
 
             Assert.IsTrue(unprocessedDocument is BlogPostContent);
             var content = (unprocessedDocument as BlogPostContent)!;
@@ -140,8 +140,16 @@ namespace AggregatorLibTest
 
             var doc = extractor.RawDocuments.First();
 
+            var expectedCategories = new List<AtomCategory>()
+            {
+                new AtomCategory("Category One"),
+                new AtomCategory("Category Two", "Scheme Two"),
+                new AtomCategory("Category Three", "Scheme Three", "Label Three"),
+                new AtomCategory("Category Four", null, "Label Four"),
+            };
+
             AssertSinglePostTestDocumentProperties(doc);
-            AssertSinglePostTestDocumentContentProperties(doc.Content, Categories: new List<string>() { "Category One", "Category Two", "Category Three" });
+            AssertSinglePostTestDocumentContentProperties(doc.Content, Categories: expectedCategories);
         }
 
         [Test]

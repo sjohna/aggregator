@@ -1,4 +1,5 @@
 ﻿using Aggregator;
+using AggregatorLib;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace AggregatorTest.JsonSerialization
                               (
                                   Title: "Test Title",
                                   Content: "Test Content",
-                                  Categories: new List<string>(),
+                                  Categories: new List<AtomCategory>(),
                                   AllowsComments: true,
                                   CommentUri: "example.com/comments",
                                   CommentFeedUri: "example.com/feed/comments"

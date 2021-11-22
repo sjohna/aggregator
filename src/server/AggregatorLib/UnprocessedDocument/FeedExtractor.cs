@@ -123,13 +123,10 @@ namespace AggregatorLib
                         ));
                     }
 
-                    var categories = new List<String>();
+                    var categories = new List<AtomCategory>();
                     foreach (var category in item.Categories)
                     {
-                        if (!category.Name.Equals("uncategorized", StringComparison.OrdinalIgnoreCase))
-                        {
-                            categories.Add(category.Name);
-                        }
+                        categories.Add(new AtomCategory(category.Name, category.Scheme, category.Label));
                     }
 
                     var content = new BlogPostContent(

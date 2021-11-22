@@ -28,8 +28,9 @@
 
 		<id>12345</id>
 		<category term="Category One" />
-    <category term="Category Two" />
-    <category term="Category Three" />
+    <category term="Category Two" scheme="Scheme Two"/>
+    <category term="Category Three" scheme="Scheme Three" label="Label Three"/>
+    <category term="Category Four" label="Label Four"/>
 		<summary type="html"><![CDATA[Test blog entry summary.]]></summary>
 
 					<content type="html" xml:base="https://example.com/testblog/test-blog-entry-title"><![CDATA[<p>This is the test blog entry content.</p>]]></content>

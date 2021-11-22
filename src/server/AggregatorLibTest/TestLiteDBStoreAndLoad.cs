@@ -28,13 +28,13 @@ namespace AggregatorLibTest
             return AssertNotNull(collection.FindAll().First().Value);
         }
 
-        private BlogPostContent TestWordpressContent()
+        private BlogPostContent TestAtomContent()
         {
             return new BlogPostContent
             (
                 Title: "Test Title",
                 Content: "Test Content",
-                Categories: new List<string>() { "cat1", "cat2", "cat3" },
+                Categories: new List<AtomCategory>() { new AtomCategory("cat1"), new AtomCategory("cat2", "schema2"), new AtomCategory("cat3", null, "label3"), new AtomCategory("cat4", "schema4", "label4") },
                 AllowsComments: true,
                 CommentUri: "http://example.com/1234/comments",
                 CommentFeedUri: "http://example.com/1234/comments/feed"
@@ -74,7 +74,7 @@ namespace AggregatorLibTest
         [Test]
         public void UnprocessedBlogPostContent()
         {
-            var instance = TestWordpressContent();
+            var instance = TestAtomContent();
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
@@ -95,7 +95,7 @@ namespace AggregatorLibTest
                 RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000),
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000),
-                Content: TestWordpressContent(),
+                Content: TestAtomContent(),
                 Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") },
                 SourceRawContentId: Guid.NewGuid()
             );
@@ -117,7 +117,7 @@ namespace AggregatorLibTest
                 RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000),
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: null,
-                Content: TestWordpressContent(),
+                Content: TestAtomContent(),
                 Authors: new List<UnprocessedDocumentAuthor>() { new UnprocessedDocumentAuthor("Test Author", "Test Context") },
                 SourceRawContentId: Guid.NewGuid()
             );
