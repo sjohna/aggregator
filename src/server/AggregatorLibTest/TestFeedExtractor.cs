@@ -203,6 +203,22 @@ namespace AggregatorLibTest
         }
 
         [Test]
+        public void SinglePost_DefaultLinkRelationship()
+        {
+            var extractor = ExtractorForEmbeddedFile("singlePost_NoCommentsLinkOrFeed.xml");
+
+            var doc = extractor.RawDocuments.First();
+
+            var expectedLinks = new List<AtomLink>()
+            {
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title", Rel: "alternate", Type: "text/html")
+            };
+
+            AssertSinglePostTestDocumentProperties(doc);
+            AssertSinglePostTestDocumentContentProperties(doc.Content, Links: expectedLinks);
+        }
+
+        [Test]
         public void SinglePost_NoAuthorUri()
         {
             var extractor = ExtractorForEmbeddedFile("singlePost_NoAuthorUri.xml");

@@ -16,6 +16,7 @@
     <None Remove="TestData\AggregatorSystem\atom\twoPostsOneUpdated.xml" />
     <None Remove="TestData\FeedExtractor\atom\incompleteXml.xml" />
     <None Remove="TestData\FeedExtractor\atom\invalidXml.xml" />
+    <None Remove="TestData\FeedExtractor\atom\singlePost_DefaultLinkRelationship.xml" />
     <None Remove="TestData\FeedExtractor\atom\singlePost_WithFeedAuthor.xml" />
   </ItemGroup>
 
@@ -27,6 +28,7 @@
     <EmbeddedResource Include="TestData\AggregatorSystem\atom\twoPosts.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\invalidXml.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\incompleteXml.xml" />
+    <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_DefaultLinkRelationship.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_WithFeedAuthor.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoFeedTitle.xml" />
     <EmbeddedResource Include="TestData\FeedExtractor\atom\singlePost_NoIconUri.xml" />
