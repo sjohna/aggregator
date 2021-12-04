@@ -67,21 +67,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.Regular);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -99,7 +95,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -135,21 +130,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.Regular);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -167,7 +158,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -207,21 +197,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -244,21 +230,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .Skip(1)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 1, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -276,7 +258,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -316,21 +297,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -351,8 +328,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .Where(doc => doc.SourceId == "http://example.com/testblog/feed/atom/" && doc.DocumentType == UnprocessedDocumentType.SourceDescription)
                     .OrderBy(doc => doc.RetrieveTime)
                     .First();
-
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -380,7 +355,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .Skip(1)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -427,21 +401,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -463,7 +433,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.RetrieveTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -491,7 +460,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .Skip(1)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -528,21 +496,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -564,21 +528,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -596,7 +556,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -636,21 +595,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -672,21 +627,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -704,7 +655,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -744,21 +694,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -780,21 +726,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -812,7 +754,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -852,21 +793,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -889,21 +826,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .Skip(1)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 1, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -925,21 +858,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -957,7 +886,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -1000,21 +928,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1037,21 +961,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .Skip(1)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 1, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1073,21 +993,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1109,21 +1025,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 2, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 2, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-3", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12347", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 3", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the third test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-3/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-3/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1141,7 +1053,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);
@@ -1204,21 +1115,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1241,21 +1148,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .Skip(1)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 1, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1277,21 +1180,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 0, 30, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-2/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1313,21 +1212,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
                     .OrderBy(doc => doc.UpdateTime)
                     .First();
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 2, 0, 0), doc.PublishTime);
                 Assert.AreEqual(Instant.FromUtc(2021, 2, 27, 2, 0, 0), doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-3", doc.Uri);
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12347", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as BlogPostContent)!;
+                var unprocessedContent = (doc.Content as AtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
                 Assert.AreEqual("Test Blog Entry Title 3", unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the third test blog entry content.</p>", unprocessedContent.Content);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-3/feed/atom/", unprocessedContent.CommentFeedUri);
-                Assert.AreEqual("https://example.com/testblog/test-blog-entry-title-3/#comments", unprocessedContent.CommentUri);
-                Assert.AreEqual(true, unprocessedContent.AllowsComments);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
                 Assert.AreEqual(1, doc.Authors.Count());
@@ -1345,7 +1240,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("https://example.com/testblog", doc.Uri);

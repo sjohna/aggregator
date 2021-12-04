@@ -28,16 +28,14 @@ namespace AggregatorLibTest
             return AssertNotNull(collection.FindAll().First().Value);
         }
 
-        private BlogPostContent TestAtomContent()
+        private AtomContent TestAtomContent()
         {
-            return new BlogPostContent
+            return new AtomContent
             (
                 Title: "Test Title",
                 Content: "Test Content",
                 Categories: new List<AtomCategory>() { new AtomCategory("cat1"), new AtomCategory("cat2", "schema2"), new AtomCategory("cat3", null, "label3"), new AtomCategory("cat4", "schema4", "label4") },
-                AllowsComments: true,
-                CommentUri: "http://example.com/1234/comments",
-                CommentFeedUri: "http://example.com/1234/comments/feed"
+                Links: new List<AtomLink>()
             );
         }
 
@@ -91,7 +89,6 @@ namespace AggregatorLibTest
                 Id: Guid.NewGuid(),
                 Uri: "http://example.com/1234",
                 SourceId: "1234",
-                ParentDocumentUri: "http://example.com/1233",
                 RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000),
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: NodaTime.Instant.FromUnixTimeSeconds(3000000),
@@ -113,7 +110,6 @@ namespace AggregatorLibTest
                 Id: Guid.NewGuid(),
                 Uri: "http://example.com/1234",
                 SourceId: "1234",
-                ParentDocumentUri: "http://example.com/1233",
                 RetrieveTime: NodaTime.Instant.FromUnixTimeSeconds(1000000),
                 UpdateTime: NodaTime.Instant.FromUnixTimeSeconds(2000000),
                 PublishTime: null,

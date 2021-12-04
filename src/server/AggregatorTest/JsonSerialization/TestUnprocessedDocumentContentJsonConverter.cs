@@ -24,16 +24,14 @@ namespace AggregatorTest.JsonSerialization
         }
 
         [Test]
-        public void BlogPostContent()
+        public void AtomContent()
         {
-            var content = new AggregatorLib.BlogPostContent
+            var content = new AggregatorLib.AtomContent
                               (
                                   Title: "Test Title",
                                   Content: "Test Content",
                                   Categories: new List<AtomCategory>(),
-                                  AllowsComments: true,
-                                  CommentUri: "example.com/comments",
-                                  CommentFeedUri: "example.com/feed/comments"
+                                  Links: new List<AtomLink>()
                               );
 
             using (MemoryStream stream = new MemoryStream())
@@ -44,7 +42,7 @@ namespace AggregatorTest.JsonSerialization
                 var json = Encoding.UTF8.GetString(stream.ToArray());
 
                 Assert.IsTrue(json.Length > 0);
-                Assert.IsTrue(Regex.IsMatch(json, "\"ContentType\":\"BlogPost\""));
+                Assert.IsTrue(Regex.IsMatch(json, "\"ContentType\":\"Atom\""));
             }
         }
 

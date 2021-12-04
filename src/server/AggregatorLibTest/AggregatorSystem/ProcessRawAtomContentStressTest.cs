@@ -47,21 +47,17 @@ namespace AggregatorLibTest.TestAggregatorSystem
 
         private void AssertDocumentIsCorrect(UnprocessedDocument doc, int item, int version, Instant retrieveTime)
         {
-            Assert.AreEqual(null, doc.ParentDocumentUri);
             Assert.AreEqual(null, doc.PublishTime);
             Assert.AreEqual(ItemUpdateTime(item, version), doc.UpdateTime);
             Assert.AreEqual(ItemUri(item), doc.Uri);
             Assert.AreEqual(retrieveTime, doc.RetrieveTime);
             Assert.AreEqual(ItemId(item), doc.SourceId);
 
-            var unprocessedContent = (doc.Content as BlogPostContent)!;
+            var unprocessedContent = (doc.Content as AtomContent)!;
             Assert.IsNotNull(unprocessedContent);
 
             Assert.AreEqual(ItemTitle(item, version), unprocessedContent.Title);
             Assert.AreEqual(ItemContent(item, version), unprocessedContent.Content);
-            Assert.AreEqual(null, unprocessedContent.CommentFeedUri);
-            Assert.AreEqual(null, unprocessedContent.CommentUri);
-            Assert.AreEqual(false, unprocessedContent.AllowsComments);
             Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
             Assert.AreEqual(0, doc.Authors.Count());
@@ -139,7 +135,6 @@ namespace AggregatorLibTest.TestAggregatorSystem
             {
                 var doc = system.UnprocessedDocumentRepository.GetAll().First(doc => doc.DocumentType == UnprocessedDocumentType.SourceDescription);
 
-                Assert.AreEqual(null, doc.ParentDocumentUri);
                 Assert.AreEqual(null, doc.PublishTime);
                 Assert.AreEqual(null, doc.UpdateTime);
                 Assert.AreEqual("http://dynamic-test-feed.com/atom", doc.Uri);

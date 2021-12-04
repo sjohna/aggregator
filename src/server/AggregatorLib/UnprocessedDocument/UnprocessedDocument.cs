@@ -23,7 +23,6 @@ namespace AggregatorLib
         public Guid Id { get; protected set; }
         public string Uri { get; protected set; }
         public string? SourceId { get; protected set; }
-        public string? ParentDocumentUri { get; protected set; }
         public Instant RetrieveTime { get; protected set; }
         // TODO: test how converter this interacts with null in the nullable field
         public Instant? UpdateTime { get; protected set; }
@@ -42,7 +41,6 @@ namespace AggregatorLib
             Guid Id,
             string Uri,
             string? SourceId,
-            string? ParentDocumentUri,
             Instant RetrieveTime,
             Instant? UpdateTime,
             Instant? PublishTime,
@@ -55,7 +53,6 @@ namespace AggregatorLib
             this.Id = Id;
             this.Uri = Uri;
             this.SourceId = SourceId;
-            this.ParentDocumentUri = ParentDocumentUri;
             this.RetrieveTime = RetrieveTime;
             this.UpdateTime = UpdateTime;
             this.PublishTime = PublishTime;

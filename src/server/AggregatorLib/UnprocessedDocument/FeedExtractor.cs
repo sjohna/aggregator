@@ -85,7 +85,6 @@ namespace AggregatorLib
                         Id: Guid.NewGuid(),
                         Uri: sourceUri,
                         SourceId: feed.Id,
-                        ParentDocumentUri: null,
                         RetrieveTime: retrieveTime,
                         UpdateTime: null,
                         PublishTime: null,
@@ -106,13 +105,6 @@ namespace AggregatorLib
                     var alternateLink = item.Links.FirstOrDefault(link => link.RelationshipType == "alternate");
                     string sourceUri = alternateLink?.Uri.ToString() ?? throw new Exception();  // TODO: different exception here
 
-                    // TODO: rethink how to detect whether comments are allowed
-                    var commentLink = item.Links.FirstOrDefault(link => link.RelationshipType == "replies" && link.MediaType != "application/atom+xml");    // TODO: this might not be the only type to check...
-                    string? commentUri = commentLink?.Uri.ToString();
-
-                    var commentFeedLink = item.Links.FirstOrDefault(link => link.RelationshipType == "replies" && link.MediaType == "application/atom+xml");    // TODO: this might not be the only type to check...
-                    string? commentFeedUri = commentFeedLink?.Uri.ToString();
-
                     var authors = new List<UnprocessedDocumentAuthor>();
                     foreach (var author in item.Authors)
                     {
@@ -129,13 +121,17 @@ namespace AggregatorLib
                         categories.Add(new AtomCategory(category.Name, category.Scheme, category.Label));
                     }
 
-                    var content = new BlogPostContent(
+                    var links = new List<AtomLink>();
+                    foreach (var link in item.Links)
+                    {
+                        links.Add(new AtomLink(link.Uri.ToString(), link.RelationshipType, link.MediaType));
+                    }
+
+                    var content = new AtomContent(
                         Title: WebUtility.HtmlDecode(item.Title.Text),
                         Content: (item.Content as TextSyndicationContent)?.Text!,  // TODO: handle errors, handle no content present, only summary
                         Categories: categories,
-                        AllowsComments: commentUri != null || commentFeedUri != null,
-                        CommentUri: commentUri,
-                        CommentFeedUri: commentFeedUri
+                        Links: links
                     );
 
                     Instant? UpdateTime = item.LastUpdatedTime.Year != 1 ? Instant.FromDateTimeOffset(item.LastUpdatedTime) : null;
@@ -145,7 +141,6 @@ namespace AggregatorLib
                         Id: Guid.NewGuid(),
                         Uri: sourceUri,
                         SourceId: item.Id,
-                        ParentDocumentUri: null,
                         RetrieveTime: retrieveTime,
                         UpdateTime: UpdateTime,
                         PublishTime: PublishTime,

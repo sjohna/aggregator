@@ -63,7 +63,6 @@ namespace AggregatorLibTest
             UnprocessedDocument doc,
             string Uri = "https://example.com/testblog/test-blog-entry-title",
             string SourceId = "12345",
-            string? ParentDocumentUri = null,
             Instant? UpdateTime = null,
             Instant? PublishTime = null,
             List<UnprocessedDocumentAuthor>? Authors = null
@@ -83,7 +82,6 @@ namespace AggregatorLibTest
 
             Assert.AreEqual(Uri, doc.Uri);
             Assert.AreEqual(SourceId, doc.SourceId);
-            Assert.AreEqual(ParentDocumentUri, doc.ParentDocumentUri);
             Assert.AreEqual(UpdateTime, doc.UpdateTime);
             Assert.AreEqual(PublishTime, doc.PublishTime);
             Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
@@ -104,22 +102,24 @@ namespace AggregatorLibTest
            string Title = "Test Blog Entry Title",
            string Content = "<p>This is the test blog entry content.</p>",
            List<AtomCategory>? Categories = null,
-           bool AllowsComments = true,
-           string? CommentUri = "https://example.com/testblog/test-blog-entry-title/#comments",
-           string? CommentFeedUri = "https://example.com/testblog/test-blog-entry-title/feed/atom/"
+           List<AtomLink>? Links = null
         )
         {
             if (Categories == null) Categories = new List<AtomCategory>();
+            if (Links == null) Links = new List<AtomLink>()
+            {
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title", Rel: "alternate", Type: "text/html"),
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title/#comments", Rel: "replies", Type: "text/html"),
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title/feed/atom/", Rel: "replies", Type: "application/atom+xml"),
+            };
 
-            Assert.IsTrue(unprocessedDocument is BlogPostContent);
-            var content = (unprocessedDocument as BlogPostContent)!;
+            Assert.IsTrue(unprocessedDocument is AtomContent);
+            var content = (unprocessedDocument as AtomContent)!;
 
             Assert.AreEqual(Title, content.Title);
             Assert.AreEqual(Content, content.Content);
             Assert.IsTrue(Enumerable.SequenceEqual(Categories!, content.Categories));
-            Assert.AreEqual(AllowsComments, content.AllowsComments);
-            Assert.AreEqual(CommentUri, content.CommentUri);
-            Assert.AreEqual(CommentFeedUri, content.CommentFeedUri);
+            Assert.IsTrue(Enumerable.SequenceEqual(Links!, content.Links));
         }
 
         [Test]
@@ -159,8 +159,14 @@ namespace AggregatorLibTest
 
             var doc = extractor.RawDocuments.First();
 
+            var expectedLinks = new List<AtomLink>()
+            {
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title", Rel: "alternate", Type: "text/html"),
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title/feed/atom/", Rel: "replies", Type: "application/atom+xml"),
+            };
+
             AssertSinglePostTestDocumentProperties(doc);
-            AssertSinglePostTestDocumentContentProperties(doc.Content, CommentUri: null);
+            AssertSinglePostTestDocumentContentProperties(doc.Content, Links: expectedLinks);
         }
 
         [Test]
@@ -170,8 +176,14 @@ namespace AggregatorLibTest
 
             var doc = extractor.RawDocuments.First();
 
+            var expectedLinks = new List<AtomLink>()
+            {
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title", Rel: "alternate", Type: "text/html"),
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title/#comments", Rel: "replies", Type: "text/html")
+            };
+
             AssertSinglePostTestDocumentProperties(doc);
-            AssertSinglePostTestDocumentContentProperties(doc.Content, CommentFeedUri: null);
+            AssertSinglePostTestDocumentContentProperties(doc.Content, Links: expectedLinks);
         }
 
         [Test]
@@ -181,8 +193,13 @@ namespace AggregatorLibTest
 
             var doc = extractor.RawDocuments.First();
 
+            var expectedLinks = new List<AtomLink>()
+            {
+                new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title", Rel: "alternate", Type: "text/html")
+            };
+
             AssertSinglePostTestDocumentProperties(doc);
-            AssertSinglePostTestDocumentContentProperties(doc.Content, AllowsComments: false, CommentUri: null, CommentFeedUri: null);
+            AssertSinglePostTestDocumentContentProperties(doc.Content, Links: expectedLinks);
         }
 
         [Test]
@@ -229,7 +246,6 @@ namespace AggregatorLibTest
 
             Assert.AreEqual("https://example.com/testblog", doc.Uri);
             Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
-            Assert.AreEqual(null, doc.ParentDocumentUri);
             Assert.AreEqual(null, doc.UpdateTime);
             Assert.AreEqual(null, doc.PublishTime);
             Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
@@ -258,7 +274,6 @@ namespace AggregatorLibTest
 
             Assert.AreEqual("https://example.com/testblog", doc.Uri);
             Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
-            Assert.AreEqual(null, doc.ParentDocumentUri);
             Assert.AreEqual(null, doc.UpdateTime);
             Assert.AreEqual(null, doc.PublishTime);
             Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
@@ -287,7 +302,6 @@ namespace AggregatorLibTest
 
             Assert.AreEqual("https://example.com/testblog", doc.Uri);
             Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
-            Assert.AreEqual(null, doc.ParentDocumentUri);
             Assert.AreEqual(null, doc.UpdateTime);
             Assert.AreEqual(null, doc.PublishTime);
             Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);
@@ -338,7 +352,6 @@ namespace AggregatorLibTest
 
             Assert.AreEqual("https://example.com/testblog", doc.Uri);
             Assert.AreEqual("http://example.com/testblog/feed/atom/", doc.SourceId);
-            Assert.AreEqual(null, doc.ParentDocumentUri);
             Assert.AreEqual(null, doc.UpdateTime);
             Assert.AreEqual(null, doc.PublishTime);
             Assert.AreEqual(SourceRawContentId, doc.SourceRawContentId);

@@ -2,6 +2,7 @@
 using LiteDB;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -42,7 +43,6 @@ namespace AggregatorLibTest
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Uri, actual.Uri);
             Assert.AreEqual(expected.SourceId, actual.SourceId);
-            Assert.AreEqual(expected.ParentDocumentUri, actual.ParentDocumentUri);
             Assert.AreEqual(expected.RetrieveTime, actual.RetrieveTime);
             Assert.AreEqual(expected.UpdateTime, actual.UpdateTime);
             Assert.AreEqual(expected.PublishTime, actual.PublishTime);
@@ -50,12 +50,10 @@ namespace AggregatorLibTest
             Assert.AreEqual(expected.DocumentType, actual.DocumentType);
 
             // TODO: handle different content types
-            Assert.AreEqual((expected.Content as BlogPostContent)!.Title, (actual.Content as BlogPostContent)!.Title);
-            Assert.AreEqual((expected.Content as BlogPostContent)!.Content, (actual.Content as BlogPostContent)!.Content);
-            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as BlogPostContent)!.Categories, (actual.Content as BlogPostContent)!.Categories));
-            Assert.AreEqual((expected.Content as BlogPostContent)!.AllowsComments, (actual.Content as BlogPostContent)!.AllowsComments);
-            Assert.AreEqual((expected.Content as BlogPostContent)!.CommentUri, (actual.Content as BlogPostContent)!.CommentUri);
-            Assert.AreEqual((expected.Content as BlogPostContent)!.CommentFeedUri, (actual.Content as BlogPostContent)!.CommentFeedUri);
+            Assert.AreEqual((expected.Content as AtomContent)!.Title, (actual.Content as AtomContent)!.Title);
+            Assert.AreEqual((expected.Content as AtomContent)!.Content, (actual.Content as AtomContent)!.Content);
+            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as AtomContent)!.Categories, (actual.Content as AtomContent)!.Categories));
+            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as AtomContent)!.Links, (actual.Content as AtomContent)!.Links));
 
             Assert.AreEqual(expected.Authors.Count, actual.Authors.Count);
 

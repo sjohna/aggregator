@@ -33,6 +33,17 @@ namespace AggregatorLibTest
             };
         }
 
+        private IReadOnlyList<AtomLink> Links(int index)
+        {
+            return new List<AtomLink>()
+            {
+                new AtomLink($"http://example.com/{index}", "alternate", "text/html"),
+                new AtomLink($"http://example.com/{index}/comments", "replies", "text/html"),
+                new AtomLink($"http://example.com/{index}/comments/feed", "replies", "atom/xml"),
+                new AtomLink($"http://example.com/someOtherLink")
+            };
+        }
+
         private UnprocessedDocument TestDocument(int index)
         {
             return new UnprocessedDocument
@@ -40,11 +51,10 @@ namespace AggregatorLibTest
                 Id: TestId(index),
                 Uri: $"http://example.com/{index}",
                 SourceId: $"{index}",
-                ParentDocumentUri: $"http://example.com/{index - 1}",
                 RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
                 UpdateTime: Instant.FromUnixTimeSeconds(2000000 + index),
                 PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
-                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), AllowsComments: false, CommentUri: null, CommentFeedUri: null),
+                Content: new AtomContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), Links: Links(index)),
                 Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
                 SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
             );
@@ -57,11 +67,10 @@ namespace AggregatorLibTest
                 Id: Id != null ? Id.Value : TestId(index),
                 Uri: $"http://example.com/{index}",
                 SourceId: $"{index}",
-                ParentDocumentUri: $"http://example.com/{index - 1}",
                 RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
                 UpdateTime: UpdateTime,
                 PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
-                Content: new BlogPostContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), AllowsComments: false, CommentUri: null, CommentFeedUri: null),
+                Content: new AtomContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), Links: Links(index)),
                 Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
                 SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
             );
