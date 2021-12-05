@@ -55,8 +55,8 @@ namespace AggregatorLib
         {
             get
             {
-                var title = feed.Title?.Text;
-                if (title == null) return null;
+                if (feed.Title == null) return null; // TODO: do I need to handle null titles?
+                var title = new AtomTextConstruct(feed.Title.Type, feed.Title.Text);
 
                 var iconElement = feed.ElementExtensions.FirstOrDefault(element => element.GetReader().Name == "icon");
                 var iconUri = iconElement?.GetObject<string>(); // TODO: catch XmlException if content is not in fact a string
@@ -127,8 +127,10 @@ namespace AggregatorLib
                         links.Add(new AtomLink(link.Uri.ToString(), link.RelationshipType, link.MediaType));
                     }
 
-                    var content = new AtomContent(
-                        Title: WebUtility.HtmlDecode(item.Title.Text),
+                    AtomTextConstruct title = new AtomTextConstruct(item.Title.Type, item.Title.Text);
+
+                    var content = new UnprocessedAtomContent(
+                        Title: title,
                         Content: (item.Content as TextSyndicationContent)?.Text!,  // TODO: handle errors, handle no content present, only summary
                         Categories: categories,
                         Links: links

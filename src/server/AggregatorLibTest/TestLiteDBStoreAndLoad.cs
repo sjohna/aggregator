@@ -28,11 +28,11 @@ namespace AggregatorLibTest
             return AssertNotNull(collection.FindAll().First().Value);
         }
 
-        private AtomContent TestAtomContent()
+        private UnprocessedAtomContent TestAtomContent()
         {
-            return new AtomContent
+            return new UnprocessedAtomContent
             (
-                Title: "Test Title",
+                Title: new AtomTextConstruct("text", "Test Title"),
                 Content: "Test Content",
                 Categories: new List<AtomCategory>() { new AtomCategory("cat1"), new AtomCategory("cat2", "schema2"), new AtomCategory("cat3", null, "label3"), new AtomCategory("cat4", "schema4", "label4") },
                 Links: new List<AtomLink>()
@@ -76,7 +76,7 @@ namespace AggregatorLibTest
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
-            Assert.AreEqual("Test Title", instanceInDatabase.Title);
+            Assert.AreEqual(new AtomTextConstruct("text", "Test Title"), instanceInDatabase.Title);
             Assert.AreEqual("Test Content", instanceInDatabase.Content);
             Assert.IsTrue(Enumerable.SequenceEqual(instance.Categories, instanceInDatabase.Categories));
         }
@@ -173,14 +173,14 @@ namespace AggregatorLibTest
         {
             var instance = new FeedSourceDescriptionContent
             (
-                Title: "Test Title",
+                Title: new AtomTextConstruct("text", "Test Title"),
                 Description: "Test Description",
                 IconUri: "http://example.com/icon.jpg"
             );
 
             var instanceInDatabase = StoreAndRetrieve(instance);
 
-            Assert.AreEqual("Test Title", instanceInDatabase.Title);
+            Assert.AreEqual(new AtomTextConstruct("text", "Test Title"), instanceInDatabase.Title);
             Assert.AreEqual("Test Description", instanceInDatabase.Description);
             Assert.AreEqual("http://example.com/icon.jpg", instanceInDatabase.IconUri);
         }

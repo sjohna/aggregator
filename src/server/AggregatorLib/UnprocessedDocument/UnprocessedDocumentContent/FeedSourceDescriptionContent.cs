@@ -11,7 +11,7 @@ namespace AggregatorLib
      */
     public class FeedSourceDescriptionContent : UnprocessedDocumentContent, IEquatable<FeedSourceDescriptionContent>
     {
-        public string Title { get; protected set; }
+        public AtomTextConstruct Title { get; protected set; }
         public string? Description { get; protected set; }
         public string? IconUri { get; protected set; }
         public override string ContentType => "FeedSourceDescription";
@@ -20,7 +20,7 @@ namespace AggregatorLib
         protected FeedSourceDescriptionContent() { }
 #pragma warning restore CS8618
 
-        public FeedSourceDescriptionContent(string Title, string? Description, string? IconUri)
+        public FeedSourceDescriptionContent(AtomTextConstruct Title, string? Description, string? IconUri)
         {
             this.Title = Title;
             this.Description = Description;
@@ -41,7 +41,7 @@ namespace AggregatorLib
         {
             if (other == null) return false;
 
-            return this.Title == other.Title
+            return (this.Title == other.Title || (this.Title != null && this.Title.Equals(other.Title)))
                    && this.Description == other.Description
                    && this.IconUri == other.IconUri;
         }

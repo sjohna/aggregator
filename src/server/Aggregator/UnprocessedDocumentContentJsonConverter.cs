@@ -18,9 +18,9 @@ namespace Aggregator
 
         public override void Write(Utf8JsonWriter writer, UnprocessedDocumentContent value, JsonSerializerOptions options)
         {
-            if (value is AtomContent bpc)
+            if (value is UnprocessedAtomContent bpc)
             {
-                JsonSerializer.Serialize<AtomContent>(writer, bpc, options);
+                JsonSerializer.Serialize<UnprocessedAtomContent>(writer, bpc, options);
             }
             else if (value is FeedSourceDescriptionContent fsdc)
             {

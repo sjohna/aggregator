@@ -50,10 +50,10 @@ namespace AggregatorLibTest
             Assert.AreEqual(expected.DocumentType, actual.DocumentType);
 
             // TODO: handle different content types
-            Assert.AreEqual((expected.Content as AtomContent)!.Title, (actual.Content as AtomContent)!.Title);
-            Assert.AreEqual((expected.Content as AtomContent)!.Content, (actual.Content as AtomContent)!.Content);
-            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as AtomContent)!.Categories, (actual.Content as AtomContent)!.Categories));
-            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as AtomContent)!.Links, (actual.Content as AtomContent)!.Links));
+            Assert.AreEqual((expected.Content as UnprocessedAtomContent)!.Title, (actual.Content as UnprocessedAtomContent)!.Title);
+            Assert.AreEqual((expected.Content as UnprocessedAtomContent)!.Content, (actual.Content as UnprocessedAtomContent)!.Content);
+            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as UnprocessedAtomContent)!.Categories, (actual.Content as UnprocessedAtomContent)!.Categories));
+            Assert.IsTrue(Enumerable.SequenceEqual((expected.Content as UnprocessedAtomContent)!.Links, (actual.Content as UnprocessedAtomContent)!.Links));
 
             Assert.AreEqual(expected.Authors.Count, actual.Authors.Count);
 

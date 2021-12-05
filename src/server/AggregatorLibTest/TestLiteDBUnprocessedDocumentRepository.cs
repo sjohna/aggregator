@@ -54,7 +54,7 @@ namespace AggregatorLibTest
                 RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
                 UpdateTime: Instant.FromUnixTimeSeconds(2000000 + index),
                 PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
-                Content: new AtomContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), Links: Links(index)),
+                Content: new UnprocessedAtomContent(Title: new AtomTextConstruct("text", $"Title {index}"), Content: $"Content {index}", Categories: Categories(index), Links: Links(index)),
                 Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
                 SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
             );
@@ -70,7 +70,7 @@ namespace AggregatorLibTest
                 RetrieveTime: Instant.FromUnixTimeSeconds(1000000 + index),
                 UpdateTime: UpdateTime,
                 PublishTime: Instant.FromUnixTimeSeconds(3000000 + index),
-                Content: new AtomContent(Title: $"Title {index}", Content: $"Content {index}", Categories: Categories(index), Links: Links(index)),
+                Content: new UnprocessedAtomContent(Title: new AtomTextConstruct("text", $"Title {index}"), Content: $"Content {index}", Categories: Categories(index), Links: Links(index)),
                 Authors: new List<UnprocessedDocumentAuthor> { new UnprocessedDocumentAuthor($"Author {index}", $"Context {index}") },
                 SourceRawContentId: Guid.Parse("00000000-0000-0000-0000-000000001234")
             );

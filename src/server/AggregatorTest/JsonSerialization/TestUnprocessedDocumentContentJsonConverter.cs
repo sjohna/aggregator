@@ -26,9 +26,9 @@ namespace AggregatorTest.JsonSerialization
         [Test]
         public void AtomContent()
         {
-            var content = new AggregatorLib.AtomContent
+            var content = new UnprocessedAtomContent
                               (
-                                  Title: "Test Title",
+                                  Title: new AtomTextConstruct("text", "Test Title"),
                                   Content: "Test Content",
                                   Categories: new List<AtomCategory>(),
                                   Links: new List<AtomLink>()
@@ -49,9 +49,9 @@ namespace AggregatorTest.JsonSerialization
         [Test]
         public void FeedSourceDescriptionContent()
         {
-            var content = new AggregatorLib.FeedSourceDescriptionContent
+            var content = new FeedSourceDescriptionContent
                               (
-                                  Title: "Test Title",
+                                  Title: new AtomTextConstruct("text", "Test Title"),
                                   Description: "Test Description",
                                   IconUri: "example.com/icon"
                               );
@@ -71,7 +71,7 @@ namespace AggregatorTest.JsonSerialization
         [Test]
         public void DeletedAtSourceContent()
         {
-            var content = new AggregatorLib.DeletedAtSourceContent();
+            var content = new DeletedAtSourceContent();
 
             using (MemoryStream stream = new MemoryStream())
             using (Utf8JsonWriter writer = new Utf8JsonWriter(stream))

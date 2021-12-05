@@ -73,10 +73,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -104,7 +104,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -136,10 +136,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -167,7 +167,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -203,10 +203,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -236,10 +236,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -267,7 +267,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -303,10 +303,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -337,7 +337,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -364,7 +364,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the new subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -407,10 +407,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -442,7 +442,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -469,7 +469,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the new subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -502,10 +502,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -534,10 +534,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 2"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -565,7 +565,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -601,10 +601,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -633,10 +633,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 2"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -664,7 +664,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -700,10 +700,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -732,10 +732,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 2"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -763,7 +763,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -799,10 +799,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -832,10 +832,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -864,10 +864,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 2"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -895,7 +895,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -934,10 +934,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -967,10 +967,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -999,10 +999,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 2"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -1031,10 +1031,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12347", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 3", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 3"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the third test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -1062,7 +1062,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 
@@ -1121,10 +1121,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(12345678), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -1154,10 +1154,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12345", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the updated test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -1186,10 +1186,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(23456789), doc.RetrieveTime);
                 Assert.AreEqual("12346", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 2", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 2"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the second test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -1218,10 +1218,10 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 Assert.AreEqual(Instant.FromUnixTimeSeconds(34567890), doc.RetrieveTime);
                 Assert.AreEqual("12347", doc.SourceId);
 
-                var unprocessedContent = (doc.Content as AtomContent)!;
+                var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog Entry Title 3", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("html", "Test Blog Entry Title 3"), unprocessedContent.Title);
                 Assert.AreEqual("<p>This is the third test blog entry content.</p>", unprocessedContent.Content);
                 Assert.AreEqual(0, unprocessedContent.Categories.Count());
 
@@ -1249,7 +1249,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Test Blog", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), unprocessedContent.Title);
                 Assert.AreEqual("This is the subtitle for the test blog.", unprocessedContent.Description);
                 Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", unprocessedContent.IconUri);
 

@@ -99,12 +99,13 @@ namespace AggregatorLibTest
 
         private void AssertSinglePostTestDocumentContentProperties(
            UnprocessedDocumentContent unprocessedDocument,
-           string Title = "Test Blog Entry Title",
+           AtomTextConstruct? Title = null,
            string Content = "<p>This is the test blog entry content.</p>",
            List<AtomCategory>? Categories = null,
            List<AtomLink>? Links = null
         )
         {
+            if (Title == null) Title = new AtomTextConstruct("html", "Test Blog Entry Title");
             if (Categories == null) Categories = new List<AtomCategory>();
             if (Links == null) Links = new List<AtomLink>()
             {
@@ -113,8 +114,8 @@ namespace AggregatorLibTest
                 new AtomLink(Href: "https://example.com/testblog/test-blog-entry-title/feed/atom/", Rel: "replies", Type: "application/atom+xml"),
             };
 
-            Assert.IsTrue(unprocessedDocument is AtomContent);
-            var content = (unprocessedDocument as AtomContent)!;
+            Assert.IsTrue(unprocessedDocument is UnprocessedAtomContent);
+            var content = (unprocessedDocument as UnprocessedAtomContent)!;
 
             Assert.AreEqual(Title, content.Title);
             Assert.AreEqual(Content, content.Content);
@@ -274,7 +275,7 @@ namespace AggregatorLibTest
 
             Assert.IsNotNull(content);
 
-            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), content.Title);
             Assert.AreEqual("This is the subtitle for the test blog.", content.Description);
             Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", content.IconUri);
         }
@@ -302,7 +303,7 @@ namespace AggregatorLibTest
 
             Assert.IsNotNull(content);
 
-            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), content.Title);
             Assert.AreEqual(null, content.Description);
             Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", content.IconUri);
         }
@@ -330,7 +331,7 @@ namespace AggregatorLibTest
 
             Assert.IsNotNull(content);
 
-            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), content.Title);
             Assert.AreEqual("This is the subtitle for the test blog.", content.Description);
             Assert.AreEqual(null, content.IconUri);
         }
@@ -338,9 +339,10 @@ namespace AggregatorLibTest
         [Test]
         public void TitleDocumentForSinglePost_NoFeedTitle()
         {
+            // TODO: this should throw an exception: title is required
             var extractor = ExtractorForEmbeddedFile("singlePost_NoFeedTitle.xml");
 
-            var doc = extractor.TitleDocument!;
+            var doc = extractor.TitleDocument;
 
             Assert.IsNull(doc);
         }
@@ -384,7 +386,7 @@ namespace AggregatorLibTest
 
             Assert.IsNotNull(content);
 
-            Assert.AreEqual("Test Blog", content.Title);
+            Assert.AreEqual(new AtomTextConstruct("text", "Test Blog"), content.Title);
             Assert.AreEqual("This is the subtitle for the test blog.", content.Description);
             Assert.AreEqual("https://example.files.wordpress.com/testblogicon.jpg?w=32", content.IconUri);
         }

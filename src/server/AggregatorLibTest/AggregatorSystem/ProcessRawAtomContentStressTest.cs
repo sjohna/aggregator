@@ -35,7 +35,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             );
         }
 
-        private string ItemTitle(int item, int version) => $"Item {item} Title {version}";
+        private AtomTextConstruct ItemTitle(int item, int version) => new AtomTextConstruct("text", $"Item {item} Title {version}");
 
         private string ItemContent(int item, int version) => $"Item {item} content {version}";
 
@@ -53,7 +53,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             Assert.AreEqual(retrieveTime, doc.RetrieveTime);
             Assert.AreEqual(ItemId(item), doc.SourceId);
 
-            var unprocessedContent = (doc.Content as AtomContent)!;
+            var unprocessedContent = (doc.Content as UnprocessedAtomContent)!;
             Assert.IsNotNull(unprocessedContent);
 
             Assert.AreEqual(ItemTitle(item, version), unprocessedContent.Title);
@@ -68,7 +68,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
             var item = new SyndicationItem();
             item.Id = ItemId(itemIndex);
             item.Links.Add(new SyndicationLink(new Uri(ItemUri(itemIndex)), "alternate", "link", null, 0));
-            item.Title = SyndicationContent.CreatePlaintextContent(ItemTitle(itemIndex, version));
+            item.Title = SyndicationContent.CreatePlaintextContent(ItemTitle(itemIndex, version).Content);
             item.Content = SyndicationContent.CreatePlaintextContent(ItemContent(itemIndex, version));
             item.LastUpdatedTime = ItemUpdateTime(itemIndex, version).ToDateTimeOffset();
 
@@ -144,7 +144,7 @@ namespace AggregatorLibTest.TestAggregatorSystem
                 var unprocessedContent = (doc.Content as FeedSourceDescriptionContent)!;
                 Assert.IsNotNull(unprocessedContent);
 
-                Assert.AreEqual("Dynamic Test Feed", unprocessedContent.Title);
+                Assert.AreEqual(new AtomTextConstruct("text", "Dynamic Test Feed"), unprocessedContent.Title);
                 Assert.AreEqual("Dynamic Test Feed description.", unprocessedContent.Description);
                 Assert.AreEqual(null, unprocessedContent.IconUri);
 
